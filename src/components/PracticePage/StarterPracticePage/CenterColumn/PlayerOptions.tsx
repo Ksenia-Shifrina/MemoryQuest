@@ -10,7 +10,7 @@ export interface PlayerOptionsProps {
 
 const PlayerOptions: React.FC<PlayerOptionsProps> = ({ setPlayersNum, playersNum }) => {
   return (
-    <Grid item xs={3} mx={'2rem'}>
+    <Grid item xs={4} mx={'2rem'}>
       <Grid container direction={'column'} alignItems={'center'} justifyContent={'center'}>
         <Grid item xs={6} pb={'1rem'} width={'60%'}>
           <Box

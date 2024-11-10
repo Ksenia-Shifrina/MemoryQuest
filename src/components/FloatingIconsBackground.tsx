@@ -73,7 +73,11 @@ const icons3 = [
   LunchDiningRoundedIcon,
 ];
 
-const FloatingIconsBackground: React.FC = () => {
+export interface FloatingIconsBackgroundProps {
+  isFloatingBackGround: boolean;
+}
+
+const FloatingIconsBackground: React.FC<FloatingIconsBackgroundProps> = ({ isFloatingBackGround }) => {
   return (
     <Box
       sx={{
@@ -85,6 +89,8 @@ const FloatingIconsBackground: React.FC = () => {
         overflow: 'hidden',
         zIndex: -1,
         pointerEvents: 'none',
+        opacity: isFloatingBackGround ? 1 : 0,
+        transition: 'opacity 0.5s ease',
       }}
     >
       {icons1.map((IconComponent, index) => (
@@ -95,7 +101,7 @@ const FloatingIconsBackground: React.FC = () => {
             animation: `${float1} 10s ease-in-out infinite`,
 
             animationDelay: `${-index * 2}s`,
-            bottom: `${Math.random() * 20}vh`,
+            bottom: `${Math.random() * 10}vh`,
             left: `${Math.random() * 100}vw`,
             width: '50px',
             height: '50px',
@@ -105,8 +111,6 @@ const FloatingIconsBackground: React.FC = () => {
             alignItems: 'center',
             color: 'white',
             backgroundColor: '#885345',
-            // backgroundColor: '#94665B',
-            // backgroundColor: '#824131',
           }}
         >
           <IconComponent

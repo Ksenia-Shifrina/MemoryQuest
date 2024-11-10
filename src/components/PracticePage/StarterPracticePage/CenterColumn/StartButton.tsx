@@ -9,7 +9,7 @@ export interface StartButtonProps {
 
 const StartButton: React.FC<StartButtonProps> = ({ handleStart }) => {
   return (
-    <Grid item xs={3} mx={'2rem'}>
+    <Grid item xs={4} mx={'2rem'}>
       <Grid container direction={'column'} alignItems={'center'}>
         <Box
           onClick={() => handleStart()}

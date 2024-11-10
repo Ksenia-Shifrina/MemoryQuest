@@ -4,13 +4,16 @@ import { Grid } from '@mui/material';
 import { Box } from '@mui/material';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import { GameVariation } from '../../helpers/helpers';
 
 export interface CurrentGameDashboardProps {
   attempts: number;
   seconds: number;
+  numOfCards: number;
+  gameOptions: GameVariation[];
 }
 
-const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, seconds }) => {
+const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, seconds, numOfCards, gameOptions }) => {
   const [isHidden, setIsHidden] = React.useState<boolean>(false);
 
   const toggleVisibility = () => {
@@ -49,7 +52,10 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, s
                   color: '#643529',
                 }}
               >
-                <CustomTypography variant="h6">Pairs to find: 8</CustomTypography>
+                <CustomTypography variant="h6">
+                  Total {gameOptions.includes('Triples') ? 'triples' : 'pairs'} to find:{' '}
+                  {gameOptions.includes('Triples') ? numOfCards / 3 : numOfCards / 2}
+                </CustomTypography>
                 <CustomTypography variant="h6">Current attempts: {attempts}</CustomTypography>
               </Box>
             )}

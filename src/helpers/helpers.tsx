@@ -16,7 +16,8 @@ export type ValidCardType =
   | 'Flower'
   | 'SpoonAndFork'
   | 'Heart'
-  | 'Burger';
+  | 'Burger'
+  | 'Blank';
 
 export type FlippingCardType = {
   type: ValidCardType;
@@ -59,9 +60,15 @@ export function shuffleArray<T>(array: T[]): T[] {
   return array;
 }
 
-export type GameVariation = 'Standard' | 'Colored' | 'Moving' | 'Triples';
+export type GameVariation = 'Colored' | 'Moving' | 'Triples';
 export type PlayersVariation = 'Single' | 'Multiplayer';
-export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard' | 'Expert';
+export type DifficultyLevel = 'Casual' | 'Challenging' | 'Hardcore';
 
-export const difficultyLevelArr: DifficultyLevel[] = ['Easy', 'Medium', 'Hard', 'Expert'];
-export const gameVariationArr: GameVariation[] = ['Standard', 'Colored', 'Moving', 'Triples'];
+export type GameOptions = {
+  Colored: boolean;
+  Moving: boolean;
+  Triples: boolean;
+};
+
+export const difficultyLevelArr: DifficultyLevel[] = ['Casual', 'Challenging', 'Hardcore'];
+export const gameVariationArr: GameVariation[] = ['Colored', 'Moving', 'Triples'];

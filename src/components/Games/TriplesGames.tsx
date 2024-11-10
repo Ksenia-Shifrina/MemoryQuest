@@ -4,39 +4,34 @@
 // import Header from '../Header';
 // import BoxOfCards from '../GameComponents/BoxOfCards';
 // import { useEffect, useState } from 'react';
-// import {
-//   FlippingCardType,
-//   getRandomInteger,
-//   shuffleArray,
-//   ValidCardType,
-//   validCards,
-//   GameVariation,
-// } from '../../helpers/helpers';
+// import { FlippingCardType, getRandomInteger, shuffleArray, ValidCardType, validCards } from '../../helpers/helpers';
 
-// export interface StandardGameProps {
-//   setIsMiniGameStarted: Function;
+// export interface TriplesGameProps {
+//   setIsTriplesGameStarted: Function;
 //   numOfCards: number;
 //   setIsFloatingBackGround: Function;
-//   gameOptions: GameVariation[];
+//   isTriplesGameStarted: boolean;
 // }
 
-// const StandardGame: React.FC<StandardGameProps> = ({
-//   setIsMiniGameStarted,
+// const TriplesGame: React.FC<TriplesGameProps> = ({
+//   setIsTriplesGameStarted,
 //   numOfCards,
 //   setIsFloatingBackGround,
-//   gameOptions,
+//   isTriplesGameStarted,
 // }) => {
 //   const [cards, setCards] = useState<FlippingCardType[]>([]);
+//   const [isActiveTimer, setIsActiveTimer] = useState<boolean>(true);
+
 //   const [openedCard, setOpenedCard] = useState<ValidCardType | ''>('');
-//   const [openedIndex, setOpenedIndex] = useState<number | null>(null);
+//   const [openedIndexes, setOpenedIndexes] = useState<number[]>([]);
+
 //   const [attempts, setAttempts] = useState<number>(0);
 //   const [seconds, setSeconds] = useState<number>(0);
-//   const [isActiveTimer, setIsActiveTimer] = useState<boolean>(true);
 
 //   useEffect(() => {
 //     if (cards.length === numOfCards && cards.every((card) => card.isVisible === false)) {
 //       setIsActiveTimer(false);
-//       setIsMiniGameStarted(false);
+//       setIsTriplesGameStarted(false);
 //       setIsFloatingBackGround(true);
 //     }
 //   }, [cards]);
@@ -50,7 +45,7 @@
 //       if (!keepTrack.includes(randomInt)) {
 //         keepTrack.push(randomInt);
 //         const newCard = { type: validCards[randomInt], isOpen: true, isVisible: true, isDisabled: true };
-//         newCards.push(newCard, newCard);
+//         newCards.push(newCard, newCard, newCard);
 //       }
 //     }
 
@@ -87,11 +82,29 @@
 //     return () => clearInterval(interval);
 //   }, [isActiveTimer]);
 
-//   const checkCard = (cardType: ValidCardType, index: number) => {
-//     if (openedCard === '' && openedIndex === null) {
+//   const checkCardTriples = (cardType: ValidCardType, index: number) => {
+//     if (openedCard === '' && openedIndexes.length === 0) {
 //       setOpenedCard(cardType);
-//       setOpenedIndex(index);
-//     } else if (cardType === openedCard && index !== openedIndex) {
+//       setOpenedIndexes([index]);
+//     } else if (openedIndexes.length === 1 && cardType === openedCard && index !== openedIndexes[0]) {
+//       setOpenedIndexes((prevState) => [...prevState, index]);
+//     } else if (openedIndexes.length === 1 && cardType !== openedCard) {
+//       setCards((prevState) => prevState.map((card) => ({ ...card, isDisabled: true })));
+//       const timer = setTimeout(() => {
+//         setCards((prevState) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
+//       }, 800);
+
+//       setOpenedCard('');
+//       setOpenedIndexes([]);
+//       setAttempts((prevState) => (prevState += 1));
+
+//       return () => clearTimeout(timer);
+//     } else if (
+//       openedIndexes.length === 2 &&
+//       cardType === openedCard &&
+//       index !== openedIndexes[1] &&
+//       index !== openedIndexes[0]
+//     ) {
 //       const timer = setTimeout(() => {
 //         setCards((prevState) =>
 //           prevState.map((card) => (card.type === cardType ? { ...card, isVisible: false } : card))
@@ -99,18 +112,18 @@
 //       }, 900);
 
 //       setOpenedCard('');
-//       setOpenedIndex(null);
+//       setOpenedIndexes([]);
 //       setAttempts((prevState) => (prevState += 1));
 
 //       return () => clearTimeout(timer);
-//     } else if (cardType !== openedCard && openedCard !== '') {
+//     } else if (openedIndexes.length === 2 && cardType !== openedCard) {
 //       setCards((prevState) => prevState.map((card) => ({ ...card, isDisabled: true })));
 //       const timer = setTimeout(() => {
 //         setCards((prevState) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
 //       }, 800);
 
 //       setOpenedCard('');
-//       setOpenedIndex(null);
+//       setOpenedIndexes([]);
 //       setAttempts((prevState) => (prevState += 1));
 
 //       return () => clearTimeout(timer);
@@ -120,13 +133,18 @@
 //   return (
 //     <Grid container justifyContent="center" alignItems="center">
 //       <Grid item xs={12}>
-//         {/* <CurrentGameDashboard attempts={attempts} seconds={seconds} numOfCards={numOfCards} /> */}
+//         <CurrentGameDashboard
+//           attempts={attempts}
+//           seconds={seconds}
+//           numOfCards={numOfCards}
+//           isTriplesGameStarted={isTriplesGameStarted}
+//         />
 //       </Grid>
 //       <Grid item xs={12} md={11} lg={5}>
-//         {/* <BoxOfCards cards={cards} setCards={setCards} checkCard={checkCard} /> */}
+//         {/* <BoxOfCards cards={cards} setCards={setCards} checkCard={checkCardTriples} /> */}
 //       </Grid>
 //     </Grid>
 //   );
 // };
 
-// export default StandardGame;
+// export default TriplesGame;
