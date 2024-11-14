@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
-import { CustomTypography } from '../../../helpers/CustomTypography';
-import { GameOptions, GameVariation, gameVariationArr } from '../../../helpers/helpers';
+import { GameVariation, gameVariationArr } from '../../../../helpers/helpers';
+import { CustomTypography } from '../../../../helpers/CustomTypography';
 
 export interface LeftColumnProps {
   gameOptions: GameVariation[];
@@ -19,34 +19,29 @@ const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) 
 
   return (
     <Grid item xs={4}>
-      <Grid container justifyContent="space-evenly" alignItems="center" direction={'column'}>
-        <Grid item xs={2}>
-          <Box
-            sx={{
-              position: 'relative',
-              width: '70%',
-              height: '5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-              color: '#7B4234',
-            }}
-          >
-            <CustomTypography variant="h3" sx={{ fontWeight: 'bold' }}>
-              Optional
-            </CustomTypography>
-          </Box>
-        </Grid>
+      <Grid container justifyContent="center" alignItems="flex-end" direction={'column'}>
+        <Box
+          sx={{
+            position: 'relative',
+            width: '70%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            color: '#7B4234',
+          }}
+        >
+          <CustomTypography variant="h3" sx={{ fontWeight: 'bold', mb: '2rem' }}>
+            Optional
+          </CustomTypography>
 
-        <Grid item xs={6}>
           {gameVariationArr.map((option, index) => (
             <Box
               onClick={() => handleChangeGameOption(option)}
               key={index}
               sx={{
                 position: 'relative',
-                width: '100%',
+                width: '50%',
                 height: '4rem',
                 cursor: 'pointer',
                 backgroundColor: gameOptions.includes(option) ? '#824131' : '#A48F8A',
@@ -68,7 +63,7 @@ const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) 
               <CustomTypography variant="h4">{option}</CustomTypography>
             </Box>
           ))}
-        </Grid>
+        </Box>
       </Grid>
     </Grid>
   );

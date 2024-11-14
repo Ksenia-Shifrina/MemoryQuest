@@ -1,11 +1,13 @@
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { Route, Routes } from 'react-router-dom';
 import { Grid } from '@mui/material';
-import PracticePage from './components/PracticePage/PracticePage';
-import MainPage from './components/MainPage';
+import MainPage from './components/Pages/MainPage/MainPage';
+import { useState } from 'react';
+import FloatingIconsBackground from './FloatingIconsBackground';
 
 const App: React.FC = () => {
+  const [isFloatingBackGround, setIsFloatingBackGround] = useState<boolean>(true);
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -17,7 +19,8 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Grid container className="App" justifyContent="center" alignItems="center">
-        <MainPage />
+        <FloatingIconsBackground isFloatingBackGround={isFloatingBackGround} />
+        <MainPage setIsFloatingBackGround={setIsFloatingBackGround} />
       </Grid>
     </ThemeProvider>
   );

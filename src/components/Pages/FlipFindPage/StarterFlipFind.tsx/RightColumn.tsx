@@ -1,7 +1,6 @@
 import { Box, Grid } from '@mui/material';
-import { CustomTypography } from '../../../helpers/CustomTypography';
-import { DifficultyLevel, difficultyLevelArr, GameVariation, PlayersVariation } from '../../../helpers/helpers';
-import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
+import { DifficultyLevel, difficultyLevelArr } from '../../../../helpers/helpers';
+import { CustomTypography } from '../../../../helpers/CustomTypography';
 
 export interface RightColumnProps {
   difficultyLevel: DifficultyLevel;
@@ -11,35 +10,29 @@ export interface RightColumnProps {
 const RightColumn: React.FC<RightColumnProps> = ({ difficultyLevel, setDifficultyLevel }) => {
   return (
     <Grid item xs={4}>
-      <Grid container justifyContent="space-evenly" alignItems="center" direction={'column'}>
-        <Grid item xs={2}>
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              height: '5rem',
-              borderRadius: '40px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-              color: '#7B4234',
-            }}
-          >
-            <CustomTypography variant="h3" sx={{ fontWeight: 'bold' }}>
-              Difficulty
-            </CustomTypography>
-          </Box>
-        </Grid>
+      <Grid container justifyContent="space-evenly" alignItems="flex-start" direction={'column'}>
+        <Box
+          sx={{
+            position: 'relative',
+            width: '70%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            color: '#7B4234',
+          }}
+        >
+          <CustomTypography variant="h3" sx={{ fontWeight: 'bold', mb: '2rem' }}>
+            Difficulty
+          </CustomTypography>
 
-        <Grid item xs={6}>
           {difficultyLevelArr.map((level, index) => (
             <Box
               onClick={() => setDifficultyLevel(level)}
               key={index}
               sx={{
                 position: 'relative',
-                width: '100%',
+                width: '50%',
                 height: '4rem',
                 cursor: 'pointer',
                 backgroundColor: level === difficultyLevel ? '#824131' : '#A48F8A',
@@ -61,7 +54,7 @@ const RightColumn: React.FC<RightColumnProps> = ({ difficultyLevel, setDifficult
               <CustomTypography variant="h4">{level}</CustomTypography>
             </Box>
           ))}
-        </Grid>
+        </Box>
       </Grid>
     </Grid>
   );

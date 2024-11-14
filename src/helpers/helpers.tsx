@@ -24,6 +24,7 @@ export type FlippingCardType = {
   isOpen: boolean;
   isVisible: boolean;
   isDisabled: boolean;
+  color: string;
 };
 
 export const validCards: ValidCardType[] = [
@@ -72,3 +73,6 @@ export type GameOptions = {
 
 export const difficultyLevelArr: DifficultyLevel[] = ['Casual', 'Challenging', 'Hardcore'];
 export const gameVariationArr: GameVariation[] = ['Colored', 'Moving', 'Triples'];
+export type Pages = 'Flip & Find' | 'Missing Item' | 'Card Recall' | 'Sequence Master' | 'Settings';
+
+export const gamesPages: Pages[] = ['Missing Item', 'Flip & Find', 'Card Recall', 'Sequence Master'];

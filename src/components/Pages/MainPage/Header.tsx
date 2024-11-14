@@ -1,38 +1,44 @@
 import * as React from 'react';
-import { CustomTypography } from '../helpers/CustomTypography';
+import { CustomTypography } from '../../../helpers/CustomTypography';
 import { Box, Divider, Grid } from '@mui/material';
 import { useState } from 'react';
 
 export interface HeaderProps {
   newPage: string;
-  setIsPracticePage: Function;
+  setIsFlipFindPage: Function;
   isAnimating: boolean;
   setIsAnimating: Function;
   isMainPage: boolean;
   setIsMainPage: Function;
-  isPracticePage: boolean;
-  setIsMiniGameStarted: Function;
+  setIsFlipFindGameStarted: Function;
+  setIsFloatingBackGround: Function;
 }
 const Header: React.FC<HeaderProps> = ({
   newPage,
-  setIsPracticePage,
+  setIsFlipFindPage,
   setIsMainPage,
   setIsAnimating,
   isAnimating,
   isMainPage,
-  isPracticePage,
-  setIsMiniGameStarted,
+  setIsFlipFindGameStarted,
+  setIsFloatingBackGround,
 }) => {
   const backToMainPage = () => {
     setIsMainPage(true);
-    setIsPracticePage(false);
+    setIsFlipFindPage(false);
     setIsAnimating(false);
-    setIsMiniGameStarted(false);
+    setIsFlipFindGameStarted(false);
+    setIsFloatingBackGround(true);
+  };
+
+  const backToGameStarter = () => {
+    setIsFloatingBackGround(true);
+    setIsFlipFindGameStarted(false);
   };
 
   return (
     <Grid container justifyContent="center" alignItems="center" position={'absolute'} top={0} left={0}>
-      <Box
+      {/* <Box
         position={'absolute'}
         sx={{
           zIndex: 1,
@@ -43,19 +49,19 @@ const Header: React.FC<HeaderProps> = ({
           left: 0,
           width: '100%',
           height: '100%',
-          animation: isAnimating ? 'moveVeryLeftAnimation 1s forwards' : 'moveBackAnimation 1s forwards',
-          '@keyframes moveVeryLeftAnimation': {
+          animation: isAnimating ? 'moveLoginLeftAwayAnimation 1s forwards' : 'moveLoginRightBackAnimation 1s forwards',
+          '@keyframes moveLoginLeftAwayAnimation': {
             '0%': {
               transform: 'translateX(-35%) translateY(5vh) rotate(-10deg) scale(0.5)',
             },
 
             '100%': {
-              transform: 'translateX(-55%) translateY(10vh) rotate(-50deg) scale(0)',
+              transform: 'translateX(-55%) translateY(15vh) rotate(-50deg) scale(0)',
             },
           },
-          '@keyframes moveBackAnimation': {
+          '@keyframes moveLoginRightBackAnimation': {
             '0%': {
-              transform: 'translateX(-55%) translateY(10vh) rotate(-50deg) scale(0)',
+              transform: 'translateX(-55%) translateY(15vh) rotate(-50deg) scale(0)',
             },
 
             '100%': {
@@ -84,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           Sign Up
         </CustomTypography>
-      </Box>
+      </Box> */}
 
       <CustomTypography
         onClick={backToMainPage}
@@ -99,8 +105,8 @@ const Header: React.FC<HeaderProps> = ({
           color: '#7B4234',
           mt: '2rem',
           cursor: 'pointer',
-          animation: isAnimating ? 'moveLeftAnimation 1s forwards' : 'moveToCenterAnimation 1s forwards',
-          '@keyframes moveLeftAnimation': {
+          animation: isAnimating ? 'moveMainLeftAnimation 1s forwards' : 'moveMainCenterAnimation 1s forwards',
+          '@keyframes moveMainLeftAnimation': {
             '0%': {
               transform: 'translateX(0) translateY(0) rotate(0deg) scale(1)',
             },
@@ -109,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({
               transform: 'translateX(-35%) translateY(5vh) rotate(-10deg) scale(0.5)',
             },
           },
-          '@keyframes moveToCenterAnimation': {
+          '@keyframes moveMainCenterAnimation': {
             '0%': {
               transform: 'translateX(-35%) translateY(5vh) rotate(-10deg) scale(0.5) ',
             },
@@ -123,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({
         Memory Games
       </CustomTypography>
       <CustomTypography
-        onClick={() => setIsMiniGameStarted(false)}
+        onClick={backToGameStarter}
         variant="h1"
         position={'absolute'}
         sx={{
@@ -137,23 +143,23 @@ const Header: React.FC<HeaderProps> = ({
           cursor: 'pointer',
           opacity: isMainPage ? 0 : 1,
           transition: 'opacity 1s ease-in',
-          animation: isAnimating ? 'moveDiffLeftAnimation 1s forwards' : 'moveToRightAnimation 1s forwards',
-          '@keyframes moveDiffLeftAnimation': {
+          animation: isAnimating ? 'moveNewPageCenterAnimation 1s forwards' : 'moveNewPageRightAnimation 1s forwards',
+          '@keyframes moveNewPageCenterAnimation': {
             '0%': {
-              transform: 'translateX(35%) translateY(5vh) scale(0) rotate(10deg)',
+              transform: 'translateX(35%) translateY(10vh) scale(0) rotate(10deg)',
             },
 
             '100%': {
               transform: 'translateX(0) translateY(0) scale(1) rotate(0)',
             },
           },
-          '@keyframes moveToRightAnimation': {
+          '@keyframes moveNewPageRightAnimation': {
             '0%': {
               transform: 'translateX(0) translateY(0) scale(1) rotate(0)',
             },
 
             '100%': {
-              transform: 'translateX(35%) translateY(5vh) scale(0) rotate(10deg)',
+              transform: 'translateX(35%) translateY(10vh) scale(0) rotate(10deg)',
             },
           },
         }}
@@ -161,7 +167,7 @@ const Header: React.FC<HeaderProps> = ({
         {newPage}
       </CustomTypography>
 
-      <CustomTypography
+      {/* <CustomTypography
         variant="h1"
         position={'absolute'}
         sx={{
@@ -173,29 +179,31 @@ const Header: React.FC<HeaderProps> = ({
           right: 0,
           width: '50%',
           height: '100%',
-          animation: isAnimating ? 'moveAnimation 1s forwards' : 'moveAwayAnimation 1s forwards',
-          '@keyframes moveAnimation': {
+          animation: isAnimating
+            ? 'moveStatisticsLeftAnimation 1s forwards'
+            : 'moveStatisticsRightAwayAnimation 1s forwards',
+          '@keyframes moveStatisticsLeftAnimation': {
             '0%': {
-              transform: 'translateX(55%) translateY(10vh) rotate(50deg) scale(0) ',
+              transform: 'translateX(55%) translateY(15vh) rotate(50deg) scale(0) ',
             },
 
             '100%': {
               transform: 'translateX(25%) translateY(5vh) rotate(10deg) scale(0.5)',
             },
           },
-          '@keyframes moveAwayAnimation': {
+          '@keyframes moveStatisticsRightAwayAnimation': {
             '0%': {
               transform: 'translateX(25%) translateY(5vh) rotate(10deg) scale(0.5)',
             },
 
             '100%': {
-              transform: 'translateX(55%) translateY(10vh) rotate(50deg) scale(0) ',
+              transform: 'translateX(55%) translateY(15vh) rotate(50deg) scale(0) ',
             },
           },
         }}
       >
         Statistics
-      </CustomTypography>
+      </CustomTypography> */}
     </Grid>
   );
 };
