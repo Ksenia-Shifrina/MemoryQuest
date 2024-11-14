@@ -59,7 +59,7 @@ const MainPageContent: React.FC<MainPageContentProps> = ({ isMainPage, isAnimati
               width: '60%',
               height: '12rem',
               cursor: 'pointer',
-              backgroundColor: '#A48F8A',
+              backgroundColor: '#824131',
               borderRadius: '50px',
               display: 'flex',
               justifyContent: 'center',

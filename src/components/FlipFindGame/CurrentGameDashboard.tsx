@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 import { Box } from '@mui/material';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import { FlippingCardType, GameVariation } from '../../helpers/helpers';
+import { FlippingCardType, GameVariation, PlayersVariation } from '../../helpers/helpers';
 
 import BoxOfCards from './BoxOfCards';
 
@@ -13,9 +13,16 @@ export interface CurrentGameDashboardProps {
   seconds: number;
   numOfCards: number;
   gameOptions: GameVariation[];
+  score: number;
 }
 
-const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, seconds, numOfCards, gameOptions }) => {
+const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({
+  attempts,
+  seconds,
+  numOfCards,
+  gameOptions,
+  score,
+}) => {
   const [isHidden, setIsHidden] = React.useState<boolean>(false);
   const [actualNumOfCards, setActualNumOfCards] = React.useState<number>(numOfCards);
 
@@ -43,14 +50,14 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, s
   }, [numOfCards]);
 
   return (
-    <Grid container justifyContent="space-evenly" alignItems="center" width={'50%'}>
+    <Grid container justifyContent="space-evenly" alignItems="center" width={'70%'}>
       <Grid item xs={4}>
         <Grid container justifyContent="center">
           {!isHidden && (
             <Box
               sx={{
                 position: 'relative',
-                width: '90%',
+                width: '100%',
                 height: '8rem',
                 backgroundColor: '#D2C1BD',
                 borderRadius: '25px',
@@ -59,21 +66,19 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, s
                 alignItems: 'center',
                 flexDirection: 'column',
                 color: '#643529',
-                // p: '0.5rem',
               }}
             >
-              <CustomTypography variant="h6">Found: 2 pairs</CustomTypography>
-              <CustomTypography variant="h6">
-                Total {gameOptions.includes('Triples') ? 'triples' : 'pairs'} to find:{' '}
-                {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}
+              <CustomTypography variant="h4">
+                Found {score} out of {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
+                {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
               </CustomTypography>
-              <CustomTypography variant="h6">Current attempts: {attempts}</CustomTypography>
+              <CustomTypography variant="h4">Attempts: {attempts}</CustomTypography>
             </Box>
           )}
         </Grid>
       </Grid>
 
-      <Grid item xs={2} height="8rem">
+      <Grid item xs={1} height="8rem">
         <Grid container alignItems={'center'} justifyContent={'center'} height="100%">
           {isHidden && (
             <VisibilityRoundedIcon
@@ -110,7 +115,7 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({ attempts, s
             <Box
               sx={{
                 position: 'relative',
-                width: '90%',
+                width: '100%',
                 height: '8rem',
                 backgroundColor: '#D2C1BD',
                 borderRadius: '25px',

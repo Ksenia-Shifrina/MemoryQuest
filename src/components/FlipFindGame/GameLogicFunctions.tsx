@@ -108,6 +108,5 @@ export const closeAllCards = (setCards: Function) => {
       prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false }))
     );
   }, 3000);
-
   return () => clearTimeout(timer);
 };

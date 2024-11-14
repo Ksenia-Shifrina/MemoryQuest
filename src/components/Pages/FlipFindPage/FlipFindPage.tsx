@@ -35,7 +35,6 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
       mt={'12rem'}
       sx={{
         opacity: isFlipFindPage ? 1 : 0,
-        // overflow: 'auto',
         transition: 'opacity 1s ease-in',
         animation: isAnimating
           ? 'moveMiniGamesPageCenterAnimation 1s forwards'
@@ -80,6 +79,7 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           setIsFloatingBackGround={setIsFloatingBackGround}
           gameOptions={gameOptions}
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
+          playersNum={playersNum}
         />
       )}
     </Grid>

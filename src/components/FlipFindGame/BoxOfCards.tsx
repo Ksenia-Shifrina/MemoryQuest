@@ -9,71 +9,25 @@ export interface BoxOfCardsProps {
   setCards: Function;
   checkCard: Function;
   gameOptions: GameVariation[];
-  rotateLeft: boolean;
+  isRotatingLeft: boolean;
+  animationDynamicLeft: CSSKeyframesRule | string;
+  animationDynamicRight: CSSKeyframesRule | string;
 }
-
-export const rotateRightAnimation = keyframes`
-  from { transform: rotate(0); }
-  to { transform: rotate(360deg); }
-`;
-
-export const rotateLeftAnimation = keyframes`
-  from { transform: rotate(0); }
-  to { transform: rotate(-360deg); }
-`;
 
 const fadeIn = keyframes`
   from { opacity: 0 ; }
   to { opacity: 1; }
 `;
 
-const BoxOfCards: React.FC<BoxOfCardsProps> = ({ cards, setCards, checkCard, gameOptions, rotateLeft }) => {
-  const elementRef = useRef(null);
-  const [currentRotation, setCurrentRotation] = useState(0);
-
-  // useEffect(() => {
-  //   if (elementRef.current) {
-  //     // Extract the current rotation angle using computed styles
-  //     const style = window.getComputedStyle(elementRef.current);
-  //     const matrix = style.transform;
-  //     console.log(matrix);
-
-  //     if (matrix !== 'none') {
-  //       const values = matrix.split('(')[1].split(')')[0].split(',');
-  //       // console.log(values);
-  //       const a = parseFloat(values[0]);
-  //       const b = parseFloat(values[1]);
-  //       const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-  //       setCurrentRotation(angle);
-  //       // console.log('a:' + a, 'b:' + b);
-  //     } else {
-  //       setCurrentRotation(0);
-  //     }
-  //   }
-  // }, [rotateLeft]);
-
-  useEffect(() => {
-    let animationFrame: number;
-
-    const updateRotation = () => {
-      setCurrentRotation((prevRotation) => {
-        const newRotation = rotateLeft ? prevRotation - 1 : prevRotation + 1;
-        return newRotation % 360; // Keep the angle between 0 and 359 degrees
-      });
-      animationFrame = requestAnimationFrame(updateRotation);
-    };
-
-    if (rotateLeft !== null) {
-      animationFrame = requestAnimationFrame(updateRotation);
-    }
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [rotateLeft]);
-
+const BoxOfCards: React.FC<BoxOfCardsProps> = ({
+  cards,
+  setCards,
+  checkCard,
+  gameOptions,
+  isRotatingLeft,
+  animationDynamicLeft,
+  animationDynamicRight,
+}) => {
   const getInitialStyles = () => {
     if (gameOptions.includes('Moving')) {
       if (cards.length === 16) {
@@ -156,8 +110,6 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({ cards, setCards, checkCard, gam
   return (
     <Grid
       container
-      //
-      ref={elementRef}
       justifyContent="center"
       alignItems="center"
       sx={{
@@ -184,15 +136,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({ cards, setCards, checkCard, gam
             : '0',
         mb: cards.length === 25 ? '1rem' : '0',
         overflow: gameOptions.includes('Moving') ? 'hidden' : 'auto',
-        // animation: `${fadeIn} 1s ease-in forwards`,
-        animation: gameOptions.includes('Moving')
-          ? css`
-              ${rotateLeft ? rotateLeftAnimation : rotateRightAnimation} 60s
-          linear infinite;
-            `
-          : 'none',
-        transform: `rotate(${currentRotation}deg)`,
-        transition: 'transform 0.1s linear',
+        animation: `${fadeIn} 1s ease-in forwards`,
       }}
     >
       <Grid
@@ -201,11 +145,9 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({ cards, setCards, checkCard, gam
         justifyContent="center"
         alignItems="center"
         sx={{
-          // animation: gameOptions.includes('Moving')
-          //   ? `${rotateLeft ? rotateLeftAnimation : rotateRightAnimation} 60s linear infinite`
-          //   : 'none',
-          // transform: `rotate(${currentRotation}deg)`,
-          animation: `${fadeIn} 1s ease-in forwards`,
+          animation: gameOptions.includes('Moving')
+            ? `${isRotatingLeft ? animationDynamicLeft : animationDynamicRight} 60s linear infinite`
+            : 'none',
           width: boxWidth,
           height: boxHeight,
         }}
@@ -218,7 +160,9 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({ cards, setCards, checkCard, gam
               index={index}
               checkCard={checkCard}
               gameOptions={gameOptions}
-              rotateLeft={rotateLeft}
+              isRotatingLeft={isRotatingLeft}
+              animationDynamicLeft={animationDynamicLeft}
+              animationDynamicRight={animationDynamicRight}
             />
           </Grid>
         ))}

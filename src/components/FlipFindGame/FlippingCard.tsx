@@ -20,7 +20,6 @@ import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import LunchDiningRoundedIcon from '@mui/icons-material/LunchDiningRounded';
 import { FlippingCardType, GameVariation } from '../../helpers/helpers';
-import { rotateLeftAnimation, rotateRightAnimation } from './BoxOfCards';
 
 export interface FlippingCardProps {
   card: FlippingCardType;
@@ -28,7 +27,9 @@ export interface FlippingCardProps {
   checkCard: Function;
   index: number;
   gameOptions: GameVariation[];
-  rotateLeft: boolean;
+  isRotatingLeft: boolean;
+  animationDynamicLeft: CSSKeyframesRule | string;
+  animationDynamicRight: CSSKeyframesRule | string;
 }
 
 const scaleAnimation = keyframes`
@@ -37,7 +38,26 @@ const scaleAnimation = keyframes`
   100% { transform:  scale(0); }
 `;
 
-const FlippingCard: React.FC<FlippingCardProps> = ({ card, setCards, checkCard, index, gameOptions, rotateLeft }) => {
+const rotateLeft = keyframes`
+  from { transform: rotate(0); }
+  100% { transform:  rotate(-360deg); }
+`;
+
+const rotateRight = keyframes`
+  from { transform: rotate(0); }
+  100% { transform:  rotate(360deg); }
+`;
+
+const FlippingCard: React.FC<FlippingCardProps> = ({
+  card,
+  setCards,
+  checkCard,
+  index,
+  gameOptions,
+  isRotatingLeft,
+  animationDynamicLeft,
+  animationDynamicRight,
+}) => {
   const handleClick = () => {
     setCards((prevState: FlippingCardType[]) =>
       prevState.map((card, i) => (i === index ? { ...card, isOpen: true } : card))
@@ -51,31 +71,9 @@ const FlippingCard: React.FC<FlippingCardProps> = ({ card, setCards, checkCard, 
     height: { xs: '2rem', sm: '3rem', md: '3rem', lg: '3rem' },
   };
 
-  // const elementCardRef = useRef(null);
-  // const [currentRotationCard, setCurrentRotationCard] = useState(0);
-
-  // useEffect(() => {
-  //   if (elementCardRef.current) {
-  //     // Extract the current rotation angle using computed styles
-  //     const style = window.getComputedStyle(elementCardRef.current);
-  //     const matrix = style.transform;
-
-  //     if (matrix !== 'none') {
-  //       const values = matrix.split('(')[1].split(')')[0].split(',');
-  //       const a = parseFloat(values[0]);
-  //       const b = parseFloat(values[1]);
-  //       const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-  //       setCurrentRotationCard(angle);
-  //     } else {
-  //       setCurrentRotationCard(0);
-  //     }
-  //   }
-  // }, [rotateLeft]);
-
   return (
     <Grid container justifyContent={'center'} alignItems={'center'}>
       <Box
-        // ref={elementCardRef}
         className={`${card.isDisabled ? 'disabled' : ''}`}
         sx={{
           perspective: '1000px',
@@ -94,17 +92,9 @@ const FlippingCard: React.FC<FlippingCardProps> = ({ card, setCards, checkCard, 
           sx={{
             width: '100%',
             height: '100%',
-            // animation: gameOptions.includes('Moving')
-            //   ? css`
-            //       ${rotateLeft ? rotateLeftAnimation : rotateRightAnimation} 60s
-            // linear infinite;
-            //     `
-            //   : 'none',
-            // transform: `rotate(${currentRotationCard}deg)`,
             animation: gameOptions.includes('Moving')
-              ? `${rotateLeft ? rotateRightAnimation : rotateLeftAnimation} 60s linear infinite`
+              ? `${isRotatingLeft ? animationDynamicRight : animationDynamicLeft} 60s linear infinite`
               : 'none',
-            // transform: card.type === 'Blank' ? 'scale(0)' : 'none',
           }}
         >
           <Box
