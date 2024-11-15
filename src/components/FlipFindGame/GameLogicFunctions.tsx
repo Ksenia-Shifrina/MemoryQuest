@@ -4,7 +4,7 @@ import {
   getRandomInteger,
   shuffleArray,
   validCards,
-  ValidCardType,
+  CardType,
 } from '../../helpers/helpers';
 
 export const generateCards = (numOfCards: number, gameOptions: GameVariation[], setCards: Function) => {

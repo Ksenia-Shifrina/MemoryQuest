@@ -1,11 +1,10 @@
 import { Grid } from '@mui/material';
 import { useState } from 'react';
 import Header from './Header';
-import FloatingIconsBackground from '../../../FloatingIconsBackground';
-import MainPageContent from './MainPageContent/MainPageContent';
+import MainPageContent from './MainPageContent';
 import { Pages } from '../../../helpers/helpers';
-import MiniGamesPage from '../FlipFindPage/FlipFindPage';
 import FlipFindPage from '../FlipFindPage/FlipFindPage';
+import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
 
 export interface MainPageProps {
   setIsFloatingBackGround: Function;
@@ -38,6 +37,11 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround }) => {
     }
   };
 
+  const closeGame = () => {
+    setIsFloatingBackGround(true);
+    setIsFlipFindGameStarted(false);
+  };
+
   return (
     <Grid container justifyContent="center" alignItems="center">
       <Header
@@ -60,6 +64,27 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround }) => {
         isFlipFindGameStarted={isFlipFindGameStarted}
         setIsFlipFindGameStarted={setIsFlipFindGameStarted}
       />
+
+      {isFlipFindGameStarted && (
+        <MeetingRoomRoundedIcon
+          onClick={closeGame}
+          sx={{
+            position: 'fixed',
+            // bottom: numOfCards === 12 || numOfCards === 18 ? '2%' : '15%',
+            // left: numOfCards === 12 ? '15%' : '10%',
+            bottom: '7%',
+            left: '5%',
+            width: '3rem',
+            height: '3rem',
+            color: '#A55946',
+            cursor: 'pointer',
+            transition: 'transform 0.4s',
+            '&:hover': {
+              transform: 'scale(1.2)',
+            },
+          }}
+        />
+      )}
     </Grid>
   );
 };

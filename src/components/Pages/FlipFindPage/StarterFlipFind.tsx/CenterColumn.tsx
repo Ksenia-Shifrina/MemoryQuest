@@ -77,7 +77,6 @@ const CenterColumn: React.FC<CenterColumnProps> = ({ setPlayersNum, playersNum, 
             alignItems: 'center',
             flexDirection: 'row',
             color: '#7B4234',
-
             mt: '12rem',
             transition: 'transform 0.4s',
             '&:hover': {

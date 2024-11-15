@@ -12,7 +12,7 @@ export interface MultiplayerDashboardProps {
   attempts: number;
   attempts2: number;
   seconds: number;
-  numOfCards: number;
+  actualNumOfCards: number;
   gameOptions: GameVariation[];
   score: number;
   score2: number;
@@ -23,26 +23,12 @@ const MultiplayerDashboard: React.FC<MultiplayerDashboardProps> = ({
   attempts,
   attempts2,
   seconds,
-  numOfCards,
+  actualNumOfCards,
   gameOptions,
   score,
   score2,
   togglePlayers,
 }) => {
-  const [actualNumOfCards, setActualNumOfCards] = React.useState<number>(numOfCards);
-
-  React.useEffect(() => {
-    if (gameOptions.includes('Moving')) {
-      if (numOfCards === 16) {
-        setActualNumOfCards(12);
-      } else if (numOfCards === 25) {
-        setActualNumOfCards(18);
-      } else if (numOfCards === 36) {
-        setActualNumOfCards(24);
-      }
-    }
-  }, [numOfCards]);
-
   return (
     <Grid container justifyContent="center" alignItems="center" width={'50%'}>
       <Grid item xs={4}>
@@ -66,11 +52,11 @@ const MultiplayerDashboard: React.FC<MultiplayerDashboardProps> = ({
             <CustomTypography variant="h5" sx={{ fontWeight: 'bold' }}>
               Ksu
             </CustomTypography>
-            <CustomTypography variant="h5">
-              Found {score} out of {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
-              {gameOptions.includes('Triples') ? (score === 1 ? 'triple' : 'triples') : score === 1 ? 'pair' : 'pairs'}
-            </CustomTypography>
             <CustomTypography variant="h5">Attempts: {attempts}</CustomTypography>
+            <CustomTypography variant="h5">
+              Found {score} / {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
+              {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
+            </CustomTypography>
           </Box>
         </Grid>
       </Grid>
@@ -117,11 +103,11 @@ const MultiplayerDashboard: React.FC<MultiplayerDashboardProps> = ({
             <CustomTypography variant="h5" sx={{ fontWeight: 'bold' }}>
               Danil
             </CustomTypography>
+            <CustomTypography variant="h5">Attempts: {attempts2}</CustomTypography>
             <CustomTypography variant="h5">
-              Found {score2} out of {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
+              Found {score2} / {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
               {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
             </CustomTypography>
-            <CustomTypography variant="h5">Attempts: {attempts2}</CustomTypography>
           </Box>
         </Grid>
       </Grid>

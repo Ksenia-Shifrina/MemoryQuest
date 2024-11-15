@@ -14,7 +14,6 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
   setIsFloatingBackGround,
 }) => {
   const finishGame = () => {
-    setIsFloatingBackGround(true);
     setIsFlipFindGameStarted(false);
   };
 

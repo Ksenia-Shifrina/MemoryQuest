@@ -1,11 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
-import { gamesPages } from '../../../../helpers/helpers';
-import FlipFindIntro from './FlipFindDescription';
-import FlipFindDescription from './FlipFindDescription';
-import MissingItemDescription from './MissingItemDescription';
-import SequenceMasterDescription from './SequenceMasterDescription';
-import CardRecallDescription from './CardRecallDescription';
+import { CustomTypography } from '../../../helpers/CustomTypography';
 
 export interface MainPageContentProps {
   isMainPage: boolean;
@@ -74,7 +68,6 @@ const MainPageContent: React.FC<MainPageContentProps> = ({ isMainPage, isAnimati
             }}
           >
             <CustomTypography variant="h2">Flip & Find</CustomTypography>
-            <FlipFindDescription />
           </Box>
         </Grid>
       </Grid>
@@ -92,12 +85,25 @@ const MainPageContent: React.FC<MainPageContentProps> = ({ isMainPage, isAnimati
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: '#7B4234',
+              color: '#824131',
               m: '2rem',
             }}
           >
             <CustomTypography variant="h3">Missing Item</CustomTypography>
-            <MissingItemDescription />
+            <CustomTypography
+              variant="h5"
+              sx={{
+                backgroundColor: '#824131',
+                borderRadius: '50px',
+                p: '0.5rem',
+                mt: '1.5rem',
+                ml: '15rem',
+                transform: 'rotate(-10deg)',
+                color: '#FFFFFF',
+              }}
+            >
+              Coming soon!
+            </CustomTypography>
           </Box>
         </Grid>
       </Grid>
@@ -115,12 +121,25 @@ const MainPageContent: React.FC<MainPageContentProps> = ({ isMainPage, isAnimati
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: '#7B4234',
+              color: '#824131',
               m: '2rem',
             }}
           >
-            <CustomTypography variant="h3">Card recall</CustomTypography>
-            <CardRecallDescription />
+            <CustomTypography variant="h3">Card Recall</CustomTypography>
+            <CustomTypography
+              variant="h5"
+              sx={{
+                backgroundColor: '#824131',
+                borderRadius: '50px',
+                p: '0.5rem',
+                mt: '1.5rem',
+                ml: '15rem',
+                transform: 'rotate(-10deg)',
+                color: '#FFFFFF',
+              }}
+            >
+              Coming soon!
+            </CustomTypography>
           </Box>
         </Grid>
       </Grid>
@@ -138,12 +157,25 @@ const MainPageContent: React.FC<MainPageContentProps> = ({ isMainPage, isAnimati
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              color: '#7B4234',
+              color: '#824131',
               m: '2rem',
             }}
           >
             <CustomTypography variant="h3">Sequence Master</CustomTypography>
-            <SequenceMasterDescription />
+            <CustomTypography
+              variant="h5"
+              sx={{
+                backgroundColor: '#824131',
+                borderRadius: '50px',
+                p: '0.5rem',
+                mt: '1.5rem',
+                ml: '15rem',
+                transform: 'rotate(-10deg)',
+                color: '#FFFFFF',
+              }}
+            >
+              Coming soon!
+            </CustomTypography>
           </Box>
         </Grid>
       </Grid>

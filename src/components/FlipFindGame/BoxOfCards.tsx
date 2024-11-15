@@ -3,6 +3,7 @@ import FlippingCard from './FlippingCard';
 import { FlippingCardType, GameVariation } from '../../helpers/helpers';
 import { css, keyframes, styled } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
 
 export interface BoxOfCardsProps {
   cards: FlippingCardType[];
@@ -83,6 +84,8 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   const [boxHeight, setBoxHeight] = useState(initialHeight);
   const [gridItemMd, setGridItemMd] = useState<number>(initialGridItemMd);
 
+  const endOfCardsRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const newStyles = getInitialStyles();
     if (newStyles.width !== boxWidth || newStyles.height !== boxHeight || newStyles.gridItemMd !== gridItemMd) {
@@ -91,8 +94,6 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       setGridItemMd(newStyles.gridItemMd);
     }
   }, [cards]);
-
-  const endOfCardsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (gameOptions.includes('Moving')) {
@@ -114,29 +115,13 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       alignItems="center"
       sx={{
         position: 'relative',
-        width: gameOptions.includes('Moving') ? '100vh' : '100%',
-        height: gameOptions.includes('Moving')
-          ? cards.length === 16
-            ? '70vh'
-            : cards.length === 25
-            ? '90vh'
-            : '100vh'
-          : '100%',
-        mt:
-          cards.length === 12
-            ? '5rem'
-            : cards.length === 18
-            ? '4rem'
-            : cards.length === 24
-            ? '3rem'
-            : cards.length === 36
-            ? '2rem'
-            : cards.length === 25
-            ? '1rem'
-            : '0',
-        mb: cards.length === 25 ? '1rem' : '0',
+        width: 'fit-content',
+        my: 'auto',
+        // mb: cards.length === 25 ? '1rem' : '0',
         overflow: gameOptions.includes('Moving') ? 'hidden' : 'auto',
-        animation: `${fadeIn} 1s ease-in forwards`,
+        animation: gameOptions.includes('Moving')
+          ? `${isRotatingLeft ? animationDynamicLeft : animationDynamicRight} 60s linear infinite`
+          : 'none',
       }}
     >
       <Grid
@@ -145,9 +130,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
         justifyContent="center"
         alignItems="center"
         sx={{
-          animation: gameOptions.includes('Moving')
-            ? `${isRotatingLeft ? animationDynamicLeft : animationDynamicRight} 60s linear infinite`
-            : 'none',
+          animation: `${fadeIn} 1s ease-in forwards`,
           width: boxWidth,
           height: boxHeight,
         }}

@@ -1,4 +1,4 @@
-export type ValidCardType =
+export type CardType =
   | 'Pet'
   | 'Anchor'
   | 'Snowflake'
@@ -20,14 +20,14 @@ export type ValidCardType =
   | 'Blank';
 
 export type FlippingCardType = {
-  type: ValidCardType;
+  type: CardType;
   isOpen: boolean;
   isVisible: boolean;
   isDisabled: boolean;
   color: string;
 };
 
-export const validCards: ValidCardType[] = [
+export const validCards: CardType[] = [
   'Pet',
   'Anchor',
   'Snowflake',

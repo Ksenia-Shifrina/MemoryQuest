@@ -11,7 +11,7 @@ import BoxOfCards from './BoxOfCards';
 export interface CurrentGameDashboardProps {
   attempts: number;
   seconds: number;
-  numOfCards: number;
+  actualNumOfCards: number;
   gameOptions: GameVariation[];
   score: number;
 }
@@ -19,38 +19,18 @@ export interface CurrentGameDashboardProps {
 const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({
   attempts,
   seconds,
-  numOfCards,
+  actualNumOfCards,
   gameOptions,
   score,
 }) => {
   const [isHidden, setIsHidden] = React.useState<boolean>(false);
-  const [actualNumOfCards, setActualNumOfCards] = React.useState<number>(numOfCards);
 
   const toggleVisibility = () => {
     setIsHidden(!isHidden);
   };
 
-  const iconStyle = {
-    width: '2rem',
-    height: '2rem',
-    color: '#A55946',
-    cursor: 'pointer',
-  };
-
-  React.useEffect(() => {
-    if (gameOptions.includes('Moving')) {
-      if (numOfCards === 16) {
-        setActualNumOfCards(12);
-      } else if (numOfCards === 25) {
-        setActualNumOfCards(18);
-      } else if (numOfCards === 36) {
-        setActualNumOfCards(24);
-      }
-    }
-  }, [numOfCards]);
-
   return (
-    <Grid container justifyContent="space-evenly" alignItems="center" width={'70%'}>
+    <Grid container justifyContent="space-evenly" alignItems="center" width={'50%'}>
       <Grid item xs={4}>
         <Grid container justifyContent="center">
           {!isHidden && (
@@ -68,16 +48,16 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({
                 color: '#643529',
               }}
             >
-              <CustomTypography variant="h4">
-                Found {score} out of {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
+              <CustomTypography variant="h5">Attempts: {attempts}</CustomTypography>
+              <CustomTypography variant="h5">
+                Found {score} / {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
                 {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
               </CustomTypography>
-              <CustomTypography variant="h4">Attempts: {attempts}</CustomTypography>
             </Box>
           )}
         </Grid>
       </Grid>
-
+      {/* 
       <Grid item xs={1} height="8rem">
         <Grid container alignItems={'center'} justifyContent={'center'} height="100%">
           {isHidden && (
@@ -107,7 +87,7 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({
             />
           )}
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={4}>
         <Grid container justifyContent="center">
@@ -123,7 +103,6 @@ const CurrentGameDashboard: React.FC<CurrentGameDashboardProps> = ({
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: '#643529',
-                // p: '0.5rem',
               }}
             >
               <CustomTypography variant="h2">

@@ -38,16 +38,6 @@ const scaleAnimation = keyframes`
   100% { transform:  scale(0); }
 `;
 
-const rotateLeft = keyframes`
-  from { transform: rotate(0); }
-  100% { transform:  rotate(-360deg); }
-`;
-
-const rotateRight = keyframes`
-  from { transform: rotate(0); }
-  100% { transform:  rotate(360deg); }
-`;
-
 const FlippingCard: React.FC<FlippingCardProps> = ({
   card,
   setCards,
