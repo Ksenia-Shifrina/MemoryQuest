@@ -19,12 +19,13 @@ export type CardType =
   | 'Burger'
   | 'Blank';
 
-export type FlippingCardType = {
+export type FlippingCard = {
   type: CardType;
   isOpen: boolean;
   isVisible: boolean;
   isDisabled: boolean;
   color: string;
+  id: string;
 };
 
 export const validCards: CardType[] = [
@@ -61,18 +62,11 @@ export function shuffleArray<T>(array: T[]): T[] {
   return array;
 }
 
-export type GameVariation = 'Colored' | 'Moving' | 'Triples';
-export type PlayersVariation = 'Single' | 'Multiplayer';
+export type GameOptions = 'Colored' | 'Rotating' | 'Triples';
+export type PlayerMode = 'Single' | 'Multiplayer';
 export type DifficultyLevel = 'Casual' | 'Challenging' | 'Hardcore';
-
-export type GameOptions = {
-  Colored: boolean;
-  Moving: boolean;
-  Triples: boolean;
-};
-
-export const difficultyLevelArr: DifficultyLevel[] = ['Casual', 'Challenging', 'Hardcore'];
-export const gameVariationArr: GameVariation[] = ['Colored', 'Moving', 'Triples'];
 export type Pages = 'Flip & Find' | 'Missing Item' | 'Card Recall' | 'Sequence Master' | 'Settings';
 
+export const difficultyLevelArr: DifficultyLevel[] = ['Casual', 'Challenging', 'Hardcore'];
+export const gameVariationArr: GameOptions[] = ['Colored', 'Rotating', 'Triples'];
 export const gamesPages: Pages[] = ['Missing Item', 'Flip & Find', 'Card Recall', 'Sequence Master'];

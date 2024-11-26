@@ -1,26 +1,32 @@
 import * as React from 'react';
 import { Grid, keyframes } from '@mui/material';
-import CurrentGameDashboard from './CurrentGameDashboard';
-import BoxOfCards from './BoxOfCards';
+import BoxOfCards, { fadeIn } from './BoxOfCards';
 import { useEffect, useState } from 'react';
-import { FlippingCardType, CardType, GameVariation, PlayersVariation } from '../../helpers/helpers';
-import GameResultsPage from './GameResultsPage';
+import { FlippingCard, CardType, GameOptions, PlayerMode } from '../../helpers/helpers';
+import GameResultsPage from './GameResultsComponents/GameResultsPage';
 import { addBlankCards, addColors, closeAllCards, generateCards, shuffleCards } from './GameLogicFunctions';
-import MultiplayerDashboard from './MultiplayerDashboard';
-import RotatingBoxDashboard from './RotatingBoxDashboard';
+import StandardDashboard from './DashboardComponents/StandardDashboard';
+import DashboardInMovingMode from './DashboardComponents/DashboardInMovingMode';
+import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
+import BottomLeftIcon from './BottomLeftIcon';
 
-const createDynamicKeyframes = (startAngle: number, direction: string) => keyframes`
+const createDynamicKeyframes = (startAngle: number, directionIsLeft: boolean) => keyframes`
   0% { transform: rotate(${startAngle}deg); }
-  100% { transform: rotate(${direction === 'left' ? startAngle - 360 : startAngle + 360}deg); }
+  100% { transform: rotate(${directionIsLeft ? startAngle - 360 : startAngle + 360}deg); }
 `;
+
+export type PlayerStats = {
+  attempts: number;
+  score: number;
+};
 
 export interface FlipFindGameProps {
   setIsFlipFindGameStarted: Function;
   numOfCards: number;
   setNumOfCards: Function;
   setIsFloatingBackGround: Function;
-  gameOptions: GameVariation[];
-  playersNum: PlayersVariation;
+  gameOptions: GameOptions[];
+  playerMode: PlayerMode;
 }
 
 const FlipFindGame: React.FC<FlipFindGameProps> = ({
@@ -29,44 +35,40 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
   setNumOfCards,
   setIsFloatingBackGround,
   gameOptions,
-  playersNum,
+  playerMode,
 }) => {
-  const [cards, setCards] = useState<FlippingCardType[]>([]);
+  const [cards, setCards] = useState<FlippingCard[]>([]);
   const [actualNumOfCards, setActualNumOfCards] = React.useState<number>(numOfCards);
-  const [openedCard, setOpenedCard] = useState<CardType | ''>('');
-  const [openedIndexes, setOpenedIndexes] = useState<number[]>([]);
+  const [openedCards, setOpenedCards] = useState<FlippingCard[]>([]);
 
   const [isActiveTimer, setIsActiveTimer] = useState<boolean>(true);
   const [seconds, setSeconds] = useState<number>(0);
 
-  const [attempts, setAttempts] = useState<number>(0);
-  const [attempts2, setAttempts2] = useState<number>(0);
-  const [score, setScore] = useState<number>(0);
-  const [score2, setScore2] = useState<number>(0);
-  const [togglePlayers, setTogglePlayers] = useState<boolean>(true);
+  const [playerStats1, setPlayerStats1] = useState<PlayerStats>({ attempts: 0, score: 0 });
+  const [playerStats2, setPlayerStats2] = useState<PlayerStats>({ attempts: 0, score: 0 });
+  const [isPlayer1, setIsPlayer1] = useState<boolean>(true);
 
-  const [isRotatingLeft, setIsRotatingLeft] = useState<boolean>(false);
+  const [isRotatingLeft, setIsRotatingLeft] = useState<boolean>(true);
   const [startAngle, setStartAngle] = useState(0);
-  const [animationDynamicLeft, setAnimationDynamicLeft] = useState(createDynamicKeyframes(startAngle, 'left'));
-  const [animationDynamicRight, setAnimationDynamicRight] = useState(createDynamicKeyframes(startAngle, 'right'));
+  const [animationDynamicLeft, setAnimationDynamicLeft] = useState(createDynamicKeyframes(startAngle, true));
+  const [animationDynamicRight, setAnimationDynamicRight] = useState(createDynamicKeyframes(startAngle, false));
 
   const rotateLeft = () => {
     setIsRotatingLeft(true);
-    setAnimationDynamicLeft(createDynamicKeyframes(startAngle, 'left'));
-    setAnimationDynamicRight(createDynamicKeyframes(-startAngle, 'right'));
+    setAnimationDynamicLeft(createDynamicKeyframes(startAngle, true));
+    setAnimationDynamicRight(createDynamicKeyframes(-startAngle, false));
   };
 
   const rotateRight = () => {
     setIsRotatingLeft(false);
-    setAnimationDynamicRight(createDynamicKeyframes(startAngle, 'right'));
-    setAnimationDynamicLeft(createDynamicKeyframes(-startAngle, 'left'));
+    setAnimationDynamicRight(createDynamicKeyframes(startAngle, false));
+    setAnimationDynamicLeft(createDynamicKeyframes(-startAngle, true));
   };
 
-  // CREATE NEEDED CARDS AND START THE GAME
   useEffect(() => {
     generateCards(numOfCards, gameOptions, setCards);
     shuffleCards(setCards);
-    if (gameOptions.includes('Moving')) {
+    if (gameOptions.includes('Rotating')) {
       addBlankCards(numOfCards, setNumOfCards, setCards);
     }
     if (gameOptions.includes('Colored')) {
@@ -96,7 +98,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
 
   // EXCLUDE BLANK CARDS FROM CALCULATIONS FOR ROTATING BOX
   useEffect(() => {
-    if (gameOptions.includes('Moving')) {
+    if (gameOptions.includes('Rotating')) {
       if (numOfCards === 16) {
         setActualNumOfCards(12);
       } else if (numOfCards === 25) {
@@ -120,212 +122,166 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
     return () => clearInterval(timer);
   }, [isRotatingLeft]);
 
-  // STANDARD CHECK WHEN OPENING A CARD
-  const checkCard = (cardType: CardType, index: number) => {
-    // FIRST CARD OPENED
-    if (openedCard === '' && openedIndexes.length === 0) {
-      setOpenedCard(cardType);
-      setOpenedIndexes([index]);
+  const processCorrectCardMatch = (card: FlippingCard) => {
+    const timer = setTimeout(() => {
+      setCards((prevState) => prevState.map((c) => (c.type === card.type ? { ...c, isVisible: false } : c)));
+    }, 900);
+
+    setOpenedCards([]);
+
+    if (playerMode === 'Single' || isPlayer1) {
+      setPlayerStats1((prevState) => ({ score: prevState.score++, attempts: prevState.attempts++ }));
+    } else {
+      setPlayerStats2((prevState) => ({ score: prevState.score++, attempts: prevState.attempts++ }));
     }
-    // SECOND CARD OPENED CORRECTLY
-    else if (cardType === openedCard && index !== openedIndexes[0]) {
-      const timer = setTimeout(() => {
-        setCards((prevState) =>
-          prevState.map((card) => (card.type === cardType ? { ...card, isVisible: false } : card))
-        );
-      }, 900);
 
-      setOpenedCard('');
-      setOpenedIndexes([]);
-      if (playersNum === 'Single') {
-        setScore((prevState) => (prevState += 1));
-        setAttempts((prevState) => (prevState += 1));
-      } else if (togglePlayers) {
-        setScore((prevState) => (prevState += 1));
-        setAttempts((prevState) => (prevState += 1));
-      } else {
-        setScore2((prevState) => (prevState += 1));
-        setAttempts2((prevState) => (prevState += 1));
-      }
-      setTogglePlayers(!togglePlayers);
+    setIsPlayer1(!isPlayer1);
 
-      return () => clearTimeout(timer);
+    return () => clearTimeout(timer);
+  };
+
+  const processIncorrectCardMatch = (card: FlippingCard) => {
+    setCards((prevState) => prevState.map((c) => ({ ...c, isDisabled: true })));
+
+    const timer = setTimeout(() => {
+      setCards((prevState) => prevState.map((c) => ({ ...c, isOpen: false, isDisabled: false })));
+    }, 800);
+
+    setOpenedCards([]);
+
+    if (playerMode === 'Single' || isPlayer1) {
+      setPlayerStats1((prevState) => ({ ...prevState, attempts: prevState.attempts++ }));
+    } else {
+      setPlayerStats2((prevState) => ({ ...prevState, attempts: prevState.attempts++ }));
     }
-    // SECOND CARD OPENED INCORRECTLY
-    else if (cardType !== openedCard && openedCard !== '') {
-      setCards((prevState) => prevState.map((card) => ({ ...card, isDisabled: true })));
-      const timer = setTimeout(() => {
-        setCards((prevState) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
-      }, 800);
 
-      setOpenedCard('');
-      setOpenedIndexes([]);
-      if (togglePlayers) {
-        setAttempts((prevState) => (prevState += 1));
+    setIsPlayer1(!isPlayer1);
+
+    return () => clearTimeout(timer);
+  };
+
+  const isCardMatch = (card: FlippingCard) => card.type === openedCards[0].type;
+
+  const isNotAlreadyOpened = (card: FlippingCard) => openedCards.map((c) => c.id !== card.id);
+
+  const checkCard = (card: FlippingCard, targetNumber: number) => {
+    if (openedCards.length === 0) {
+      setOpenedCards([card]);
+    } else if (isCardMatch(card) && isNotAlreadyOpened(card)) {
+      if (openedCards.length + 1 === targetNumber) {
+        processCorrectCardMatch(card);
       } else {
-        setAttempts2((prevState) => (prevState += 1));
+        setOpenedCards((prevState) => [...prevState, card]);
       }
-      setTogglePlayers(!togglePlayers);
-
-      return () => clearTimeout(timer);
+    } else if (!isCardMatch(card)) {
+      processIncorrectCardMatch(card);
     }
   };
 
-  // CHECK WHEN OPENING A CARD IN TRIPLES GAME
-  const checkCardTriples = (cardType: CardType, index: number) => {
-    // FIRST CARD OPENED
-    if (openedCard === '' && openedIndexes.length === 0) {
-      setOpenedCard(cardType);
-      setOpenedIndexes([index]);
-    }
-    // SECOND CARD OPENED CORRECTLY
-    else if (openedIndexes.length === 1 && cardType === openedCard && index !== openedIndexes[0]) {
-      setOpenedIndexes((prevState) => [...prevState, index]);
-    }
-    // SECOND CARD OPENED INCORRECTLY
-    else if (openedIndexes.length === 1 && cardType !== openedCard) {
-      setCards((prevState) => prevState.map((card) => ({ ...card, isDisabled: true })));
-      const timer = setTimeout(() => {
-        setCards((prevState) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
-      }, 800);
-
-      setOpenedCard('');
-      setOpenedIndexes([]);
-      if (togglePlayers) {
-        setAttempts((prevState) => (prevState += 1));
-      } else {
-        setAttempts2((prevState) => (prevState += 1));
-      }
-      setTogglePlayers(!togglePlayers);
-
-      return () => clearTimeout(timer);
-    }
-    // THIRD CARD OPENED CORRECTLY
-    else if (
-      openedIndexes.length === 2 &&
-      cardType === openedCard &&
-      index !== openedIndexes[1] &&
-      index !== openedIndexes[0]
-    ) {
-      const timer = setTimeout(() => {
-        setCards((prevState) =>
-          prevState.map((card) => (card.type === cardType ? { ...card, isVisible: false } : card))
-        );
-      }, 900);
-
-      setOpenedCard('');
-      setOpenedIndexes([]);
-      if (playersNum === 'Single') {
-        setScore((prevState) => (prevState += 1));
-        setAttempts((prevState) => (prevState += 1));
-      } else if (togglePlayers) {
-        setScore((prevState) => (prevState += 1));
-        setAttempts((prevState) => (prevState += 1));
-      } else {
-        setScore2((prevState) => (prevState += 1));
-        setAttempts2((prevState) => (prevState += 1));
-      }
-      setTogglePlayers(!togglePlayers);
-
-      return () => clearTimeout(timer);
-    }
-    // THIRD CARD OPENED INCORRECTLY
-    else if (openedIndexes.length === 2 && cardType !== openedCard) {
-      setCards((prevState) => prevState.map((card) => ({ ...card, isDisabled: true })));
-      const timer = setTimeout(() => {
-        setCards((prevState) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
-      }, 800);
-
-      setOpenedCard('');
-      setOpenedIndexes([]);
-      if (togglePlayers) {
-        setAttempts((prevState) => (prevState += 1));
-      } else {
-        setAttempts2((prevState) => (prevState += 1));
-      }
-      setTogglePlayers(!togglePlayers);
-
-      return () => clearTimeout(timer);
-    }
+  const closeGame = () => {
+    setIsFloatingBackGround(true);
+    setIsFlipFindGameStarted(false);
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid
+      container
+      sx={{
+        overflow: gameOptions.includes('Rotating') ? 'hidden' : 'visible',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // height: '100%',
+      }}
+    >
       {isActiveTimer && (
+        // <Grid sx={{ height: '100%' }}>
         <Grid container justifyContent="center" alignItems="center">
-          {!gameOptions.includes('Moving') && playersNum === 'Single' && (
-            <CurrentGameDashboard
-              attempts={attempts}
+          {!gameOptions.includes('Rotating') && (
+            <StandardDashboard
+              playerStats1={playerStats1}
+              playerStats2={playerStats2}
               seconds={seconds}
               actualNumOfCards={actualNumOfCards}
               gameOptions={gameOptions}
-              score={score}
+              isPlayer1={isPlayer1}
+              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+              nickname1={'Ksu'}
+              nickname2={'Danil'}
             />
           )}
 
-          {!gameOptions.includes('Moving') && playersNum === 'Multiplayer' && (
-            <MultiplayerDashboard
-              attempts={attempts}
-              attempts2={attempts2}
-              seconds={seconds}
-              actualNumOfCards={actualNumOfCards}
+          {gameOptions.includes('Rotating') && (
+            <DashboardInMovingMode
               gameOptions={gameOptions}
-              score={score}
-              score2={score2}
-              togglePlayers={togglePlayers}
-            />
-          )}
-
-          {gameOptions.includes('Moving') && (
-            <RotatingBoxDashboard
-              gameOptions={gameOptions}
-              playersNum={playersNum}
-              isLeftPlayer={togglePlayers}
+              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+              isLeftPlayer={isPlayer1}
               isRotatingLeft={isRotatingLeft}
               rotate={rotateRight}
-              attempts={attempts}
+              playerStats={playerStats1}
               actualNumOfCards={actualNumOfCards}
-              score={score}
               nickname={'Ksu'}
               seconds={seconds}
-              isLeft={true}
+              isLeftCard={true}
             />
           )}
 
           <BoxOfCards
             cards={cards}
             setCards={setCards}
-            checkCard={gameOptions.includes('Triples') ? checkCardTriples : checkCard}
+            checkCard={checkCard}
             gameOptions={gameOptions}
             isRotatingLeft={isRotatingLeft}
             animationDynamicLeft={animationDynamicLeft}
             animationDynamicRight={animationDynamicRight}
           />
 
-          {gameOptions.includes('Moving') && (
-            <RotatingBoxDashboard
+          {gameOptions.includes('Rotating') && (
+            <DashboardInMovingMode
               gameOptions={gameOptions}
-              playersNum={playersNum}
-              isLeftPlayer={!togglePlayers}
+              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+              isLeftPlayer={!isPlayer1}
               isRotatingLeft={isRotatingLeft}
               rotate={rotateLeft}
-              attempts={attempts2}
+              playerStats={playerStats2}
               actualNumOfCards={actualNumOfCards}
-              score={score2}
               nickname={'Danil'}
               seconds={seconds}
-              isLeft={false}
+              isLeftCard={false}
             />
           )}
+          {/* </Grid> */}
+          {/* <MeetingRoomRoundedIcon
+            onClick={closeGame}
+            sx={{
+              position: 'fixed',
+              // bottom: numOfCards === 12 || numOfCards === 18 ? '2%' : '15%',
+              // left: numOfCards === 12 ? '15%' : '10%',
+              bottom: '7rem',
+              left: '5rem',
+              width: '3rem',
+              height: '3rem',
+              color: '#A55946',
+              cursor: 'pointer',
+              animation: `${fadeIn} 1s ease-in forwards`,
+              transition: 'transform 0.4s',
+              '&:hover': {
+                transform: 'scale(1.2)',
+              },
+            }}
+          /> */}
+          {/* <BottomLeftIcon closeGame={closeGame} /> */}
         </Grid>
       )}
 
       {!isActiveTimer && (
         <GameResultsPage
           seconds={seconds}
-          attempts={attempts}
+          isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+          gameOptions={gameOptions}
+          actualNumOfCards={actualNumOfCards}
+          playerStats1={playerStats1}
+          playerStats2={playerStats2}
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
-          setIsFloatingBackGround={setIsFloatingBackGround}
         />
       )}
     </Grid>

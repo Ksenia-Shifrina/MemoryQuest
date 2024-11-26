@@ -1,21 +1,20 @@
 import Grid from '@mui/material/Grid';
-import FlippingCard from './FlippingCard';
-import { FlippingCardType, GameVariation } from '../../helpers/helpers';
-import { css, keyframes, styled } from '@mui/material';
+import { FlippingCard, GameOptions } from '../../helpers/helpers';
+import { keyframes } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
-import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
+import FlippingCardBox from './FlippingCard';
 
 export interface BoxOfCardsProps {
-  cards: FlippingCardType[];
+  cards: FlippingCard[];
   setCards: Function;
   checkCard: Function;
-  gameOptions: GameVariation[];
+  gameOptions: GameOptions[];
   isRotatingLeft: boolean;
   animationDynamicLeft: CSSKeyframesRule | string;
   animationDynamicRight: CSSKeyframesRule | string;
 }
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
   from { opacity: 0 ; }
   to { opacity: 1; }
 `;
@@ -30,7 +29,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   animationDynamicRight,
 }) => {
   const getInitialStyles = () => {
-    if (gameOptions.includes('Moving')) {
+    if (gameOptions.includes('Rotating')) {
       if (cards.length === 16) {
         return {
           width: { xs: '70rem', sm: '70rem', lg: '40rem' },
@@ -45,8 +44,8 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
         };
       } else if (cards.length === 36) {
         return {
-          width: { xs: '70rem', sm: '70rem', lg: '60rem' },
-          height: { xs: '70rem', sm: '70rem', lg: '60rem' },
+          width: { xs: '70rem', md: '30rem', lg: '40rem', xl: '60rem' },
+          height: { xs: '70rem', md: '30rem', lg: '40rem', xl: '60rem' },
           gridItemMd: 2,
         };
       }
@@ -96,7 +95,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   }, [cards]);
 
   useEffect(() => {
-    if (gameOptions.includes('Moving')) {
+    if (gameOptions.includes('Rotating')) {
       setTimeout(() => {
         if (endOfCardsRef.current) {
           endOfCardsRef.current.scrollIntoView({
@@ -114,12 +113,11 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       justifyContent="center"
       alignItems="center"
       sx={{
-        position: 'relative',
+        // position: 'relative',
         width: 'fit-content',
         my: 'auto',
-        // mb: cards.length === 25 ? '1rem' : '0',
-        overflow: gameOptions.includes('Moving') ? 'hidden' : 'auto',
-        animation: gameOptions.includes('Moving')
+        p: cards.length === 25 ? '2rem' : '0',
+        animation: gameOptions.includes('Rotating')
           ? `${isRotatingLeft ? animationDynamicLeft : animationDynamicRight} 60s linear infinite`
           : 'none',
       }}
@@ -137,7 +135,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       >
         {cards.map((card, index) => (
           <Grid item key={index} md={gridItemMd} justifyContent="center" alignItems="center">
-            <FlippingCard
+            <FlippingCardBox
               card={card}
               setCards={setCards}
               index={index}

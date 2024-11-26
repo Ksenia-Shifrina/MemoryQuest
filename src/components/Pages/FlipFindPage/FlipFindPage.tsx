@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import { DifficultyLevel, GameVariation, PlayersVariation } from '../../../helpers/helpers';
+import { DifficultyLevel, GameOptions, PlayerMode } from '../../../helpers/helpers';
 import StarterFlipFind from './StarterFlipFind.tsx/StarterFlipFind';
 import FlipFindGame from '../../FlipFindGame/FlipFindGame';
 
@@ -20,9 +20,9 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
   setIsFlipFindGameStarted,
 }) => {
   const [numOfCards, setNumOfCards] = useState<number>(12);
-  const [gameOptions, setGameOptions] = useState<GameVariation[]>([]);
+  const [gameOptions, setGameOptions] = useState<GameOptions[]>([]);
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>('Casual');
-  const [playersNum, setPlayersNum] = useState<PlayersVariation>('Single');
+  const [playersNum, setPlayersNum] = useState<PlayerMode>('Single');
 
   return (
     <Grid
@@ -79,7 +79,7 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           setIsFloatingBackGround={setIsFloatingBackGround}
           gameOptions={gameOptions}
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
-          playersNum={playersNum}
+          playerMode={playersNum}
         />
       )}
     </Grid>

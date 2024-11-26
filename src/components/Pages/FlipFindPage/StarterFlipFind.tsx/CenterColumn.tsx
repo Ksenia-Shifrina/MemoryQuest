@@ -1,10 +1,10 @@
 import { Box, Grid } from '@mui/material';
-import { PlayersVariation } from '../../../../helpers/helpers';
+import { PlayerMode } from '../../../../helpers/helpers';
 import { CustomTypography } from '../../../../helpers/CustomTypography';
 
 export interface CenterColumnProps {
   setPlayersNum: Function;
-  playersNum: PlayersVariation;
+  playersNum: PlayerMode;
   handleStart: Function;
 }
 

@@ -1,16 +1,16 @@
 import { Box, Grid } from '@mui/material';
-import { GameVariation, gameVariationArr } from '../../../../helpers/helpers';
+import { GameOptions, gameVariationArr } from '../../../../helpers/helpers';
 import { CustomTypography } from '../../../../helpers/CustomTypography';
 
 export interface LeftColumnProps {
-  gameOptions: GameVariation[];
+  gameOptions: GameOptions[];
   setGameOptions: Function;
 }
 
 const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) => {
-  const handleChangeGameOption = (option: GameVariation) => {
+  const handleChangeGameOption = (option: GameOptions) => {
     if (!gameOptions.includes(option)) {
-      setGameOptions((prevState: GameVariation[]) => [...prevState, option]);
+      setGameOptions((prevState: GameOptions[]) => [...prevState, option]);
     } else {
       const updatedArray = gameOptions.filter((o) => o !== option);
       setGameOptions(updatedArray);

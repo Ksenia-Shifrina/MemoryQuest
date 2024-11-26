@@ -1,23 +1,39 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useState } from 'react';
 import Header from './Header';
 import MainPageContent from './MainPageContent';
 import { Pages } from '../../../helpers/helpers';
 import FlipFindPage from '../FlipFindPage/FlipFindPage';
 import MeetingRoomRoundedIcon from '@mui/icons-material/MeetingRoomRounded';
+import { fadeIn } from '../../FlipFindGame/BoxOfCards';
+import { CustomTypography } from '../../../helpers/CustomTypography';
 
 export interface MainPageProps {
   setIsFloatingBackGround: Function;
+  setIsMainPage: Function;
+  setIsAnimating: Function;
+  setIsFlipFindPage: Function;
+  isAnimating: boolean;
+  isMainPage: boolean;
+  isFlipFindPage: boolean;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround }) => {
-  const [isMainPage, setIsMainPage] = useState<boolean>(true);
-  const [isFlipFindPage, setIsFlipFindPage] = useState<boolean>(false);
-  const [isMissingItemPage, setIsMissingItemPage] = useState<boolean>(false);
-  const [isCardRecallPage, setIsCardRecallPage] = useState<boolean>(false);
-  const [isSequenceMasterPage, setIsSequenceMasterPage] = useState<boolean>(false);
+const MainPage: React.FC<MainPageProps> = ({
+  setIsFloatingBackGround,
+  setIsMainPage,
+  setIsAnimating,
+  setIsFlipFindPage,
+  isAnimating,
+  isMainPage,
+  isFlipFindPage,
+}) => {
+  // const [isMainPage, setIsMainPage] = useState<boolean>(true);
+  // const [isFlipFindPage, setIsFlipFindPage] = useState<boolean>(false);
+  // const [isMissingItemPage, setIsMissingItemPage] = useState<boolean>(false);
+  // const [isCardRecallPage, setIsCardRecallPage] = useState<boolean>(false);
+  // const [isSequenceMasterPage, setIsSequenceMasterPage] = useState<boolean>(false);
 
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  // const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [newPage, setnewPage] = useState<Pages>('Flip & Find');
 
   const [isFlipFindGameStarted, setIsFlipFindGameStarted] = useState<boolean>(false);
@@ -28,13 +44,14 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround }) => {
     setnewPage(page);
     if (page === 'Flip & Find') {
       setIsFlipFindPage(true);
-    } else if (page === 'Missing Item') {
-      setIsMissingItemPage(true);
-    } else if (page === 'Card Recall') {
-      setIsCardRecallPage(true);
-    } else if (page === 'Sequence Master') {
-      setIsSequenceMasterPage(true);
     }
+    // else if (page === 'Missing Item') {
+    //   setIsMissingItemPage(true);
+    // } else if (page === 'Card Recall') {
+    //   setIsCardRecallPage(true);
+    // } else if (page === 'Sequence Master') {
+    //   setIsSequenceMasterPage(true);
+    // }
   };
 
   const closeGame = () => {
@@ -66,24 +83,33 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround }) => {
       />
 
       {isFlipFindGameStarted && (
-        <MeetingRoomRoundedIcon
+        <Box
           onClick={closeGame}
           sx={{
             position: 'fixed',
             // bottom: numOfCards === 12 || numOfCards === 18 ? '2%' : '15%',
             // left: numOfCards === 12 ? '15%' : '10%',
             bottom: '7%',
-            left: '5%',
-            width: '3rem',
-            height: '3rem',
-            color: '#A55946',
-            cursor: 'pointer',
+            right: '10%',
+            animation: `${fadeIn} 1s ease-in forwards`,
             transition: 'transform 0.4s',
+            cursor: 'pointer',
             '&:hover': {
               transform: 'scale(1.2)',
             },
           }}
-        />
+        >
+          <MeetingRoomRoundedIcon
+            sx={{
+              width: '3rem',
+              height: '3rem',
+              color: '#A55946',
+            }}
+          />
+          <CustomTypography variant="h6" sx={{ color: '#A55946' }}>
+            Exit
+          </CustomTypography>
+        </Box>
       )}
     </Grid>
   );

@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react';
 import LeftColumn from './LeftColumn';
 import CenterColumn from './CenterColumn';
 import RightColumn from './RightColumn';
-import { DifficultyLevel, GameVariation, PlayersVariation } from '../../../../helpers/helpers';
+import { DifficultyLevel, GameOptions, PlayerMode } from '../../../../helpers/helpers';
 
 export interface StarterFlipFindProps {
   setNumOfCards: Function;
   setIsFloatingBackGround: Function;
   setIsFlipFindGameStarted: Function;
   setGameOptions: Function;
-  gameOptions: GameVariation[];
+  gameOptions: GameOptions[];
   setDifficultyLevel: Function;
   difficultyLevel: DifficultyLevel;
   setPlayersNum: Function;
-  playersNum: PlayersVariation;
+  playersNum: PlayerMode;
 }
 
 const StarterFlipFind: React.FC<StarterFlipFindProps> = ({

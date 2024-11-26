@@ -19,14 +19,14 @@ import LocalFloristRoundedIcon from '@mui/icons-material/LocalFloristRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import LunchDiningRoundedIcon from '@mui/icons-material/LunchDiningRounded';
-import { FlippingCardType, GameVariation } from '../../helpers/helpers';
+import { FlippingCard, GameOptions } from '../../helpers/helpers';
 
-export interface FlippingCardProps {
-  card: FlippingCardType;
+export interface FlippingCardBoxProps {
+  card: FlippingCard;
   setCards: Function;
   checkCard: Function;
   index: number;
-  gameOptions: GameVariation[];
+  gameOptions: GameOptions[];
   isRotatingLeft: boolean;
   animationDynamicLeft: CSSKeyframesRule | string;
   animationDynamicRight: CSSKeyframesRule | string;
@@ -38,7 +38,7 @@ const scaleAnimation = keyframes`
   100% { transform:  scale(0); }
 `;
 
-const FlippingCard: React.FC<FlippingCardProps> = ({
+const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
   card,
   setCards,
   checkCard,
@@ -49,16 +49,18 @@ const FlippingCard: React.FC<FlippingCardProps> = ({
   animationDynamicRight,
 }) => {
   const handleClick = () => {
-    setCards((prevState: FlippingCardType[]) =>
+    setCards((prevState: FlippingCard[]) =>
       prevState.map((card, i) => (i === index ? { ...card, isOpen: true } : card))
     );
 
-    checkCard(card.type, index);
+    const targetNumber = gameOptions.includes('Triples') ? 3 : 2;
+
+    checkCard(card, targetNumber);
   };
 
   const iconStyle = {
-    width: { xs: '2rem', sm: '3rem', md: '3rem', lg: '3rem' },
-    height: { xs: '2rem', sm: '3rem', md: '3rem', lg: '3rem' },
+    width: { md: '2rem', lg: '2rem', xl: '3rem' },
+    height: { md: '2rem', lg: '2rem', xl: '3rem' },
   };
 
   return (
@@ -67,8 +69,8 @@ const FlippingCard: React.FC<FlippingCardProps> = ({
         className={`${card.isDisabled ? 'disabled' : ''}`}
         sx={{
           perspective: '1000px',
-          width: { xs: '3rem', sm: '5rem', md: '6rem', lg: '7rem' },
-          height: { xs: '3rem', sm: '5rem', md: '6rem', lg: '7rem' },
+          width: { md: '4rem', lg: '5rem', xl: '7rem' },
+          height: { md: '4rem', lg: '5rem', xl: '7rem' },
           position: 'relative',
           cursor: card.type === 'Blank' ? 'none' : 'pointer',
           transformStyle: 'preserve-3d',
@@ -82,7 +84,7 @@ const FlippingCard: React.FC<FlippingCardProps> = ({
           sx={{
             width: '100%',
             height: '100%',
-            animation: gameOptions.includes('Moving')
+            animation: gameOptions.includes('Rotating')
               ? `${isRotatingLeft ? animationDynamicRight : animationDynamicLeft} 60s linear infinite`
               : 'none',
           }}
@@ -160,4 +162,4 @@ const FlippingCard: React.FC<FlippingCardProps> = ({
   );
 };
 
-export default FlippingCard;
+export default FlippingCardBox;

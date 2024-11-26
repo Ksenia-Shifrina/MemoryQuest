@@ -1,30 +1,27 @@
-import {
-  FlippingCardType,
-  GameVariation,
-  getRandomInteger,
-  shuffleArray,
-  validCards,
-  CardType,
-} from '../../helpers/helpers';
+import { FlippingCard, GameOptions, getRandomInteger, shuffleArray, validCards, CardType } from '../../helpers/helpers';
 
-export const generateCards = (numOfCards: number, gameOptions: GameVariation[], setCards: Function) => {
-  const newCards: FlippingCardType[] = [];
+export const generateCards = (numOfCards: number, gameOptions: GameOptions[], setCards: Function) => {
+  const newCards: FlippingCard[] = [];
   const keepTrack: number[] = [];
 
   while (newCards.length < numOfCards) {
     const randomInt = getRandomInteger(0, validCards.length);
     if (!keepTrack.includes(randomInt)) {
       keepTrack.push(randomInt);
-      const newCard: FlippingCardType = {
+      const newCard: FlippingCard = {
         type: validCards[randomInt],
         isOpen: true,
         isVisible: true,
         isDisabled: true,
         color: '#A48F8A',
+        id: validCards[randomInt],
       };
-      newCards.push({ ...newCard }, { ...newCard });
+      newCards.push(
+        { ...newCard, id: validCards[randomInt] + ': a' },
+        { ...newCard, id: validCards[randomInt] + ': b' }
+      );
       if (gameOptions.includes('Triples')) {
-        newCards.push({ ...newCard });
+        newCards.push({ ...newCard, id: validCards[randomInt] + ': c' });
       }
     }
   }
@@ -33,21 +30,22 @@ export const generateCards = (numOfCards: number, gameOptions: GameVariation[], 
 };
 
 export const shuffleCards = (setCards: Function) => {
-  setCards((prevState: FlippingCardType[]) => shuffleArray(prevState));
+  setCards((prevState: FlippingCard[]) => shuffleArray(prevState));
 };
 
 export const addBlankCards = (numOfCards: number, setNumOfCards: Function, setCards: Function) => {
-  const blankCard: FlippingCardType = {
+  const blankCard: FlippingCard = {
     type: 'Blank',
     isOpen: false,
     isVisible: false,
     isDisabled: true,
     color: 'none',
+    id: 'blank',
   };
 
   if (numOfCards === 12) {
     setNumOfCards(16);
-    setCards((prevState: FlippingCardType[]) => {
+    setCards((prevState: FlippingCard[]) => {
       const newCards = [...prevState];
       newCards.splice(0, 0, blankCard);
       newCards.splice(3, 0, blankCard);
@@ -57,7 +55,7 @@ export const addBlankCards = (numOfCards: number, setNumOfCards: Function, setCa
     });
   } else if (numOfCards === 18) {
     setNumOfCards(25);
-    setCards((prevState: FlippingCardType[]) => {
+    setCards((prevState: FlippingCard[]) => {
       const newCards = [...prevState];
       newCards.splice(0, 0, blankCard);
       newCards.splice(4, 0, blankCard);
@@ -70,7 +68,7 @@ export const addBlankCards = (numOfCards: number, setNumOfCards: Function, setCa
     });
   } else if (numOfCards === 24) {
     setNumOfCards(36);
-    setCards((prevState: FlippingCardType[]) => {
+    setCards((prevState: FlippingCard[]) => {
       const newCards = [...prevState];
       newCards.splice(0, 0, blankCard);
       newCards.splice(1, 0, blankCard);
@@ -92,7 +90,7 @@ export const addBlankCards = (numOfCards: number, setNumOfCards: Function, setCa
 const randomColors: string[] = ['#AE8176', '#B1AB99', '#7B4234', '#E2D4BA', '#653239', '#A48F8A'];
 
 export const addColors = (setCards: Function) => {
-  setCards((prevState: FlippingCardType[]) => {
+  setCards((prevState: FlippingCard[]) => {
     const updatedState = [...prevState];
     for (let i = 0; i < updatedState.length; i++) {
       const color = randomColors[getRandomInteger(0, randomColors.length)];
@@ -104,9 +102,7 @@ export const addColors = (setCards: Function) => {
 
 export const closeAllCards = (setCards: Function) => {
   const timer = setTimeout(() => {
-    setCards((prevState: FlippingCardType[]) =>
-      prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false }))
-    );
+    setCards((prevState: FlippingCard[]) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));
   }, 3000);
   return () => clearTimeout(timer);
 };
