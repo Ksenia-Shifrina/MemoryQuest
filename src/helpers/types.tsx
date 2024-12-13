@@ -56,16 +56,31 @@ export type DifficultyLevel = 'Casual' | 'Challenging' | 'Hardcore';
 export type GameOptionsWithExplanations = { type: GameOptions; explanationText: string };
 export type PagesWithDescriptions = { name: Pages; description: string; isCreated: boolean };
 
-export const randomNicknames: string[] = ['Lion', 'Hedgehog', 'Zebra', 'Tiger'];
+export const randomNicknames: string[] = [
+  'Lion',
+  'Hedgehog',
+  'Zebra',
+  'Tiger',
+  'Fox',
+  'Owl',
+  'Bear',
+  'Wolf',
+  'Eagle',
+  'Flamingo',
+  'Penguin',
+  'Panther',
+];
+export const randomColors: string[] = ['#A48F8A', '#B1AB99', '#C6B595', '#7E483B', '#76353F', '#666150'];
 export const difficultyLevelArr: DifficultyLevel[] = ['Casual', 'Challenging', 'Hardcore'];
 
 export const GameOptionsWithExplanations: GameOptionsWithExplanations[] = [
   {
     type: 'Coloured',
-    explanationText: 'Cards will be in random colours, you still need to match the identical symbols',
+    explanationText:
+      'Background of the cards will be in random colours but you still need to find the identical symbols',
   },
   { type: 'Rotating', explanationText: 'The whole set of cards will be rotating to make it more challenging' },
-  { type: 'Triples', explanationText: 'There will be triples instead of pairs of symbols to find' },
+  { type: 'Triples', explanationText: 'There will be three cards with the same symbol instead of two' },
 ];
 
 export const gamesPages: PagesWithDescriptions[] = [

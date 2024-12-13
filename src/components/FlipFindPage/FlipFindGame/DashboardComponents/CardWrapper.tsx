@@ -9,8 +9,10 @@ const CardWrapper: React.FC<CardWrapperProps> = ({ children, sx, onClick }) => {
     <Box
       onClick={onClick}
       sx={{
-        width: { md: '12rem', lg: '15rem', xl: '18rem' },
-        height: { md: '6rem', lg: '7rem', xl: '9rem' },
+        width: { md: '16rem', lg: '18rem', xl: '20rem' },
+        // height: { md: '7rem', lg: '8rem', xl: '9rem' },
+        height: 'fit-content',
+        minHeight: { md: '7rem', lg: '8.5rem', xl: '10rem' },
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

@@ -35,8 +35,18 @@ const Header: React.FC<HeaderProps> = ({
   openedGamePage,
 }) => {
   return (
-    <Grid container justifyContent="center" alignItems="center" position={'absolute'} top={0} left={0} zIndex={2}>
-      {/* <HeaderWrapper
+    <Box>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        position={'absolute'}
+        top={0}
+        left={0}
+        zIndex={2}
+        height={'10rem'}
+      >
+        {/* <HeaderWrapper
         sx={{
           cursor: 'pointer',
           animation: `${isMovingMainPageLeft ? moveLoginLeftAway : moveLoginRightToView} 1s forwards`,
@@ -64,56 +74,60 @@ const Header: React.FC<HeaderProps> = ({
         </CustomTypography>
       </HeaderWrapper> */}
 
-      <HeaderWrapper
-        sx={{
-          animation: `${
-            isMovingMainPageLeft
-              ? moveMainLeftFromCenter
-              : isFirstTimeAnimating
-              ? firstAppearanceAnimation
-              : moveMainCenterFromLeft
-          } 1s forwards`,
-        }}
-      >
-        <CustomTypography
-          onClick={() => backToMainPage()}
-          variant="h1"
+        <HeaderWrapper
           sx={{
-            '&:hover': {
-              transform: currentPage === 'Memory Games' ? 'none' : 'scale(1.1)',
-            },
-            transition: 'transform 0.2s',
-            cursor: currentPage === 'Memory Games' ? 'default' : 'pointer',
+            animation: `${
+              isMovingMainPageLeft
+                ? moveMainLeftFromCenter
+                : isFirstTimeAnimating
+                ? firstAppearanceAnimation
+                : moveMainCenterFromLeft
+            } 1s forwards`,
           }}
         >
-          Memory Games
-        </CustomTypography>
-      </HeaderWrapper>
+          <CustomTypography
+            onClick={() => backToMainPage()}
+            variant="h1"
+            sx={{
+              '&:hover': {
+                transform: currentPage === 'Memory Games' ? 'none' : 'scale(1.1)',
+              },
+              transition: 'transform 0.2s',
+              cursor: currentPage === 'Memory Games' ? 'default' : 'pointer',
+              fontSize: { md: '4rem', lg: '5rem', xl: '6rem' },
+            }}
+          >
+            Memory Games
+          </CustomTypography>
+        </HeaderWrapper>
 
-      <HeaderWrapper
-        position={'absolute'}
-        sx={{
-          opacity: currentPage === 'Memory Games' ? 0 : 1,
-          transition: 'opacity 1s ease-in',
-          animation: `${isMovingMainPageLeft ? moveGamePageCenterFromRight : moveGamePageRightFromCenter} 1s forwards`,
-        }}
-      >
-        <CustomTypography
-          onClick={isFlipFindGameStarted ? () => backToGameStarter() : undefined}
-          variant="h1"
+        <HeaderWrapper
+          position={'absolute'}
           sx={{
-            '&:hover': {
-              transform: isFlipFindGameStarted ? 'scale(1.05)' : 'none',
-            },
-            transition: 'transform 0.2s',
-            cursor: isFlipFindGameStarted ? 'pointer' : 'default',
+            opacity: currentPage === 'Memory Games' ? 0 : 1,
+            transition: 'opacity 1s ease-in',
+            animation: `${
+              isMovingMainPageLeft ? moveGamePageCenterFromRight : moveGamePageRightFromCenter
+            } 1s forwards`,
           }}
         >
-          {openedGamePage}
-        </CustomTypography>
-      </HeaderWrapper>
+          <CustomTypography
+            onClick={isFlipFindGameStarted ? () => backToGameStarter() : undefined}
+            variant="h1"
+            sx={{
+              '&:hover': {
+                transform: isFlipFindGameStarted ? 'scale(1.05)' : 'none',
+              },
+              transition: 'transform 0.2s',
+              cursor: isFlipFindGameStarted ? 'pointer' : 'default',
+              fontSize: { md: '4rem', lg: '5rem', xl: '6rem' },
+            }}
+          >
+            {openedGamePage}
+          </CustomTypography>
+        </HeaderWrapper>
 
-      {/* <HeaderWrapper
+        {/* <HeaderWrapper
         sx={{
           cursor: 'pointer',
           animation: `${isMovingMainPageLeft ? moveStatisticsLeftToView : moveStatisticsRightAway} 1s forwards`,
@@ -132,7 +146,8 @@ const Header: React.FC<HeaderProps> = ({
           Statistics
         </CustomTypography>
       </HeaderWrapper> */}
-    </Grid>
+      </Grid>
+    </Box>
   );
 };
 

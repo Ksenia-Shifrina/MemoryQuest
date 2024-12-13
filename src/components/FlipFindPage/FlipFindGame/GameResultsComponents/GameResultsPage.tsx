@@ -41,7 +41,7 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
   };
 
   return (
-    <Grid container sx={{ animation: `${fadeIn} 1s ease-in forwards` }}>
+    <Grid container sx={{ animation: `${fadeIn} 1s ease-in forwards`, mt: { md: '2rem', lg: '3rem' } }}>
       {!isMultiplayer && (
         <SinglePlayerResultsCard
           gameTime={gameTime}
@@ -52,7 +52,7 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
       )}
 
       {isMultiplayer && (
-        <Grid container sx={{ direction: 'row', justifyContent: 'center', alignItems: 'center', my: '2rem' }}>
+        <Grid container sx={{ direction: 'row', justifyContent: 'center', alignItems: 'center', mt: { xl: '3rem' } }}>
           <MultiplayerResultsCard
             nickname={nickname1}
             gameOptions={gameOptions}

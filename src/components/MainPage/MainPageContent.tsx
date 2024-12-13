@@ -39,7 +39,7 @@ const MainPageContent: React.FC<MainPageContentProps> = ({
         direction: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        mt: '11rem',
+        mt: { md: '8rem', lg: '9rem', xl: '11rem' },
         animation: `${
           isMovingMainPageLeft
             ? moveMainPageLeftAnimation
@@ -50,14 +50,20 @@ const MainPageContent: React.FC<MainPageContentProps> = ({
       }}
     >
       {gamesPages.map((game) => (
-        <Grid item xs={5}>
+        <Grid item md={6} lg={5}>
           <Grid container justifyContent={'center'} alignItems={'center'}>
             <Box
               onClick={game.isCreated ? () => openGamePage(game.name) : undefined}
               sx={{
+                width: 'fit-content',
+                maxWidth: { xl: '44rem' },
+                minWidth: { md: '23rem' },
+
+                height: 'fit-content',
+                maxHeight: { xl: '45rem' },
+                minHeight: { md: '24rem', lg: '27rem', xl: '26rem' },
+
                 flexDirection: 'column',
-                width: '70%',
-                height: '20rem',
                 cursor: game.isCreated ? 'pointer' : 'default',
                 backgroundColor: game.isCreated ? '#824131' : '#EAE1DF',
                 borderRadius: '50px',
@@ -73,9 +79,16 @@ const MainPageContent: React.FC<MainPageContentProps> = ({
                 },
               }}
             >
-              <CustomTypography variant={game.isCreated ? 'h2' : 'h3'}>{game.name}</CustomTypography>
+              <CustomTypography
+                sx={{ mt: { md: '1rem', xl: '0.5rem' }, fontSize: { md: '3rem', lg: '3rem', xl: '4rem' } }}
+              >
+                {game.name}
+              </CustomTypography>
 
-              <CustomTypography variant="h5" sx={{ px: '3rem', pt: '1rem' }}>
+              <CustomTypography
+                variant="h5"
+                sx={{ px: '3rem', mt: '1rem', mb: '1.5rem', fontSize: { md: '1.5rem', lg: '1.8rem', xl: '1.9rem' } }}
+              >
                 {game.description}
               </CustomTypography>
 
@@ -85,12 +98,13 @@ const MainPageContent: React.FC<MainPageContentProps> = ({
                   sx={{
                     backgroundColor: '#824131',
                     borderRadius: '50px',
+                    width: 'fit-content',
                     p: '0.5rem',
-                    mt: '1rem',
-                    mb: '0.5rem',
-                    ml: '20rem',
+                    mb: '2rem',
+                    ml: '50%',
                     transform: 'rotate(-10deg)',
                     color: '#FFFFFF',
+                    fontSize: { md: '1.1rem', lg: '1.5rem', xl: '1.5rem' },
                   }}
                 >
                   Coming soon!

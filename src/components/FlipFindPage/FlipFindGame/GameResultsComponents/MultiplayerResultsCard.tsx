@@ -24,8 +24,9 @@ const MultiplayerResultsCard: React.FC<MultiplayerResultsCardProps> = ({
         <Box
           sx={{
             position: 'relative',
-            width: '100%',
-            height: '20rem',
+            width: { md: '100%', xl: '80%' },
+            maxWidth: '40rem',
+            height: { md: '17rem', lg: '20rem', xl: '25rem' },
             backgroundColor: thisPlayerStats.score > otherPlayerStats.score ? '#824131' : '#D2C1BD',
             borderRadius: '25px',
             display: 'flex',
@@ -33,10 +34,10 @@ const MultiplayerResultsCard: React.FC<MultiplayerResultsCardProps> = ({
             alignItems: 'center',
             flexDirection: 'column',
             color: thisPlayerStats.score > otherPlayerStats.score ? '#FFFFFF' : '#643529',
-            mt: '2rem',
+            p: { md: '2rem', xl: '3rem' },
           }}
         >
-          <CustomTypography variant="h2">
+          <CustomTypography variant="h2" sx={{ fontSize: { md: '2rem', lg: '2.5rem', xl: '3rem' } }}>
             {`${nickname}${
               thisPlayerStats.score === otherPlayerStats.score
                 ? `, it's a tie!`
@@ -45,10 +46,16 @@ const MultiplayerResultsCard: React.FC<MultiplayerResultsCardProps> = ({
                 : ' loses :('
             }`}
           </CustomTypography>
-          <CustomTypography variant="h3" sx={{ mt: '2rem' }}>
+          <CustomTypography
+            variant="h3"
+            sx={{ mt: { md: '1rem', xl: '2rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3rem' } }}
+          >
             Used {thisPlayerStats.attempts} guesses to find
           </CustomTypography>
-          <CustomTypography variant="h3" sx={{ mt: '2rem' }}>
+          <CustomTypography
+            variant="h3"
+            sx={{ mt: { md: '1rem', xl: '2rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3rem' } }}
+          >
             {thisPlayerStats.score}/{gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
             {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
           </CustomTypography>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, keyframes } from '@mui/material';
+import { Box, Grid, keyframes } from '@mui/material';
 import BoxOfCards from './BoxOfCards';
 import { useEffect, useState } from 'react';
 import GameResultsPage from './GameResultsComponents/GameResultsPage';
@@ -193,66 +193,70 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
       sx={{
         justifyContent: 'center',
         alignItems: 'center',
+        height: '100vh',
       }}
     >
       {isActiveTimer && (
-        <Grid container justifyContent="center" alignItems="center">
-          {!gameOptions.includes('Rotating') && (
-            <StandardDashboard
-              playerStats1={playerStats1}
-              playerStats2={playerStats2}
-              gameTime={gameTime}
-              actualNumOfCards={actualNumOfCards}
-              gameOptions={gameOptions}
-              isLeftPlayersTurn={isLeftPlayersTurn}
-              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
-              nicknames={nicknames}
-            />
-          )}
+        <Grid container justifyContent="center" alignItems="flex-start">
+          <Box sx={{ height: { md: '12rem', lg: '13rem', xl: '14rem' }, width: '100vw' }} />
+          <Grid container justifyContent="center" alignItems="center">
+            {!gameOptions.includes('Rotating') && (
+              <StandardDashboard
+                playerStats1={playerStats1}
+                playerStats2={playerStats2}
+                gameTime={gameTime}
+                actualNumOfCards={actualNumOfCards}
+                gameOptions={gameOptions}
+                isLeftPlayersTurn={isLeftPlayersTurn}
+                isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+                nicknames={nicknames}
+              />
+            )}
 
-          {gameOptions.includes('Rotating') && (
-            <DashboardInMovingMode
+            {gameOptions.includes('Rotating') && (
+              <DashboardInMovingMode
+                gameOptions={gameOptions}
+                isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+                isLeftPlayersTurn={isLeftPlayersTurn}
+                isBoxRotatingLeft={isBoxRotatingLeft}
+                rotate={rotateRight}
+                playerStats={playerStats1}
+                actualNumOfCards={actualNumOfCards}
+                nickname={nicknames[0]}
+                gameTime={gameTime}
+                isLeftCard={true}
+                numOfCards={numOfCards}
+              />
+            )}
+
+            <BoxOfCards
+              cards={cards}
+              setCards={setCards}
+              checkCard={checkCard}
               gameOptions={gameOptions}
-              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
-              isLeftPlayersTurn={isLeftPlayersTurn}
               isBoxRotatingLeft={isBoxRotatingLeft}
-              rotate={rotateRight}
-              playerStats={playerStats1}
-              actualNumOfCards={actualNumOfCards}
-              nickname={nicknames[0]}
-              gameTime={gameTime}
-              isLeftCard={true}
-              numOfCards={numOfCards}
+              animationRotateLeft={animationRotateLeft}
+              animationRotateRight={animationRotateRight}
             />
-          )}
 
-          <BoxOfCards
-            cards={cards}
-            setCards={setCards}
-            checkCard={checkCard}
-            gameOptions={gameOptions}
-            isBoxRotatingLeft={isBoxRotatingLeft}
-            animationRotateLeft={animationRotateLeft}
-            animationRotateRight={animationRotateRight}
-          />
+            {gameOptions.includes('Rotating') && (
+              <DashboardInMovingMode
+                gameOptions={gameOptions}
+                isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+                isLeftPlayersTurn={!isLeftPlayersTurn}
+                isBoxRotatingLeft={isBoxRotatingLeft}
+                rotate={rotateLeft}
+                playerStats={playerStats2}
+                actualNumOfCards={actualNumOfCards}
+                nickname={nicknames[1]}
+                gameTime={gameTime}
+                isLeftCard={false}
+                numOfCards={numOfCards}
+              />
+            )}
 
-          {gameOptions.includes('Rotating') && (
-            <DashboardInMovingMode
-              gameOptions={gameOptions}
-              isMultiplayer={playerMode === 'Multiplayer' ? true : false}
-              isLeftPlayersTurn={!isLeftPlayersTurn}
-              isBoxRotatingLeft={isBoxRotatingLeft}
-              rotate={rotateLeft}
-              playerStats={playerStats2}
-              actualNumOfCards={actualNumOfCards}
-              nickname={nicknames[1]}
-              gameTime={gameTime}
-              isLeftCard={false}
-              numOfCards={numOfCards}
-            />
-          )}
-
-          <ExitButton closeGame={closeGame} numOfCards={numOfCards} />
+            <ExitButton closeGame={closeGame} numOfCards={numOfCards} />
+          </Grid>
         </Grid>
       )}
 

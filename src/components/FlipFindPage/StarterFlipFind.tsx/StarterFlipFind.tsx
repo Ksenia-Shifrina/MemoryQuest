@@ -1,11 +1,8 @@
 import { Grid } from '@mui/material';
-import { useEffect, useState } from 'react';
-
-import LeftColumn from './LeftColumn';
-import CenterColumn from './CenterColumn';
-import RightColumn from './RightColumn';
+import { useState } from 'react';
 import { DifficultyLevel, GameOptions, PlayerMode } from '../../../helpers/types';
 import MultiplayerStarter from './MultiplayerStarter/MultiplayerStarter';
+import MainStarter from './MainStarter/MainStarter';
 
 export interface StarterFlipFindProps {
   setNumOfCards: Function;
@@ -21,6 +18,8 @@ export interface StarterFlipFindProps {
   setIsLeftPlayersTurn: Function;
   nicknames: string[];
   isLeftPlayersTurn: boolean | null;
+  setIsMultiplayerStarterPage: Function;
+  isMultiplayerStarterPage: boolean;
 }
 
 const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
@@ -37,9 +36,9 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   setIsLeftPlayersTurn,
   nicknames,
   isLeftPlayersTurn,
+  setIsMultiplayerStarterPage,
+  isMultiplayerStarterPage,
 }) => {
-  const [isMultiplayerStarterPage, setIsMultiplayerStarterPage] = useState<boolean>(false);
-
   const startGame = () => {
     setIsFloatingBackGround(false);
     setIsFlipFindGameStarted(true);
@@ -61,13 +60,17 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" mt={'3rem'}>
+    <Grid container sx={{ mb: '7rem' }}>
       {!isMultiplayerStarterPage && (
-        <Grid container>
-          <LeftColumn gameOptions={gameOptions} setGameOptions={setGameOptions} />
-          <CenterColumn setPlayerMode={setPlayerMode} playerMode={playerMode} handleStart={handleStart} />
-          <RightColumn difficultyLevel={difficultyLevel} setDifficultyLevel={setDifficultyLevel} />
-        </Grid>
+        <MainStarter
+          gameOptions={gameOptions}
+          setGameOptions={setGameOptions}
+          setPlayerMode={setPlayerMode}
+          playerMode={playerMode}
+          handleStart={handleStart}
+          difficultyLevel={difficultyLevel}
+          setDifficultyLevel={setDifficultyLevel}
+        />
       )}
       {isMultiplayerStarterPage && (
         <MultiplayerStarter

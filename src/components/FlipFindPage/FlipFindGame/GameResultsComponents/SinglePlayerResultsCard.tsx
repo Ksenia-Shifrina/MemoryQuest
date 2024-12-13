@@ -17,14 +17,20 @@ const SinglePlayerResultsCard: React.FC<SinglePlayerResultsCardProps> = ({
   playerStats,
   gameOptions,
 }) => {
+  const inRotatingMode = gameOptions.includes('Rotating');
+  const inColouredMode = gameOptions.includes('Coloured');
+  const inAnyMode = gameOptions.includes('Coloured') || gameOptions.includes('Rotating');
+  const inTriplesMode = gameOptions.includes('Triples');
+
   return (
     <Grid item md={12} sx={{ direction: 'row', justifyContent: 'center', alignItems: 'center' }}>
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center' }}>
         <Box
           sx={{
             position: 'relative',
-            width: '45%',
-            height: '20rem',
+            width: { md: '60%', xl: '55%' },
+            maxWidth: { md: '35rem', lg: '40rem', xl: '55rem' },
+            height: 'fit-content',
             backgroundColor: '#D2C1BD',
             borderRadius: '25px',
             display: 'flex',
@@ -32,18 +38,59 @@ const SinglePlayerResultsCard: React.FC<SinglePlayerResultsCardProps> = ({
             alignItems: 'center',
             flexDirection: 'column',
             color: '#7B4234',
-            mt: '2rem',
+            py: '3rem',
           }}
         >
-          <CustomTypography variant="h2"> It took you...</CustomTypography>
+          <CustomTypography
+            sx={{
+              fontSize: { md: '2.5rem', lg: '2.5rem', xl: '3.5rem' },
+              fontWeight: 'bold',
+            }}
+          >
+            {' '}
+            It took you...
+          </CustomTypography>
 
           <GameTimeContent gameTime={gameTime} isMultiplayer={false} />
 
-          <CustomTypography variant="h3" sx={{ mt: '2rem' }}>
-            {playerStats.attempts} guesses to find{' '}
-            {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
-            {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
+          <CustomTypography
+            sx={{ mt: { md: '0.5rem', lg: '1rem', xl: '2rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}
+          >
+            {playerStats.attempts} guesses to find {inTriplesMode ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
+            {inTriplesMode ? 'triples' : 'pairs'}
           </CustomTypography>
+
+          {inAnyMode && (
+            <CustomTypography sx={{ mt: '2rem', fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}>
+              in{' '}
+              {inColouredMode && (
+                <Box
+                  component="span"
+                  sx={{
+                    textDecoration: 'underline wavy',
+                    textDecorationThickness: '3px',
+                    textUnderlineOffset: '0.5rem',
+                  }}
+                >
+                  colored
+                </Box>
+              )}
+              {inColouredMode && inRotatingMode ? ' and ' : ''}
+              {inRotatingMode && (
+                <Box
+                  component="span"
+                  sx={{
+                    textDecoration: 'underline dotted',
+                    textDecorationThickness: '5px',
+                    textUnderlineOffset: '0.5rem',
+                  }}
+                >
+                  rotating
+                </Box>
+              )}
+              {inColouredMode && inRotatingMode ? ' modes' : ' mode'}
+            </CustomTypography>
+          )}
         </Box>
       </Grid>
     </Grid>

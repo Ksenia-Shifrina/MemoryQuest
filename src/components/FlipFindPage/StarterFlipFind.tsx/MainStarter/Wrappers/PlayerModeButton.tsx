@@ -1,19 +1,20 @@
 import { Box, Input } from '@mui/material';
-import { CustomTypography } from '../../../helpers/CustomTypography';
-import { PlayerMode } from '../../../helpers/types';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
+import { PlayerMode } from '../../../../../helpers/types';
 
-export interface PlayerModeOptionProps {
+export interface PlayerModeButtonProps {
   playerMode: PlayerMode;
   setPlayerMode: Function;
   isChosen: boolean;
 }
-const PlayerModeOption: React.FC<PlayerModeOptionProps> = ({ playerMode, setPlayerMode, isChosen }) => {
+const PlayerModeButton: React.FC<PlayerModeButtonProps> = ({ playerMode, setPlayerMode, isChosen }) => {
   return (
     <Box
       onClick={() => setPlayerMode(playerMode)}
       sx={{
         position: 'relative',
-        width: '100%',
+        width: '60%',
+        maxWidth: { lg: '15rem', xl: '17rem' },
         height: '4rem',
         cursor: 'pointer',
         backgroundColor: isChosen ? '#824131' : '#A48F8A',
@@ -22,6 +23,7 @@ const PlayerModeOption: React.FC<PlayerModeOptionProps> = ({ playerMode, setPlay
         justifyContent: 'center',
         alignItems: 'center',
         color: '#FFFFFF',
+        mb: '1rem',
         transition: 'background-color 0.1s ease, transform 0.2s',
         '&:hover': {
           transform: 'scale(1.05)',
@@ -33,4 +35,4 @@ const PlayerModeOption: React.FC<PlayerModeOptionProps> = ({ playerMode, setPlay
   );
 };
 
-export default PlayerModeOption;
+export default PlayerModeButton;

@@ -1,5 +1,5 @@
 import { getRandomInteger, shuffleArray } from '../../../helpers/helperFunctions';
-import { cardTypes, FlippingCard, GameOptions } from '../../../helpers/types';
+import { cardTypes, FlippingCard, GameOptions, randomColors } from '../../../helpers/types';
 
 export const generateCards = (numOfCards: number, gameOptions: GameOptions[], setCards: Function) => {
   const newCards: FlippingCard[] = [];
@@ -84,8 +84,6 @@ export const addBlankCards = (numOfCards: number, setNumOfCards: Function, setCa
     });
   }
 };
-
-const randomColors: string[] = ['#AE8176', '#B1AB99', '#7B4234', '#E2D4BA', '#653239', '#A48F8A'];
 
 export const addColors = (setCards: Function) => {
   setCards((prevState: FlippingCard[]) => {

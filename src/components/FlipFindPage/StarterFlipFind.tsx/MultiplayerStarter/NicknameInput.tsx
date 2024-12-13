@@ -5,14 +5,22 @@ export interface NicknameInputProps {
   nickname: string;
   isThisPlayersTurn: boolean | null;
   handleChangeNicknames: Function;
+  isLeftInput: boolean;
 }
-const NicknameInput: React.FC<NicknameInputProps> = ({ nickname, isThisPlayersTurn, handleChangeNicknames }) => {
+const NicknameInput: React.FC<NicknameInputProps> = ({
+  nickname,
+  isThisPlayersTurn,
+  handleChangeNicknames,
+  isLeftInput,
+}) => {
   return (
     <Box
       sx={{
         flexDirection: 'column',
-        width: '70%',
+        width: '100%',
+        maxWidth: '30rem',
         height: '15rem',
+        mx: '2rem',
         backgroundColor: isThisPlayersTurn ? '#824131' : '#A48F8A',
         borderRadius: '50px',
         display: 'flex',
@@ -23,19 +31,21 @@ const NicknameInput: React.FC<NicknameInputProps> = ({ nickname, isThisPlayersTu
         transition: 'transform 1s ease',
       }}
     >
-      <CustomTypography variant="h3">First Player</CustomTypography>
+      <CustomTypography sx={{ fontSize: { md: '2.3rem', lg: '2.8rem', xl: '3rem' } }}>
+        {isLeftInput ? 'First' : 'Second'} Player
+      </CustomTypography>
       <Input
         required
         value={nickname}
-        onChange={(event) => handleChangeNicknames(event, 0)}
+        onChange={(event) => handleChangeNicknames(event, isLeftInput ? 0 : 1)}
         inputProps={{
-          maxLength: 11,
-          style: {
+          maxLength: 15,
+          sx: {
             marginTop: '1rem',
             textAlign: 'center',
             color: '#FFFFFF',
-            fontSize: '3rem',
-            fontFamily: 'Itim',
+            fontSize: { md: '2.5rem', lg: '3rem', xl: '3.3rem' },
+            fontFamily: 'Poiret One',
           },
         }}
         sx={{
@@ -48,7 +58,7 @@ const NicknameInput: React.FC<NicknameInputProps> = ({ nickname, isThisPlayersTu
           '&.Mui-focused:after': {
             borderBottom: '1.5px solid #655B58',
           },
-          width: '70%',
+          width: { md: '80%', lg: '75%' },
         }}
       />
     </Box>

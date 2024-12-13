@@ -58,12 +58,11 @@ const CoinToss: React.FC<CoinTossProps> = ({
   return (
     <Box
       sx={{
-        mt: '3rem',
-        pb: '3rem',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        width: 'fit-content',
       }}
     >
       <Box
@@ -137,8 +136,6 @@ const CoinToss: React.FC<CoinTossProps> = ({
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '40%',
-          mt: '5rem',
         }}
       >
         {!isDisabled && (
@@ -146,7 +143,8 @@ const CoinToss: React.FC<CoinTossProps> = ({
             onClick={() => setIsMultiplayerStarterPage(false)}
             sx={{
               cursor: isDisabled ? 'auto' : 'pointer',
-              width: '35%',
+              px: '2rem',
+              maxWidth: { md: '18rem', xl: '20rem' },
               display: 'flex',
               height: '5rem',
               backgroundColor: '#D2C1BD',

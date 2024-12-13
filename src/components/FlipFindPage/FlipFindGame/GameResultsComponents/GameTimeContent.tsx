@@ -1,7 +1,5 @@
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { CustomTypography } from '../../../../helpers/CustomTypography';
-import { GameOptions } from '../../../../helpers/types';
-import { PlayerStats } from '../FlipFindGame';
 
 export interface GameTimeContentProps {
   gameTime: number;
@@ -16,9 +14,21 @@ const GameTimeContent: React.FC<GameTimeContentProps> = ({ gameTime, isMultiplay
   const seconds = gameTime % 60;
 
   return (
-    <CustomTypography variant="h3" sx={{ mt: '2rem' }}>
-      {!isZeroMinutes() && `${minutes}${isZeroSeconds() ? (isOneMinute() ? ' minute' : ' minutes') : ' min '}`}
-      {!isZeroSeconds() && `${seconds}${isZeroMinutes() ? ' seconds' : ' sec'}`}
+    <CustomTypography
+      sx={{ mt: { md: '0.5rem', lg: '1rem', xl: '1.5rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}
+    >
+      <Box
+        component="span"
+        sx={{
+          textDecoration: isMultiplayer ? 'none' : 'underline ',
+          textDecorationThickness: '2px',
+          textUnderlineOffset: '0.7rem',
+        }}
+      >
+        {!isZeroMinutes() && `${minutes}${isZeroSeconds() ? (isOneMinute() ? ' minute' : ' minutes') : ' min '}`}
+        {!isZeroSeconds() && `${seconds}${isZeroMinutes() ? ' seconds' : ' sec'}`}
+      </Box>
+
       {isMultiplayer ? '' : ' and'}
     </CustomTypography>
   );

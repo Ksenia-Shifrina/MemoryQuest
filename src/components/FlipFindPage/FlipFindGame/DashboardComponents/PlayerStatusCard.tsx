@@ -27,18 +27,22 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
         color: isActiveInMultiplayerMode ? '#FFFFFF' : '#643529',
         transform: isActiveInMultiplayerMode ? 'scale(1.1)' : 'none',
         transition: 'background-color 0.3s ease-in-out, transform 0.5s',
+        py: '1.5rem',
       }}
     >
       {isMultiplayer && (
-        <CustomTypography variant="h5" sx={{ fontWeight: 'bold' }}>
+        <CustomTypography sx={{ fontWeight: 'bold', fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}>
           {nickname}
           {isActiveInMultiplayerMode ? `'s turn` : ''}
         </CustomTypography>
       )}
-      <CustomTypography variant="h5" sx={{ mb: !isMultiplayer ? '0rem' : '0' }}>
+
+      <CustomTypography
+        sx={{ mb: !isMultiplayer ? '0rem' : '0', fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}
+      >
         Attempts: {playerStats.attempts}
       </CustomTypography>
-      <CustomTypography variant="h5">
+      <CustomTypography sx={{ fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}>
         Found {playerStats.score} / {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
         {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
       </CustomTypography>

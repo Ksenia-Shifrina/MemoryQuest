@@ -1,6 +1,6 @@
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Grid } from '@mui/material';
+import { CssBaseline, Grid, responsiveFontSizes } from '@mui/material';
 import MainPage from './components/MainPage/MainPage';
 import { useState } from 'react';
 import FloatingIconsBackground from './FloatingIconsBackground';
@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [isFloatingBackGround, setIsFloatingBackGround] = useState<boolean>(true);
   const [isConfettiBackground, setIsConfettiBackground] = useState<boolean>(false);
 
-  const theme = createTheme({
+  let theme = createTheme({
     palette: {
       primary: {
         main: '#AE8176',
@@ -20,6 +20,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Grid container className="App" justifyContent="center" alignItems="center">
         <FloatingIconsBackground isFloatingBackGround={isFloatingBackGround} />
         {isConfettiBackground && <ConfettiBackground />}

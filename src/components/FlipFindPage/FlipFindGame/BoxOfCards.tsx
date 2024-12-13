@@ -49,15 +49,10 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
     } else {
       if (cards.length === 12) {
         return {
-          width: { sm: '60%', lg: '40%' },
+          width: '50%',
           gridItemMd: 3,
         };
-      } else if (cards.length === 18) {
-        return {
-          width: { sm: '60%', lg: '50%' },
-          gridItemMd: 2,
-        };
-      } else if (cards.length === 24) {
+      } else if (cards.length === 18 || cards.length === 24) {
         return {
           width: { md: '70%', lg: '60%', xl: '50%' },
           gridItemMd: 2,
@@ -106,7 +101,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       sx={{
         width: 'fit-content',
         height: 'fit-content',
-        my: 'auto',
+        mb: '2rem',
         pt: cards.length === 12 || cards.length === 18 ? '2rem' : '0rem',
         pb: cards.length === 36 ? '3rem' : cards.length === 25 ? '3rem' : '0rem',
         animation: `${fadeIn} 1s ease-in forwards`,
@@ -119,7 +114,9 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
         alignItems="center"
         sx={{
           width: boxWidth,
-          height: gameOptions.includes('Rotating') ? boxWidth : '100%',
+          maxWidth: '120rem',
+          height: gameOptions.includes('Rotating') ? boxWidth : 'fit-content',
+          // height: gameOptions.includes('Rotating') ? boxWidth : '100%',
           p: cards.length === 25 ? '2rem' : '0',
           animation: gameOptions.includes('Rotating')
             ? `${isBoxRotatingLeft ? animationRotateLeft : animationRotateRight} 60s linear infinite`

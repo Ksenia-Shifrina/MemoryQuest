@@ -59,8 +59,8 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
   };
 
   const iconStyle = {
-    width: { md: '2rem', lg: '2rem', xl: '3rem' },
-    height: { md: '2rem', lg: '2rem', xl: '3rem' },
+    width: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
+    height: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
   };
 
   return (
@@ -69,8 +69,8 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
         className={`${card.isDisabled ? 'disabled' : ''}`}
         sx={{
           perspective: '1000px',
-          width: { md: '4rem', lg: '5rem', xl: '7rem' },
-          height: { md: '4rem', lg: '5rem', xl: '7rem' },
+          width: 'fit-content',
+          height: 'fit-content',
           position: 'relative',
           cursor: card.type === 'Blank' ? 'none' : 'pointer',
           transformStyle: 'preserve-3d',
@@ -92,8 +92,8 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
           <Box
             sx={{
               position: 'relative',
-              width: '100%',
-              height: '100%',
+              width: { md: '5rem', lg: '6rem', xl: '7rem' },
+              height: { md: '5rem', lg: '6rem', xl: '7rem' },
               transformStyle: 'preserve-3d',
               transition: 'transform 0.8s',
               transform: card.isOpen ? 'rotateY(180deg)' : 'rotateY(0deg)',

@@ -15,8 +15,8 @@ const FinishGameButton: React.FC<FinishGameButtonProps> = ({ finishGame }) => {
           onClick={() => finishGame()}
           sx={{
             position: 'relative',
-            width: '20%',
-            height: '4rem',
+            width: 'fit-content',
+            height: 'fit-content',
             cursor: 'pointer',
             backgroundColor: '#824131',
             borderRadius: '40px',
@@ -25,7 +25,8 @@ const FinishGameButton: React.FC<FinishGameButtonProps> = ({ finishGame }) => {
             alignItems: 'center',
             flexDirection: 'row',
             color: '#FFFFFF',
-            p: '0.5rem',
+            p: '0.9rem',
+            px: { md: '1.5rem', lg: '2rem', xl: '2.5rem' },
             mb: '1rem',
             transition: 'transform 0.2s',
             '&:hover': {
@@ -33,7 +34,9 @@ const FinishGameButton: React.FC<FinishGameButtonProps> = ({ finishGame }) => {
             },
           }}
         >
-          <CustomTypography variant="h4">Play Again</CustomTypography>
+          <CustomTypography variant="h4" sx={{ fontSize: { md: '2rem', lg: '2.5rem', xl: '3rem' } }}>
+            Play Again
+          </CustomTypography>
         </Box>
       </Grid>
     </Grid>

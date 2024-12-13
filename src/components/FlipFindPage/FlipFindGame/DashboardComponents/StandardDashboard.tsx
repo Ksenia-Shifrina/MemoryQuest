@@ -32,38 +32,34 @@ const StandardDashboard: React.FC<StandardDashboardProps> = ({
       container
       sx={{
         animation: `${fadeIn} 1s ease-in forwards`,
-        mb: '2rem',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '50%',
+        width: '100%',
+        mb: '2rem',
       }}
     >
-      <Grid item xs={4}>
-        <PlayerStatusCard
-          isActiveInMultiplayerMode={isMultiplayer ? isLeftPlayersTurn : false}
-          gameOptions={gameOptions}
-          playerStats={playerStats1}
-          actualNumOfCards={actualNumOfCards}
-          nickname={nicknames[0]}
-          isMultiplayer={isMultiplayer}
-        />
-      </Grid>
+      <PlayerStatusCard
+        isActiveInMultiplayerMode={isMultiplayer ? isLeftPlayersTurn : false}
+        gameOptions={gameOptions}
+        playerStats={playerStats1}
+        actualNumOfCards={actualNumOfCards}
+        nickname={nicknames[0]}
+        isMultiplayer={isMultiplayer}
+      />
 
-      <Grid item xs={4} height="8rem">
-        <TimerCard seconds={gameTime} isMultiplayer={isMultiplayer} />
-      </Grid>
+      {!isMultiplayer && <Grid item xs={1} />}
+
+      <TimerCard seconds={gameTime} isMultiplayer={isMultiplayer} />
 
       {isMultiplayer && (
-        <Grid item xs={4}>
-          <PlayerStatusCard
-            isActiveInMultiplayerMode={!isLeftPlayersTurn}
-            gameOptions={gameOptions}
-            playerStats={playerStats2}
-            actualNumOfCards={actualNumOfCards}
-            nickname={nicknames[1]}
-            isMultiplayer={true}
-          />
-        </Grid>
+        <PlayerStatusCard
+          isActiveInMultiplayerMode={!isLeftPlayersTurn}
+          gameOptions={gameOptions}
+          playerStats={playerStats2}
+          actualNumOfCards={actualNumOfCards}
+          nickname={nicknames[1]}
+          isMultiplayer={true}
+        />
       )}
     </Grid>
   );

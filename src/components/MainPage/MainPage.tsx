@@ -20,6 +20,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
   const [isFlipFindGameStarted, setIsFlipFindGameStarted] = useState<boolean>(false);
   const [nicknames, setNicknames] = useState<string[]>([]);
   const [isLeftPlayersTurn, setIsLeftPlayersTurn] = useState<boolean | null>(null);
+  const [isMultiplayerStarterPage, setIsMultiplayerStarterPage] = useState<boolean>(false);
 
   useEffect(() => {
     const randomInt1 = getRandomInteger(0, randomNicknames.length);
@@ -51,6 +52,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
     setIsFloatingBackGround(true);
     setIsConfettiBackground(false);
     setIsLeftPlayersTurn(null);
+    setIsMultiplayerStarterPage(false);
   };
 
   const backToGameStarter = () => {
@@ -61,7 +63,14 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" sx={{ overflow: 'hidden' }}>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        visibility: { xs: 'hidden', md: 'visible', lg: 'visible', xl: 'visible' },
+      }}
+    >
       <Header
         currentPage={currentPage}
         openedGamePage={openedGamePage}
@@ -90,6 +99,8 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
         setNicknames={setNicknames}
         isLeftPlayersTurn={isLeftPlayersTurn}
         setIsLeftPlayersTurn={setIsLeftPlayersTurn}
+        setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
+        isMultiplayerStarterPage={isMultiplayerStarterPage}
       />
     </Grid>
   );

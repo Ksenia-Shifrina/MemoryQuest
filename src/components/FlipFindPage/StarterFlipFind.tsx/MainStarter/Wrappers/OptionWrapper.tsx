@@ -11,7 +11,8 @@ const OptionWrapper: React.FC<OptionWrapperProps> = ({ children, sx, onClick, is
       onClick={onClick}
       sx={{
         position: 'relative',
-        width: '50%',
+        width: '100%',
+        maxWidth: { md: '15rem', lg: '17rem', xl: '23rem' },
         height: '4rem',
         cursor: 'pointer',
         borderRadius: '40px',

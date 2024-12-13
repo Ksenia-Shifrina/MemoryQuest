@@ -26,6 +26,8 @@ export interface FlipFindPageProps {
   nicknames: string[];
   setIsLeftPlayersTurn: Function;
   isLeftPlayersTurn: boolean | null;
+  setIsMultiplayerStarterPage: Function;
+  isMultiplayerStarterPage: boolean;
 }
 
 const FlipFindPage: React.FC<FlipFindPageProps> = ({
@@ -39,6 +41,8 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
   nicknames,
   setIsLeftPlayersTurn,
   isLeftPlayersTurn,
+  setIsMultiplayerStarterPage,
+  isMultiplayerStarterPage,
 }) => {
   const [numOfCards, setNumOfCards] = useState<number>(12);
   const [gameOptions, setGameOptions] = useState<GameOptions[]>([]);
@@ -49,14 +53,15 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
     <Grid
       container
       justifyContent="center"
-      alignItems="center"
-      top={0}
-      left="center"
-      mt={'12rem'}
+      // alignItems="center"
+      // top={0}
+      // left="center"
       sx={{
         opacity: currentPage === 'Flip & Find' ? 1 : 0,
         transition: 'opacity 1s ease-in',
         zIndex: 1,
+        // mb: { md: '10rem', xl: '12rem' },
+        // height: '100vh',
         animation: `${isMovingMainPageLeft ? moveGamePageCenterAnimation : moveGamePageRightAnimation} 1s forwards`,
       }}
     >
@@ -75,6 +80,8 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           setIsLeftPlayersTurn={setIsLeftPlayersTurn}
           nicknames={nicknames}
           isLeftPlayersTurn={isLeftPlayersTurn}
+          setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
+          isMultiplayerStarterPage={isMultiplayerStarterPage}
         />
       )}
       {isFlipFindGameStarted && (

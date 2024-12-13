@@ -15,8 +15,7 @@ const MultiplayerGameTimeCard: React.FC<MultiplayerGameTimeCardProps> = ({ gameT
         <Box
           sx={{
             position: 'relative',
-            width: '100%',
-            height: '20rem',
+            height: 'fit-content',
             backgroundColor: 'transparent',
             borderRadius: '25px',
             display: 'flex',
@@ -24,10 +23,11 @@ const MultiplayerGameTimeCard: React.FC<MultiplayerGameTimeCardProps> = ({ gameT
             alignItems: 'center',
             flexDirection: 'column',
             color: '#7B4234',
-            mt: '2rem',
           }}
         >
-          <CustomTypography variant="h2">Game Time:</CustomTypography>
+          <CustomTypography variant="h2" sx={{ fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}>
+            Game Time:
+          </CustomTypography>
           <GameTimeContent gameTime={gameTime} isMultiplayer={true} />
         </Box>
       </Grid>

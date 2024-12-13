@@ -14,7 +14,7 @@ const TimerCard: React.FC<TimerCardProps> = ({ seconds, isMultiplayer }) => {
         backgroundColor: isMultiplayer ? 'transparent' : '#D2C1BD',
       }}
     >
-      <CustomTypography variant="h2">
+      <CustomTypography sx={{ fontSize: { md: '3rem', lg: '3.5rem', xl: '4.5rem' } }}>
         {Math.floor(seconds / 60)}:{seconds % 60 < 10 ? 0 : ''}
         {seconds % 60}
       </CustomTypography>
