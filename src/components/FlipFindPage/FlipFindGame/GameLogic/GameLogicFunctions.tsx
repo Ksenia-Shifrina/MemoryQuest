@@ -1,5 +1,5 @@
-import { getRandomInteger, shuffleArray } from '../../../helpers/helperFunctions';
-import { cardTypes, FlippingCard, GameOptions, randomColors } from '../../../helpers/types';
+import { getRandomInteger, shuffleArray } from '../../../../helpers/helperFunctions';
+import { cardTypes, FlippingCard, GameOptions, randomColors } from '../../../../helpers/types';
 
 export const generateCards = (numOfCards: number, gameOptions: GameOptions[], setCards: Function) => {
   const newCards: FlippingCard[] = [];
@@ -97,7 +97,7 @@ export const addColors = (setCards: Function) => {
 };
 
 export const closeAllCards = (setCards: Function, actualNumOfCards: number) => {
-  const seconds = actualNumOfCards === 12 ? 3000 : actualNumOfCards === 18 ? 4000 : 5000;
+  const seconds = actualNumOfCards === 12 ? 3000 : actualNumOfCards === 18 ? 4500 : 6000;
 
   const timer = setTimeout(() => {
     setCards((prevState: FlippingCard[]) => prevState.map((card) => ({ ...card, isOpen: false, isDisabled: false })));

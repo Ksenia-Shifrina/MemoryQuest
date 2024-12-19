@@ -6,7 +6,7 @@ import MainStarter from './MainStarter/MainStarter';
 
 export interface StarterFlipFindProps {
   setNumOfCards: Function;
-  setIsFloatingBackGround: Function;
+  setIsFloatingBackground: Function;
   setIsFlipFindGameStarted: Function;
   setGameOptions: Function;
   gameOptions: GameOptions[];
@@ -20,11 +20,13 @@ export interface StarterFlipFindProps {
   isLeftPlayersTurn: boolean | null;
   setIsMultiplayerStarterPage: Function;
   isMultiplayerStarterPage: boolean;
+  isCancelledGame: boolean;
+  setIsCancelledGame: Function;
 }
 
 const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   setNumOfCards,
-  setIsFloatingBackGround,
+  setIsFloatingBackground,
   setIsFlipFindGameStarted,
   setGameOptions,
   gameOptions,
@@ -38,10 +40,13 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   isLeftPlayersTurn,
   setIsMultiplayerStarterPage,
   isMultiplayerStarterPage,
+  isCancelledGame,
+  setIsCancelledGame,
 }) => {
   const startGame = () => {
-    setIsFloatingBackGround(false);
+    setIsFloatingBackground(false);
     setIsFlipFindGameStarted(true);
+    setIsMultiplayerStarterPage(false);
   };
 
   const handleStart = () => {
@@ -60,7 +65,7 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   };
 
   return (
-    <Grid container sx={{ mb: '7rem' }}>
+    <Grid container>
       {!isMultiplayerStarterPage && (
         <MainStarter
           gameOptions={gameOptions}
@@ -80,6 +85,8 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
           setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
           startGame={startGame}
           isLeftPlayersTurn={isLeftPlayersTurn}
+          isCancelledGame={isCancelledGame}
+          setIsCancelledGame={setIsCancelledGame}
         />
       )}
     </Grid>

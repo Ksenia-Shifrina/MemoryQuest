@@ -1,5 +1,5 @@
-import React, { memo, useMemo } from 'react';
-import { Box, keyframes } from '@mui/system';
+import React, { memo, useMemo, useState } from 'react';
+import { Box, keyframes, useMediaQuery } from '@mui/system';
 import PsychologyAltRoundedIcon from '@mui/icons-material/PsychologyAltRounded';
 import PetsIcon from '@mui/icons-material/Pets';
 import AcUnitRoundedIcon from '@mui/icons-material/AcUnitRounded';
@@ -14,11 +14,33 @@ import BeachAccessRoundedIcon from '@mui/icons-material/BeachAccessRounded';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import TimeToLeaveRoundedIcon from '@mui/icons-material/TimeToLeaveRounded';
-import TagFacesRoundedIcon from '@mui/icons-material/TagFacesRounded';
+import EmojiEmotionsRoundedIcon from '@mui/icons-material/EmojiEmotionsRounded';
 import LocalFloristRoundedIcon from '@mui/icons-material/LocalFloristRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import LunchDiningRoundedIcon from '@mui/icons-material/LunchDiningRounded';
+
+const allIcons = [
+  PsychologyAltRoundedIcon,
+  PetsIcon,
+  AcUnitRoundedIcon,
+  AnchorRoundedIcon,
+  AirplanemodeActiveRoundedIcon,
+  AccessAlarmRoundedIcon,
+  PhoneEnabledRoundedIcon,
+  BackHandRoundedIcon,
+  BakeryDiningRoundedIcon,
+  BedtimeRoundedIcon,
+  BeachAccessRoundedIcon,
+  WbSunnyRoundedIcon,
+  CakeRoundedIcon,
+  TimeToLeaveRoundedIcon,
+  EmojiEmotionsRoundedIcon,
+  LocalFloristRoundedIcon,
+  RestaurantRoundedIcon,
+  FavoriteRoundedIcon,
+  LunchDiningRoundedIcon,
+];
 
 const float1 = keyframes`
   0% { transform: translateY(0) translateX(0); }
@@ -49,37 +71,47 @@ export interface FloatingIconsBackgroundProps {
   isFloatingBackGround: boolean;
 }
 
-const icons1 = [
-  // PsychologyAltRoundedIcon,
-  // PetsIcon,
-  AcUnitRoundedIcon,
-  AnchorRoundedIcon,
-  AirplanemodeActiveRoundedIcon,
-  AccessAlarmRoundedIcon,
-];
-
-const icons2 = [
-  // PhoneEnabledRoundedIcon,
-  // BackHandRoundedIcon,
-  BakeryDiningRoundedIcon,
-  BedtimeRoundedIcon,
-  BeachAccessRoundedIcon,
-  WbSunnyRoundedIcon,
-  CakeRoundedIcon,
-];
-
-const icons3 = [
-  // TimeToLeaveRoundedIcon,
-  // TagFacesRoundedIcon,
-  LocalFloristRoundedIcon,
-  RestaurantRoundedIcon,
-  FavoriteRoundedIcon,
-  LunchDiningRoundedIcon,
-];
-
 const FloatingIconsBackground: React.FC<FloatingIconsBackgroundProps> = memo(({ isFloatingBackGround }) => {
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const isLargeScreen = useMediaQuery('(max-width:1536px)');
+
+  const generateIcons1 = () => {
+    console.log(isSmallScreen, isLargeScreen);
+    if (isSmallScreen) {
+      return allIcons.slice(0, 2);
+    } else if (isLargeScreen) {
+      return allIcons.slice(0, 3);
+    } else {
+      return allIcons.slice(0, 6);
+    }
+  };
+
+  const generateIcons2 = () => {
+    if (isSmallScreen) {
+      return allIcons.slice(3, 5);
+    } else if (isLargeScreen) {
+      return allIcons.slice(4, 8);
+    } else {
+      return allIcons.slice(7, 13);
+    }
+  };
+
+  const generateIcons3 = () => {
+    if (isSmallScreen) {
+      return allIcons.slice(6, 8);
+    } else if (isLargeScreen) {
+      return allIcons.slice(9, 11);
+    } else {
+      return allIcons.slice(13, allIcons.length);
+    }
+  };
+
+  const [iconsGroup1] = useState(generateIcons1());
+  const [iconsGroup2] = useState(generateIcons2());
+  const [iconsGroup3] = useState(generateIcons3());
+
   const iconGroups = useMemo(() => {
-    return [icons1, icons2, icons3].map((icons, groupIndex) =>
+    return [iconsGroup1, iconsGroup2, iconsGroup3].map((icons, groupIndex) =>
       icons.map((IconComponent, iconIndex) => (
         <Box
           key={`${groupIndex}-${iconIndex}`}
@@ -101,8 +133,8 @@ const FloatingIconsBackground: React.FC<FloatingIconsBackgroundProps> = memo(({ 
         >
           <IconComponent
             sx={{
-              width: { xs: '1rem', sm: '1rem', md: '2rem', lg: '2rem' },
-              height: { xs: '1rem', sm: '1rem', md: '2rem', lg: '2rem' },
+              width: { xs: '1.5rem', md: '2rem', lg: '2rem' },
+              height: { xs: '1.5rem', md: '2rem', lg: '2rem' },
             }}
           />
         </Box>

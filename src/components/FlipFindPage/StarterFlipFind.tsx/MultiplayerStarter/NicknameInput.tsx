@@ -1,5 +1,8 @@
 import { Box, Input } from '@mui/material';
 import { CustomTypography } from '../../../../helpers/CustomTypography';
+import PsychologyAltRoundedIcon from '@mui/icons-material/PsychologyAltRounded';
+import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
+import EmojiEmotionsRoundedIcon from '@mui/icons-material/EmojiEmotionsRounded';
 
 export interface NicknameInputProps {
   nickname: string;
@@ -19,7 +22,7 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
         flexDirection: 'column',
         width: '100%',
         maxWidth: '30rem',
-        height: '15rem',
+        height: '14rem',
         mx: '2rem',
         backgroundColor: isThisPlayersTurn ? '#824131' : '#A48F8A',
         borderRadius: '50px',
@@ -31,9 +34,16 @@ const NicknameInput: React.FC<NicknameInputProps> = ({
         transition: 'transform 1s ease',
       }}
     >
-      <CustomTypography sx={{ fontSize: { md: '2.3rem', lg: '2.8rem', xl: '3rem' } }}>
-        {isLeftInput ? 'First' : 'Second'} Player
-      </CustomTypography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <CustomTypography
+          sx={{ fontSize: { md: '2.3rem', lg: '2.8rem', xl: '3rem' }, mr: { md: '0.5rem', lg: '1rem' } }}
+        >
+          {isLeftInput ? 'First' : 'Second'} Player
+        </CustomTypography>
+        {isLeftInput && <PsychologyAltRoundedIcon sx={{ width: '3rem', height: '3rem' }} />}
+        {!isLeftInput && <PetsRoundedIcon sx={{ width: '3rem', height: '3rem' }} />}
+      </Box>
+
       <Input
         required
         value={nickname}

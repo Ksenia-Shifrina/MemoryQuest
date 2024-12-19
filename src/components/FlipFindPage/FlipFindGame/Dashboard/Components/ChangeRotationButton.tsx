@@ -1,23 +1,23 @@
 import { Box, Grid } from '@mui/material';
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
 
-export interface RotatingButtonProps {
+export interface ChangeRotationButtonProps {
   isLeftCard: boolean;
   rotate: Function;
   isBoxRotatingLeft: boolean;
 }
 
-const RotatingButton: React.FC<RotatingButtonProps> = ({ isLeftCard, rotate, isBoxRotatingLeft }) => {
+const ChangeRotationButton: React.FC<ChangeRotationButtonProps> = ({ isLeftCard, rotate, isBoxRotatingLeft }) => {
   return (
     <Grid
       container
       onClick={() => rotate()}
       sx={{
-        mt: '3rem',
+        mt: { md: '1rem', lg: '3rem' },
         alignItems: 'center',
         justifyContent: 'center',
-        visibility: isBoxRotatingLeft === isLeftCard ? 'visible' : 'hidden',
+        visibility: { sm: 'hidden', md: isBoxRotatingLeft === isLeftCard ? 'visible' : 'hidden' },
       }}
     >
       <Box
@@ -27,21 +27,21 @@ const RotatingButton: React.FC<RotatingButtonProps> = ({ isLeftCard, rotate, isB
           justifyContent: 'center',
           alignItems: 'center',
           cursor: 'pointer',
-          transition: 'transform 0.2s',
+          transition: 'transform 0.1s',
           '&:hover': {
-            transform: 'scale(1.1)',
+            transform: 'scale(1.05)',
           },
         }}
       >
         <RefreshRoundedIcon
           sx={{
-            width: { md: '3rem', lg: '3.5rem', xl: '4rem' },
-            height: { md: '3rem', lg: '3.5rem', xl: '4rem' },
+            width: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
+            height: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
             color: '#A55946',
             transform: isLeftCard ? '' : 'scaleX(-1)',
           }}
         />
-        <CustomTypography variant="h6" sx={{ color: '#A55946' }}>
+        <CustomTypography sx={{ color: '#A55946', fontSize: { md: '1rem', lg: '1.5rem', xl: '1.8rem' } }}>
           Change rotation
         </CustomTypography>
       </Box>
@@ -49,4 +49,4 @@ const RotatingButton: React.FC<RotatingButtonProps> = ({ isLeftCard, rotate, isB
   );
 };
 
-export default RotatingButton;
+export default ChangeRotationButton;

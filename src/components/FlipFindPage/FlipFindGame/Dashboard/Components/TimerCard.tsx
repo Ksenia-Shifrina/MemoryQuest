@@ -1,4 +1,4 @@
-import { CustomTypography } from '../../../../helpers/CustomTypography';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
 import CardWrapper from './CardWrapper';
 
 export interface TimerCardProps {
@@ -12,6 +12,7 @@ const TimerCard: React.FC<TimerCardProps> = ({ seconds, isMultiplayer }) => {
       sx={{
         color: '#7B4234',
         backgroundColor: isMultiplayer ? 'transparent' : '#D2C1BD',
+        width: isMultiplayer ? '9vw' : { md: '18rem', lg: '25vw', xl: '25vw' },
       }}
     >
       <CustomTypography sx={{ fontSize: { md: '3rem', lg: '3.5rem', xl: '4.5rem' } }}>

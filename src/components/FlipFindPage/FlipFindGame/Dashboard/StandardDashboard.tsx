@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Grid } from '@mui/material';
 import { PlayerStats } from '../FlipFindGame';
-import PlayerStatusCard from './PlayerStatusCard';
-import TimerCard from './TimerCard';
-import { fadeIn } from '../BoxOfCards';
+import PlayerScoreCard from './Components/PlayerScoreCard';
+import TimerCard from './Components/TimerCard';
+import { fadeIn } from '../GameLogic/BoxOfCards';
 import { GameOptions } from '../../../../helpers/types';
 
 export interface StandardDashboardProps {
@@ -31,14 +31,18 @@ const StandardDashboard: React.FC<StandardDashboardProps> = ({
     <Grid
       container
       sx={{
+        // display: 'grid',
+        // gridTemplateColumns: '2fr 1fr 2fr',
         animation: `${fadeIn} 1s ease-in forwards`,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        width: 'fit-content',
+        minHeight: '12rem',
         mb: '2rem',
+        gap: 3,
       }}
     >
-      <PlayerStatusCard
+      <PlayerScoreCard
         isActiveInMultiplayerMode={isMultiplayer ? isLeftPlayersTurn : false}
         gameOptions={gameOptions}
         playerStats={playerStats1}
@@ -47,12 +51,12 @@ const StandardDashboard: React.FC<StandardDashboardProps> = ({
         isMultiplayer={isMultiplayer}
       />
 
-      {!isMultiplayer && <Grid item xs={1} />}
+      {/* {!isMultiplayer && <Grid item xs={1} />} */}
 
       <TimerCard seconds={gameTime} isMultiplayer={isMultiplayer} />
 
       {isMultiplayer && (
-        <PlayerStatusCard
+        <PlayerScoreCard
           isActiveInMultiplayerMode={!isLeftPlayersTurn}
           gameOptions={gameOptions}
           playerStats={playerStats2}

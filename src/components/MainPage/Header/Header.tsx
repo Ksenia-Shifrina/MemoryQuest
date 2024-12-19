@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CustomTypography } from '../../helpers/CustomTypography';
+import { CustomTypography } from '../../../helpers/CustomTypography';
 import { Box, Grid } from '@mui/material';
 import {
   firstAppearanceAnimation,
@@ -7,12 +7,8 @@ import {
   moveMainLeftFromCenter,
   moveGamePageCenterFromRight,
   moveGamePageRightFromCenter,
-  // moveLoginLeftAway,
-  // moveLoginRightToView,
-  // moveStatisticsLeftToView,
-  // moveStatisticsRightAway,
 } from './HeaderKeyframes';
-import { Pages } from '../../helpers/types';
+import { Pages } from '../../../helpers/types';
 import HeaderWrapper from './HeaderWrapper';
 
 export interface HeaderProps {
@@ -97,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({
               fontSize: { md: '4rem', lg: '5rem', xl: '6rem' },
             }}
           >
-            Memory Games
+            Memory Quest
           </CustomTypography>
         </HeaderWrapper>
 

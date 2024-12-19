@@ -12,6 +12,8 @@ export interface MultiplayerStarterProps {
   setIsMultiplayerStarterPage: Function;
   startGame: Function;
   isLeftPlayersTurn: boolean | null;
+  isCancelledGame: boolean;
+  setIsCancelledGame: Function;
 }
 
 const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
@@ -21,6 +23,8 @@ const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
   startGame,
   nicknames,
   setIsMultiplayerStarterPage,
+  isCancelledGame,
+  setIsCancelledGame,
 }) => {
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -38,19 +42,15 @@ const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
       sx={{
         display: 'flex',
         alignItems: 'flex-start',
-        height: '100vh',
+        mt: { md: '1rem', xl: '0rem' },
       }}
     >
       <Grid
         container
         sx={{
           display: 'flex',
-          height: '80vh',
-          maxHeight: '60rem',
-          minHeight: '45rem',
           alignItems: 'flex-start',
           flexDirection: 'column',
-          transform: { md: 'translateY(30%)', lg: 'translateY(32%)', xl: 'translateY(35%)' },
         }}
       >
         <Grid
@@ -58,9 +58,7 @@ const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
           sx={{
             display: 'flex',
             width: '100%',
-            height: { md: '40vh', lg: '38vh', xl: '35vh' },
-            maxHeight: '20rem',
-            minHeight: '20rem',
+            height: '17rem',
             alignItems: 'flex-start',
             flexDirection: 'row',
             justifyContent: 'center',
@@ -101,9 +99,9 @@ const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
           sx={{
             display: 'flex',
             width: '100%',
-            height: '27vh',
-            maxHeight: '22rem',
-            minHeight: '18rem',
+            height: '20rem',
+            // maxHeight: '27rem',
+            // minHeight: '20rem',
             justifyContent: 'center',
           }}
         >
@@ -113,6 +111,8 @@ const MultiplayerStarter: React.FC<MultiplayerStarterProps> = ({
             setIsLeftPlayersTurn={setIsLeftPlayersTurn}
             setIsDisabled={setIsDisabled}
             isDisabled={isDisabled}
+            isCancelledGame={isCancelledGame}
+            setIsCancelledGame={setIsCancelledGame}
           />
         </Grid>
       </Grid>

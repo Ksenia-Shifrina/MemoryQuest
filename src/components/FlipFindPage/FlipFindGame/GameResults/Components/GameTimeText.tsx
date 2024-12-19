@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
 
-export interface GameTimeContentProps {
+export interface GameTimeTextProps {
   gameTime: number;
   isMultiplayer: boolean;
+  inAnyMode: boolean;
 }
 
-const GameTimeContent: React.FC<GameTimeContentProps> = ({ gameTime, isMultiplayer }) => {
+const GameTimeText: React.FC<GameTimeTextProps> = ({ gameTime, isMultiplayer, inAnyMode }) => {
   const isZeroMinutes = () => Math.floor(gameTime / 60) === 0;
   const isOneMinute = () => Math.floor(gameTime / 60) === 1;
   const isZeroSeconds = () => gameTime % 60 === 0;
@@ -14,13 +15,11 @@ const GameTimeContent: React.FC<GameTimeContentProps> = ({ gameTime, isMultiplay
   const seconds = gameTime % 60;
 
   return (
-    <CustomTypography
-      sx={{ mt: { md: '0.5rem', lg: '1rem', xl: '1.5rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}
-    >
+    <CustomTypography sx={{ mt: '0.5rem', fontSize: { md: '1.5rem', lg: '2rem', xl: '3rem' } }}>
       <Box
         component="span"
         sx={{
-          textDecoration: isMultiplayer ? 'none' : 'underline ',
+          textDecoration: inAnyMode ? 'none' : 'none',
           textDecorationThickness: '2px',
           textUnderlineOffset: '0.7rem',
         }}
@@ -34,4 +33,4 @@ const GameTimeContent: React.FC<GameTimeContentProps> = ({ gameTime, isMultiplay
   );
 };
 
-export default GameTimeContent;
+export default GameTimeText;

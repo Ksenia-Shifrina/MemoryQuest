@@ -1,9 +1,8 @@
 import { Box, Grid } from '@mui/material';
-import { DifficultyLevel, difficultyLevelArr } from '../../../../helpers/types';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
-import ColumnWrapper from './Wrappers/ColumnWrapper';
-import OptionWrapper from './Wrappers/OptionWrapper';
-import { InsideBoxWrapper } from './Wrappers/InsideBoxWrapper';
+import { DifficultyLevel, difficultyLevelArr } from '../../../../../helpers/types';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
+import { InsideBoxWrapper } from '../Wrappers/InsideBoxWrapper';
+import OptionButton from '../Wrappers/OptionButton';
 
 export interface RightColumnProps {
   difficultyLevel: DifficultyLevel;
@@ -12,19 +11,19 @@ export interface RightColumnProps {
 
 const RightColumn: React.FC<RightColumnProps> = ({ difficultyLevel, setDifficultyLevel }) => {
   return (
-    <ColumnWrapper>
+    <Grid item xs={4}>
       <InsideBoxWrapper isLeft={false} sx={{ color: '#7B4234' }}>
         <CustomTypography variant="h3" sx={{ fontWeight: 'bold', mb: '2rem' }}>
           Difficulty
         </CustomTypography>
 
         {difficultyLevelArr.map((level, index) => (
-          <OptionWrapper onClick={() => setDifficultyLevel(level)} key={index} isChosen={level === difficultyLevel}>
+          <OptionButton onClick={() => setDifficultyLevel(level)} key={index} isChosen={level === difficultyLevel}>
             <CustomTypography variant="h4">{level}</CustomTypography>
-          </OptionWrapper>
+          </OptionButton>
         ))}
       </InsideBoxWrapper>
-    </ColumnWrapper>
+    </Grid>
   );
 };
 

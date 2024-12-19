@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
-import LeftColumn from './LeftColumn';
-import CenterColumn from './CenterColumn';
-import RightColumn from './RightColumn';
+import LeftColumn from './Columns/LeftColumn';
+import CenterColumn from './Columns/CenterColumn';
+import RightColumn from './Columns/RightColumn';
 import { DifficultyLevel, GameOptions, PlayerMode } from '../../../../helpers/types';
 
 export interface MainStarterProps {
@@ -24,7 +24,7 @@ const MainStarter: React.FC<MainStarterProps> = ({
   setDifficultyLevel,
 }) => {
   return (
-    <Grid container sx={{ height: 'fit-content', width: '100%' }}>
+    <Grid container sx={{ mt: { md: '2rem', xl: '0rem' } }}>
       <LeftColumn gameOptions={gameOptions} setGameOptions={setGameOptions} />
       <CenterColumn setPlayerMode={setPlayerMode} playerMode={playerMode} handleStart={handleStart} />
       <RightColumn difficultyLevel={difficultyLevel} setDifficultyLevel={setDifficultyLevel} />

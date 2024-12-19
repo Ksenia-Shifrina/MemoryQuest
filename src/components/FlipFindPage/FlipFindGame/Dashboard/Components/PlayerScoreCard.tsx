@@ -1,9 +1,9 @@
-import { PlayerStats } from '../FlipFindGame';
+import { PlayerStats } from '../../FlipFindGame';
 import CardWrapper from './CardWrapper';
-import { GameOptions } from '../../../../helpers/types';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
+import { GameOptions } from '../../../../../helpers/types';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
 
-export interface PlayerStatusCardProps {
+export interface PlayerScoreCardProps {
   isActiveInMultiplayerMode: boolean;
   gameOptions: GameOptions[];
   playerStats: PlayerStats;
@@ -12,7 +12,7 @@ export interface PlayerStatusCardProps {
   isMultiplayer: boolean;
 }
 
-const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
+const PlayerScoreCard: React.FC<PlayerScoreCardProps> = ({
   isActiveInMultiplayerMode,
   gameOptions,
   playerStats,
@@ -20,29 +20,32 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   nickname,
   isMultiplayer,
 }) => {
+  const singlePlayerTextFontSize = { md: '1.5rem', lg: '1.8rem', xl: '2rem' };
+  const multiplayerTextFontSize = { md: '1.2rem', lg: '1.3rem', xl: '1.5rem' };
+  const nicknameFontSize = { md: '1.4rem', lg: '1.6rem', xl: '1.8rem' };
+
   return (
     <CardWrapper
       sx={{
         backgroundColor: isActiveInMultiplayerMode ? '#824131' : '#D2C1BD',
         color: isActiveInMultiplayerMode ? '#FFFFFF' : '#643529',
-        transform: isActiveInMultiplayerMode ? 'scale(1.1)' : 'none',
+        transform: isActiveInMultiplayerMode ? 'scale(1.05)' : 'none',
         transition: 'background-color 0.3s ease-in-out, transform 0.5s',
         py: '1.5rem',
       }}
     >
       {isMultiplayer && (
-        <CustomTypography sx={{ fontWeight: 'bold', fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}>
+        <CustomTypography sx={{ fontWeight: 'bold', fontSize: nicknameFontSize }}>
           {nickname}
           {isActiveInMultiplayerMode ? `'s turn` : ''}
         </CustomTypography>
       )}
 
-      <CustomTypography
-        sx={{ mb: !isMultiplayer ? '0rem' : '0', fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}
-      >
+      <CustomTypography sx={{ fontSize: isMultiplayer ? multiplayerTextFontSize : singlePlayerTextFontSize }}>
         Attempts: {playerStats.attempts}
       </CustomTypography>
-      <CustomTypography sx={{ fontSize: { md: '1.5rem', lg: '1.7rem', xl: '2rem' } }}>
+
+      <CustomTypography sx={{ fontSize: isMultiplayer ? multiplayerTextFontSize : singlePlayerTextFontSize }}>
         Found {playerStats.score} / {gameOptions.includes('Triples') ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
         {gameOptions.includes('Triples') ? 'triples' : 'pairs'}
       </CustomTypography>
@@ -50,4 +53,4 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   );
 };
 
-export default PlayerStatusCard;
+export default PlayerScoreCard;

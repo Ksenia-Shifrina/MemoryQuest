@@ -14,12 +14,12 @@ import BeachAccessRoundedIcon from '@mui/icons-material/BeachAccessRounded';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import CakeRoundedIcon from '@mui/icons-material/CakeRounded';
 import TimeToLeaveRoundedIcon from '@mui/icons-material/TimeToLeaveRounded';
-import TagFacesRoundedIcon from '@mui/icons-material/TagFacesRounded';
+import EmojiEmotionsRoundedIcon from '@mui/icons-material/EmojiEmotionsRounded';
 import LocalFloristRoundedIcon from '@mui/icons-material/LocalFloristRounded';
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import LunchDiningRoundedIcon from '@mui/icons-material/LunchDiningRounded';
-import { FlippingCard, GameOptions } from '../../../helpers/types';
+import { FlippingCard, GameOptions } from '../../../../helpers/types';
 
 export interface FlippingCardBoxProps {
   card: FlippingCard;
@@ -27,7 +27,7 @@ export interface FlippingCardBoxProps {
   checkCard: Function;
   index: number;
   gameOptions: GameOptions[];
-  isRotatingLeft: boolean;
+  isBoxRotatingLeft: boolean;
   animationRotateLeft: CSSKeyframesRule | string;
   animationRotateRight: CSSKeyframesRule | string;
 }
@@ -44,11 +44,11 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
   checkCard,
   index,
   gameOptions,
-  isRotatingLeft,
+  isBoxRotatingLeft,
   animationRotateLeft,
   animationRotateRight,
 }) => {
-  const handleClick = () => {
+  const openCard = () => {
     setCards((prevState: FlippingCard[]) =>
       prevState.map((card, i) => (i === index ? { ...card, isOpen: true } : card))
     );
@@ -59,8 +59,8 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
   };
 
   const iconStyle = {
-    width: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
-    height: { md: '2.5rem', lg: '3rem', xl: '3.5rem' },
+    width: { md: '2rem', lg: '2.5rem', xl: '3rem' },
+    height: { md: '2rem', lg: '2.5rem', xl: '3rem' },
   };
 
   return (
@@ -72,34 +72,33 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
           width: 'fit-content',
           height: 'fit-content',
           position: 'relative',
-          cursor: card.type === 'Blank' ? 'none' : 'pointer',
           transformStyle: 'preserve-3d',
           animation: card.isVisible ? 'none' : `${scaleAnimation} 0.8s forwards`,
-          py: '1rem',
+          p: '1rem',
           visibility: card.type === 'Blank' ? 'hidden' : 'visible',
         }}
-        onClick={handleClick}
       >
         <Box
           sx={{
             width: '100%',
             height: '100%',
             animation: gameOptions.includes('Rotating')
-              ? `${isRotatingLeft ? animationRotateRight : animationRotateLeft} 60s linear infinite`
+              ? `${isBoxRotatingLeft ? animationRotateRight : animationRotateLeft} 80s linear infinite`
               : 'none',
           }}
         >
           <Box
             sx={{
               position: 'relative',
-              width: { md: '5rem', lg: '6rem', xl: '7rem' },
-              height: { md: '5rem', lg: '6rem', xl: '7rem' },
+              width: { md: '4rem', lg: '5rem', xl: '6rem' },
+              height: { md: '4rem', lg: '5rem', xl: '6rem' },
               transformStyle: 'preserve-3d',
               transition: 'transform 0.8s',
               transform: card.isOpen ? 'rotateY(180deg)' : 'rotateY(0deg)',
             }}
           >
             <Box
+              onClick={openCard}
               sx={{
                 position: 'absolute',
                 width: '100%',
@@ -108,6 +107,7 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                cursor: card.type === 'Blank' ? 'none' : 'pointer',
                 color: 'white',
                 backgroundColor: '#A55946',
                 backfaceVisibility: 'hidden',
@@ -149,7 +149,7 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
               {card.type === 'Sun' && <WbSunnyRoundedIcon sx={iconStyle} />}
               {card.type === 'Cake' && <CakeRoundedIcon sx={iconStyle} />}
               {card.type === 'Car' && <TimeToLeaveRoundedIcon sx={iconStyle} />}
-              {card.type === 'Smile' && <TagFacesRoundedIcon sx={iconStyle} />}
+              {card.type === 'Smile' && <EmojiEmotionsRoundedIcon sx={iconStyle} />}
               {card.type === 'Flower' && <LocalFloristRoundedIcon sx={iconStyle} />}
               {card.type === 'SpoonAndFork' && <RestaurantRoundedIcon sx={iconStyle} />}
               {card.type === 'Heart' && <FavoriteRoundedIcon sx={iconStyle} />}

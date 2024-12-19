@@ -1,11 +1,11 @@
 import { Box, BoxProps, SxProps, Theme } from '@mui/material';
 
-interface OptionWrapperProps extends BoxProps {
+interface OptionButtonProps extends BoxProps {
   sx?: SxProps<Theme>;
   children?: React.ReactNode;
   isChosen: boolean;
 }
-const OptionWrapper: React.FC<OptionWrapperProps> = ({ children, sx, onClick, isChosen }) => {
+const OptionButton: React.FC<OptionButtonProps> = ({ children, sx, onClick, isChosen }) => {
   return (
     <Box
       onClick={onClick}
@@ -36,4 +36,4 @@ const OptionWrapper: React.FC<OptionWrapperProps> = ({ children, sx, onClick, is
   );
 };
 
-export default OptionWrapper;
+export default OptionButton;

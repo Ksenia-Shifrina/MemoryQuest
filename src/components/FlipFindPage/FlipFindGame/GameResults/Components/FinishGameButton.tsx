@@ -1,7 +1,7 @@
 import { Box, Grid } from '@mui/material';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
-import { GameOptions } from '../../../../helpers/types';
-import { PlayerStats } from '../FlipFindGame';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
+import { GameOptions } from '../../../../../helpers/types';
+import { PlayerStats } from '../../FlipFindGame';
 
 export interface FinishGameButtonProps {
   finishGame: Function;
@@ -27,7 +27,6 @@ const FinishGameButton: React.FC<FinishGameButtonProps> = ({ finishGame }) => {
             color: '#FFFFFF',
             p: '0.9rem',
             px: { md: '1.5rem', lg: '2rem', xl: '2.5rem' },
-            mb: '1rem',
             transition: 'transform 0.2s',
             '&:hover': {
               transform: 'scale(1.05)',

@@ -2,7 +2,8 @@ import Grid from '@mui/material/Grid';
 import { keyframes } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import FlippingCardBox from './FlippingCard';
-import { FlippingCard, GameOptions } from '../../../helpers/types';
+import { FlippingCard, GameOptions } from '../../../../helpers/types';
+import ExitGameButton from '../Dashboard/Components/ExitGameButton';
 
 export interface BoxOfCardsProps {
   cards: FlippingCard[];
@@ -12,6 +13,7 @@ export interface BoxOfCardsProps {
   isBoxRotatingLeft: boolean;
   animationRotateLeft: CSSKeyframesRule | string;
   animationRotateRight: CSSKeyframesRule | string;
+  closeGame: Function;
 }
 
 export const fadeIn = keyframes`
@@ -27,34 +29,35 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   isBoxRotatingLeft,
   animationRotateLeft,
   animationRotateRight,
+  closeGame,
 }) => {
   const getInitialStyles = () => {
     if (gameOptions.includes('Rotating')) {
       if (cards.length === 16) {
         return {
-          width: { sm: '30rem', md: '35rem', lg: '40rem', xl: '40rem' },
+          width: { md: '24rem', lg: '28rem', xl: '32rem' },
           gridItemMd: 3,
         };
       } else if (cards.length === 25) {
         return {
-          width: { sm: '30rem', md: '35rem', lg: '50rem', xl: '53rem' },
+          width: { md: '30rem', lg: '35rem', xl: '40rem' },
           gridItemMd: 2.4,
         };
       } else if (cards.length === 36) {
         return {
-          width: { sm: '30rem', md: '30rem', lg: '40rem', xl: '60rem' },
+          width: { md: '36rem', lg: '42rem', xl: '48rem' },
           gridItemMd: 2,
         };
       }
     } else {
       if (cards.length === 12) {
         return {
-          width: '50%',
+          width: '35%',
           gridItemMd: 3,
         };
       } else if (cards.length === 18 || cards.length === 24) {
         return {
-          width: { md: '70%', lg: '60%', xl: '50%' },
+          width: { md: '60%', lg: '50%', xl: '45%' },
           gridItemMd: 2,
         };
       }
@@ -70,8 +73,6 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   const [boxWidth, setBoxWidth] = useState(initialWidth);
   const [gridItemMd, setGridItemMd] = useState<number>(initialGridItemMd);
 
-  const endOfCardsRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     const newStyles = getInitialStyles();
     if (newStyles.width !== boxWidth || newStyles.gridItemMd !== gridItemMd) {
@@ -80,46 +81,41 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
     }
   }, [cards]);
 
-  useEffect(() => {
-    if (gameOptions.includes('Rotating')) {
-      setTimeout(() => {
-        if (endOfCardsRef.current) {
-          endOfCardsRef.current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-          });
-        }
-      }, 100);
-    }
-  }, [gameOptions]);
-
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
       sx={{
+        zIndex: 4,
         width: 'fit-content',
         height: 'fit-content',
-        mb: '2rem',
-        pt: cards.length === 12 || cards.length === 18 ? '2rem' : '0rem',
-        pb: cards.length === 36 ? '3rem' : cards.length === 25 ? '3rem' : '0rem',
+        mt:
+          cards.length === 36
+            ? { md: '9rem', lg: '7rem' }
+            : cards.length === 25
+            ? { md: '9rem', lg: '7rem' }
+            : cards.length === 16
+            ? { md: '12rem', lg: '7rem' }
+            : cards.length === 12
+            ? { lg: '1rem', xl: '2rem' }
+            : cards.length === 18
+            ? { xl: '2rem' }
+            : { xl: '2rem' },
+        mb: '7rem',
         animation: `${fadeIn} 1s ease-in forwards`,
       }}
     >
       <Grid
         container
-        ref={endOfCardsRef}
         justifyContent="center"
         alignItems="center"
         sx={{
           width: boxWidth,
           maxWidth: '120rem',
           height: gameOptions.includes('Rotating') ? boxWidth : 'fit-content',
-          // height: gameOptions.includes('Rotating') ? boxWidth : '100%',
-          p: cards.length === 25 ? '2rem' : '0',
           animation: gameOptions.includes('Rotating')
-            ? `${isBoxRotatingLeft ? animationRotateLeft : animationRotateRight} 60s linear infinite`
+            ? `${isBoxRotatingLeft ? animationRotateLeft : animationRotateRight} 80s linear infinite`
             : 'none',
         }}
       >
@@ -131,7 +127,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
               index={index}
               checkCard={checkCard}
               gameOptions={gameOptions}
-              isRotatingLeft={isBoxRotatingLeft}
+              isBoxRotatingLeft={isBoxRotatingLeft}
               animationRotateLeft={animationRotateLeft}
               animationRotateRight={animationRotateRight}
             />

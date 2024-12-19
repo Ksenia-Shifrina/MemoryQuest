@@ -1,11 +1,10 @@
 import { Box, BoxProps, Grid, SxProps, Theme } from '@mui/material';
-import { GameOptions, GameOptionsWithExplanations } from '../../../../helpers/types';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
+import { GameOptions, GameOptionsWithExplanations } from '../../../../../helpers/types';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
 import QuestionMarkRoundedIcon from '@mui/icons-material/QuestionMarkRounded';
 import { useState } from 'react';
-import ColumnWrapper from './Wrappers/ColumnWrapper';
-import { InsideBoxWrapper } from './Wrappers/InsideBoxWrapper';
-import OptionWrapper from './Wrappers/OptionWrapper';
+import { InsideBoxWrapper } from '../Wrappers/InsideBoxWrapper';
+import OptionButton from '../Wrappers/OptionButton';
 
 export interface LeftColumnProps {
   gameOptions: GameOptions[];
@@ -25,14 +24,14 @@ const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) 
   };
 
   return (
-    <ColumnWrapper>
+    <Grid item xs={4}>
       <InsideBoxWrapper isLeft={true} sx={{ color: '#7B4234' }}>
         <CustomTypography variant="h3" sx={{ fontWeight: 'bold', mb: '2rem' }}>
           Extras
         </CustomTypography>
 
         {GameOptionsWithExplanations.map((option, index) => (
-          <OptionWrapper
+          <OptionButton
             onClick={() => handleChangeGameOption(option.type)}
             isChosen={gameOptions.includes(option.type)}
             key={index}
@@ -51,7 +50,7 @@ const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) 
                 mb: '1.5rem',
               }}
             />
-          </OptionWrapper>
+          </OptionButton>
         ))}
       </InsideBoxWrapper>
 
@@ -70,7 +69,7 @@ const LeftColumn: React.FC<LeftColumnProps> = ({ gameOptions, setGameOptions }) 
           </CustomTypography>
         )}
       </InsideBoxWrapper>
-    </ColumnWrapper>
+    </Grid>
   );
 };
 

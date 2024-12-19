@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { keyframes } from '@mui/system';
+import { Box, keyframes } from '@mui/system';
 import { useState } from 'react';
 import { DifficultyLevel, GameOptions, Pages, PlayerMode } from '../../helpers/types';
 import StarterFlipFind from './StarterFlipFind.tsx/StarterFlipFind';
@@ -18,7 +18,7 @@ const moveGamePageRightAnimation = keyframes`
 export interface FlipFindPageProps {
   currentPage: Pages;
   isMovingMainPageLeft: boolean;
-  setIsFloatingBackGround: Function;
+  setIsFloatingBackground: Function;
   isFlipFindGameStarted: boolean;
   setIsFlipFindGameStarted: Function;
   setIsConfettiBackground: Function;
@@ -28,12 +28,14 @@ export interface FlipFindPageProps {
   isLeftPlayersTurn: boolean | null;
   setIsMultiplayerStarterPage: Function;
   isMultiplayerStarterPage: boolean;
+  isCancelledGame: boolean;
+  setIsCancelledGame: Function;
 }
 
 const FlipFindPage: React.FC<FlipFindPageProps> = ({
   currentPage,
   isMovingMainPageLeft,
-  setIsFloatingBackGround,
+  setIsFloatingBackground,
   isFlipFindGameStarted,
   setIsFlipFindGameStarted,
   setIsConfettiBackground,
@@ -43,6 +45,8 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
   isLeftPlayersTurn,
   setIsMultiplayerStarterPage,
   isMultiplayerStarterPage,
+  isCancelledGame,
+  setIsCancelledGame,
 }) => {
   const [numOfCards, setNumOfCards] = useState<number>(12);
   const [gameOptions, setGameOptions] = useState<GameOptions[]>([]);
@@ -53,23 +57,19 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
     <Grid
       container
       justifyContent="center"
-      // alignItems="center"
-      // top={0}
-      // left="center"
       sx={{
         opacity: currentPage === 'Flip & Find' ? 1 : 0,
         transition: 'opacity 1s ease-in',
         zIndex: 1,
-        // mb: { md: '10rem', xl: '12rem' },
-        // height: '100vh',
         animation: `${isMovingMainPageLeft ? moveGamePageCenterAnimation : moveGamePageRightAnimation} 1s forwards`,
       }}
     >
+      <Box sx={{ height: { md: '12rem', lg: '13rem', xl: '15rem' }, width: '100vw' }} />
       {!isFlipFindGameStarted && (
         <StarterFlipFind
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
           setNumOfCards={setNumOfCards}
-          setIsFloatingBackGround={setIsFloatingBackGround}
+          setIsFloatingBackground={setIsFloatingBackground}
           setGameOptions={setGameOptions}
           gameOptions={gameOptions}
           difficultyLevel={difficultyLevel}
@@ -82,13 +82,15 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           isLeftPlayersTurn={isLeftPlayersTurn}
           setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
           isMultiplayerStarterPage={isMultiplayerStarterPage}
+          isCancelledGame={isCancelledGame}
+          setIsCancelledGame={setIsCancelledGame}
         />
       )}
       {isFlipFindGameStarted && (
         <FlipFindGame
           numOfCards={numOfCards}
           setNumOfCards={setNumOfCards}
-          setIsFloatingBackGround={setIsFloatingBackGround}
+          setIsFloatingBackground={setIsFloatingBackground}
           gameOptions={gameOptions}
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
           playerMode={playerMode}
@@ -96,6 +98,7 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           nicknames={nicknames}
           isLeftPlayersTurn={isLeftPlayersTurn !== null ? isLeftPlayersTurn : true}
           setIsLeftPlayersTurn={setIsLeftPlayersTurn}
+          setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
         />
       )}
     </Grid>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { CustomTypography } from '../../../../helpers/CustomTypography';
 import PsychologyAltRoundedIcon from '@mui/icons-material/PsychologyAltRounded';
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
+import EmojiEmotionsRoundedIcon from '@mui/icons-material/EmojiEmotionsRounded';
 
 const flipCoinKeyframes = (degrees: number) => keyframes`
   0% { transform: rotateY(0deg); }
@@ -23,6 +24,8 @@ export interface CoinTossProps {
   setIsLeftPlayersTurn: Function;
   isDisabled: boolean;
   setIsDisabled: Function;
+  isCancelledGame: boolean;
+  setIsCancelledGame: Function;
 }
 
 const CoinToss: React.FC<CoinTossProps> = ({
@@ -31,6 +34,8 @@ const CoinToss: React.FC<CoinTossProps> = ({
   setIsLeftPlayersTurn,
   isDisabled,
   setIsDisabled,
+  isCancelledGame,
+  setIsCancelledGame,
 }) => {
   const [flipCoinAnimation, setFlipCoinAnimation] = useState<string>(flipCoinKeyframes(0));
   const [isHeads] = useState<boolean>(Math.random() < 0.5);
@@ -38,22 +43,45 @@ const CoinToss: React.FC<CoinTossProps> = ({
 
   const coinToss = () => {
     if (!isDisabled) {
+      setIsCancelledGame(false);
       setIsDisabled(true);
       setFlipCoinAnimation(flipCoinKeyframes(isFlipToTheSameSide ? 1080 : 900));
-
-      const result = isHeads === isFlipToTheSameSide ? true : false;
-      setTimeout(
-        () => {
-          setIsLeftPlayersTurn(result);
-        },
-        isFlipToTheSameSide ? 2400 : 2000
-      );
-
-      setTimeout(() => {
-        startGame();
-      }, 4500);
     }
   };
+
+  const backToMainStarter = () => {
+    setIsMultiplayerStarterPage(false);
+    setIsLeftPlayersTurn(null);
+    setIsCancelledGame(true);
+  };
+
+  useEffect(() => {
+    setIsCancelledGame(true);
+  }, []);
+
+  useEffect(() => {
+    const result = isHeads === isFlipToTheSameSide ? true : false;
+
+    const timeoutForCoinResult = setTimeout(
+      () => {
+        if (!isCancelledGame) {
+          setIsLeftPlayersTurn(result);
+        }
+      },
+      isFlipToTheSameSide ? 2400 : 2000
+    );
+
+    const timeoutForGameStart = setTimeout(() => {
+      if (!isCancelledGame) {
+        startGame();
+      }
+    }, 4500);
+
+    return () => {
+      clearTimeout(timeoutForCoinResult);
+      clearTimeout(timeoutForGameStart);
+    };
+  }, [isCancelledGame]);
 
   return (
     <Box
@@ -83,8 +111,8 @@ const CoinToss: React.FC<CoinTossProps> = ({
         >
           <Box
             sx={{
-              width: '10rem',
-              height: '10rem',
+              width: '8rem',
+              height: '8rem',
               alignItems: 'center',
               justifyContent: 'center',
               transformStyle: 'preserve-3d',
@@ -124,7 +152,7 @@ const CoinToss: React.FC<CoinTossProps> = ({
                 transform: isHeads ? 'rotateY(-180deg)' : '',
               }}
             >
-              <PetsRoundedIcon sx={{ width: '6rem', height: '6rem' }} />
+              <PetsRoundedIcon sx={{ width: '5rem', height: '5rem' }} />
             </Box>
           </Box>
         </Box>
@@ -138,29 +166,28 @@ const CoinToss: React.FC<CoinTossProps> = ({
           alignItems: 'center',
         }}
       >
-        {!isDisabled && (
-          <Box
-            onClick={() => setIsMultiplayerStarterPage(false)}
-            sx={{
-              cursor: isDisabled ? 'auto' : 'pointer',
-              px: '2rem',
-              maxWidth: { md: '18rem', xl: '20rem' },
-              display: 'flex',
-              height: '5rem',
-              backgroundColor: '#D2C1BD',
-              borderRadius: '50px',
-              color: '#7B4234',
-              justifyContent: 'center',
-              alignItems: 'center',
-              transition: 'transform 0.2s',
-              '&:hover': {
-                transform: 'scale(1.05)',
-              },
-            }}
-          >
-            <CustomTypography variant="h4">Go Back</CustomTypography>
-          </Box>
-        )}
+        <Box
+          onClick={backToMainStarter}
+          sx={{
+            cursor: 'pointer',
+            px: '2rem',
+            maxWidth: { md: '18rem', xl: '20rem' },
+            display: 'flex',
+            mb: '4rem',
+            height: '5rem',
+            backgroundColor: '#D2C1BD',
+            borderRadius: '50px',
+            color: '#7B4234',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transition: 'transform 0.2s',
+            '&:hover': {
+              transform: 'scale(1.05)',
+            },
+          }}
+        >
+          <CustomTypography variant="h4">{isDisabled ? 'Cancel' : 'Go Back'}</CustomTypography>
+        </Box>
       </Box>
     </Box>
   );

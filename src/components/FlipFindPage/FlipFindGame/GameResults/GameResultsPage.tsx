@@ -1,11 +1,11 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { PlayerStats } from '../FlipFindGame';
-import { fadeIn } from '../BoxOfCards';
+import { fadeIn } from '../GameLogic/BoxOfCards';
 import { GameOptions } from '../../../../helpers/types';
-import MultiplayerResultsCard from './MultiplayerResultsCard';
-import MultiplayerGameTimeCard from './MultiplayerGameTimeCard';
-import FinishGameButton from './FinishGameButton';
-import SinglePlayerResultsCard from './SinglePlayerResultsCard';
+import MultiplayerResultsCard from './Components/MultiplayerResultsCard';
+import MultiplayerGameTimeCard from './Components/MultiplayerGameTimeCard';
+import FinishGameButton from './Components/FinishGameButton';
+import SinglePlayerResultsCard from './Components/SinglePlayerResultsCard';
 
 export interface GameResultsPageProps {
   gameTime: number;
@@ -16,7 +16,7 @@ export interface GameResultsPageProps {
   gameOptions: GameOptions[];
   actualNumOfCards: number;
   setIsConfettiBackground: Function;
-  setIsFloatingBackGround: Function;
+  setIsFloatingBackground: Function;
   nickname1: string;
   nickname2: string;
 }
@@ -30,18 +30,25 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
   gameOptions,
   actualNumOfCards,
   setIsConfettiBackground,
-  setIsFloatingBackGround,
+  setIsFloatingBackground,
   nickname1,
   nickname2,
 }) => {
   const finishGame = () => {
     setIsFlipFindGameStarted(false);
     setIsConfettiBackground(false);
-    setIsFloatingBackGround(true);
+    setIsFloatingBackground(true);
   };
 
   return (
-    <Grid container sx={{ animation: `${fadeIn} 1s ease-in forwards`, mt: { md: '2rem', lg: '3rem' } }}>
+    <Grid
+      container
+      sx={{
+        animation: `${fadeIn} 1s ease-in forwards`,
+        mb: '7rem',
+        justifyContent: 'center',
+      }}
+    >
       {!isMultiplayer && (
         <SinglePlayerResultsCard
           gameTime={gameTime}
@@ -52,7 +59,17 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
       )}
 
       {isMultiplayer && (
-        <Grid container sx={{ direction: 'row', justifyContent: 'center', alignItems: 'center', mt: { xl: '3rem' } }}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 2fr',
+            flexDirectionirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            mt: { xl: '3rem' },
+            gap: 5,
+          }}
+        >
           <MultiplayerResultsCard
             nickname={nickname1}
             gameOptions={gameOptions}
@@ -70,7 +87,7 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
             otherPlayerStats={playerStats1}
             actualNumOfCards={actualNumOfCards}
           />
-        </Grid>
+        </Box>
       )}
 
       <FinishGameButton finishGame={finishGame} />

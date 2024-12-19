@@ -1,8 +1,8 @@
 import { Box, Grid } from '@mui/material';
-import { CustomTypography } from '../../../../helpers/CustomTypography';
-import { GameOptions } from '../../../../helpers/types';
-import { PlayerStats } from '../FlipFindGame';
-import GameTimeContent from './GameTimeContent';
+import { CustomTypography } from '../../../../../helpers/CustomTypography';
+import { GameOptions } from '../../../../../helpers/types';
+import { PlayerStats } from '../../FlipFindGame';
+import GameTimeText from './GameTimeText';
 
 export interface SinglePlayerResultsCardProps {
   gameTime: number;
@@ -28,8 +28,7 @@ const SinglePlayerResultsCard: React.FC<SinglePlayerResultsCardProps> = ({
         <Box
           sx={{
             position: 'relative',
-            width: { md: '60%', xl: '55%' },
-            maxWidth: { md: '35rem', lg: '40rem', xl: '55rem' },
+            width: 'fit-content',
             height: 'fit-content',
             backgroundColor: '#D2C1BD',
             borderRadius: '25px',
@@ -38,41 +37,47 @@ const SinglePlayerResultsCard: React.FC<SinglePlayerResultsCardProps> = ({
             alignItems: 'center',
             flexDirection: 'column',
             color: '#7B4234',
-            py: '3rem',
+            pt: '2.5rem',
+            pb: '3rem',
+            px: '4rem',
           }}
         >
           <CustomTypography
             sx={{
-              fontSize: { md: '2.5rem', lg: '2.5rem', xl: '3.5rem' },
+              fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' },
               fontWeight: 'bold',
+              pb: '1rem',
             }}
           >
             {' '}
             It took you...
           </CustomTypography>
 
-          <GameTimeContent gameTime={gameTime} isMultiplayer={false} />
+          <GameTimeText gameTime={gameTime} isMultiplayer={false} inAnyMode={inAnyMode} />
 
-          <CustomTypography
-            sx={{ mt: { md: '0.5rem', lg: '1rem', xl: '2rem' }, fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}
-          >
+          <CustomTypography sx={{ mt: '0.5rem', fontSize: { md: '1.5rem', lg: '2rem', xl: '3rem' } }}>
             {playerStats.attempts} guesses to find {inTriplesMode ? actualNumOfCards / 3 : actualNumOfCards / 2}{' '}
             {inTriplesMode ? 'triples' : 'pairs'}
           </CustomTypography>
 
           {inAnyMode && (
-            <CustomTypography sx={{ mt: '2rem', fontSize: { md: '2rem', lg: '2.5rem', xl: '3.5rem' } }}>
+            <CustomTypography
+              sx={{
+                mt: '0.5rem',
+                fontSize: { md: '1.5rem', lg: '2rem', xl: '3rem' },
+              }}
+            >
               in{' '}
               {inColouredMode && (
                 <Box
                   component="span"
                   sx={{
-                    textDecoration: 'underline wavy',
-                    textDecorationThickness: '3px',
-                    textUnderlineOffset: '0.5rem',
+                    textDecoration: 'underline dotted',
+                    textDecorationThickness: { md: '4px', xl: '5px' },
+                    textUnderlineOffset: { md: '0.5rem', xl: '0.9rem' },
                   }}
                 >
-                  colored
+                  coloured
                 </Box>
               )}
               {inColouredMode && inRotatingMode ? ' and ' : ''}
@@ -80,9 +85,9 @@ const SinglePlayerResultsCard: React.FC<SinglePlayerResultsCardProps> = ({
                 <Box
                   component="span"
                   sx={{
-                    textDecoration: 'underline dotted',
-                    textDecorationThickness: '5px',
-                    textUnderlineOffset: '0.5rem',
+                    textDecoration: 'underline wavy',
+                    textDecorationThickness: { md: '2px', xl: '3px' },
+                    textUnderlineOffset: { md: '0.5rem', xl: '0.9rem' },
                   }}
                 >
                   rotating

@@ -80,7 +80,7 @@ export const GameOptionsWithExplanations: GameOptionsWithExplanations[] = [
       'Background of the cards will be in random colours but you still need to find the identical symbols',
   },
   { type: 'Rotating', explanationText: 'The whole set of cards will be rotating to make it more challenging' },
-  { type: 'Triples', explanationText: 'There will be three cards with the same symbol instead of two' },
+  { type: 'Triples', explanationText: 'You will need to find three cards with the same symbol instead of two' },
 ];
 
 export const gamesPages: PagesWithDescriptions[] = [
@@ -88,7 +88,7 @@ export const gamesPages: PagesWithDescriptions[] = [
     name: 'Flip & Find',
     isCreated: true,
     description:
-      'A classic memory game where players get a brief glimpse at a set of cards featuring pairs or triples of identical symbols before they are flipped over, then try to recall and match them!',
+      'A classic memory game where players get a brief glimpse at a set of cards containing pairs or triples of identical symbols, then they are flipped over and players try to recall and match them!',
   },
   {
     name: 'Missing Item',

@@ -1,17 +1,17 @@
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Header from './Header';
+import Header from './Header/Header';
 import MainPageContent from './MainPageContent';
 import { Pages, randomNicknames } from '../../helpers/types';
 import FlipFindPage from '../FlipFindPage/FlipFindPage';
 import { getRandomInteger } from '../../helpers/helperFunctions';
 
 export interface MainPageProps {
-  setIsFloatingBackGround: Function;
+  setIsFloatingBackground: Function;
   setIsConfettiBackground: Function;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfettiBackground }) => {
+const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfettiBackground }) => {
   const [currentPage, setCurrentPage] = useState<Pages>('Memory Games');
   const [openedGamePage, setOpenedGamePage] = useState<Pages>('Flip & Find');
   const [isMovingMainPageLeft, setIsMovingMainPageLeft] = useState<boolean>(false);
@@ -21,6 +21,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
   const [nicknames, setNicknames] = useState<string[]>([]);
   const [isLeftPlayersTurn, setIsLeftPlayersTurn] = useState<boolean | null>(null);
   const [isMultiplayerStarterPage, setIsMultiplayerStarterPage] = useState<boolean>(false);
+  const [isCancelledGame, setIsCancelledGame] = useState<boolean>(false);
 
   useEffect(() => {
     const randomInt1 = getRandomInteger(0, randomNicknames.length);
@@ -49,17 +50,19 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
     setCurrentPage('Memory Games');
     setIsMovingMainPageLeft(false);
     setIsFlipFindGameStarted(false);
-    setIsFloatingBackGround(true);
+    setIsFloatingBackground(true);
     setIsConfettiBackground(false);
     setIsLeftPlayersTurn(null);
     setIsMultiplayerStarterPage(false);
+    setIsCancelledGame(true);
   };
 
   const backToGameStarter = () => {
-    setIsFloatingBackGround(true);
+    setIsFloatingBackground(true);
     setIsFlipFindGameStarted(false);
     setIsConfettiBackground(false);
     setIsLeftPlayersTurn(null);
+    setIsMultiplayerStarterPage(false);
   };
 
   return (
@@ -68,7 +71,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
       justifyContent="center"
       alignItems="center"
       sx={{
-        visibility: { xs: 'hidden', md: 'visible', lg: 'visible', xl: 'visible' },
+        display: { xs: 'none', md: 'flex' },
       }}
     >
       <Header
@@ -91,7 +94,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
       <FlipFindPage
         currentPage={currentPage}
         isMovingMainPageLeft={isMovingMainPageLeft}
-        setIsFloatingBackGround={setIsFloatingBackGround}
+        setIsFloatingBackground={setIsFloatingBackground}
         isFlipFindGameStarted={isFlipFindGameStarted}
         setIsFlipFindGameStarted={setIsFlipFindGameStarted}
         setIsConfettiBackground={setIsConfettiBackground}
@@ -101,6 +104,8 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackGround, setIsConfe
         setIsLeftPlayersTurn={setIsLeftPlayersTurn}
         setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
         isMultiplayerStarterPage={isMultiplayerStarterPage}
+        isCancelledGame={isCancelledGame}
+        setIsCancelledGame={setIsCancelledGame}
       />
     </Grid>
   );

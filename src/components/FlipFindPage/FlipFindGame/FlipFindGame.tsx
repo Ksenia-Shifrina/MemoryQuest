@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Box, Grid, keyframes } from '@mui/material';
-import BoxOfCards from './BoxOfCards';
+import BoxOfCards from './GameLogic/BoxOfCards';
 import { useEffect, useState } from 'react';
-import GameResultsPage from './GameResultsComponents/GameResultsPage';
-import { addBlankCards, addColors, closeAllCards, generateCards, shuffleCards } from './GameLogicFunctions';
-import StandardDashboard from './DashboardComponents/StandardDashboard';
-import DashboardInMovingMode from './DashboardComponents/DashboardInMovingMode';
-import ExitButton from './DashboardComponents/ExitButton';
+import GameResultsPage from './GameResults/GameResultsPage';
+import { addBlankCards, addColors, closeAllCards, generateCards, shuffleCards } from './GameLogic/GameLogicFunctions';
+import StandardDashboard from './Dashboard/StandardDashboard';
+import RotatingModeDashboard from './Dashboard/RotatingModeDashboard';
+import ExitGameButton from './Dashboard/Components/ExitGameButton';
 import { FlippingCard, GameOptions, PlayerMode } from '../../../helpers/types';
 
-const createDynamicKeyframes = (startAngle: number, directionIsLeft: boolean) => keyframes`
+const createDynamicKeyframes = (startAngle: number, isDirectionLeft: boolean) => keyframes`
   0% { transform: rotate(${startAngle}deg); }
-  100% { transform: rotate(${directionIsLeft ? startAngle - 360 : startAngle + 360}deg); }
+  100% { transform: rotate(${isDirectionLeft ? startAngle - 360 : startAngle + 360}deg); }
 `;
 
 export type PlayerStats = {
@@ -23,26 +23,28 @@ export interface FlipFindGameProps {
   setIsFlipFindGameStarted: Function;
   numOfCards: number;
   setNumOfCards: Function;
-  setIsFloatingBackGround: Function;
+  setIsFloatingBackground: Function;
   gameOptions: GameOptions[];
   playerMode: PlayerMode;
   setIsConfettiBackground: Function;
   nicknames: string[];
   isLeftPlayersTurn: boolean;
   setIsLeftPlayersTurn: Function;
+  setIsMultiplayerStarterPage: Function;
 }
 
 const FlipFindGame: React.FC<FlipFindGameProps> = ({
   setIsFlipFindGameStarted,
   numOfCards,
   setNumOfCards,
-  setIsFloatingBackGround,
+  setIsFloatingBackground,
   gameOptions,
   playerMode,
   setIsConfettiBackground,
   nicknames,
   isLeftPlayersTurn,
   setIsLeftPlayersTurn,
+  setIsMultiplayerStarterPage,
 }) => {
   const [cards, setCards] = useState<FlippingCard[]>([]);
   const [actualNumOfCards, setActualNumOfCards] = React.useState<number>(numOfCards);
@@ -54,7 +56,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
   const [playerStats1, setPlayerStats1] = useState<PlayerStats>({ attempts: 0, score: 0 });
   const [playerStats2, setPlayerStats2] = useState<PlayerStats>({ attempts: 0, score: 0 });
 
-  const [isBoxRotatingLeft, setIsBoxRotatingLeft] = useState<boolean>(true);
+  const [isBoxRotatingLeft, setIsBoxRotatingLeft] = useState<boolean>(false);
   const [startAngle, setStartAngle] = useState(0);
   const [animationRotateLeft, setAnimationRotateLeft] = useState(createDynamicKeyframes(startAngle, true));
   const [animationRotateRight, setAnimationRotateRight] = useState(createDynamicKeyframes(startAngle, false));
@@ -114,8 +116,8 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
   }, [numOfCards]);
 
   useEffect(() => {
-    const updateInterval = 100;
-    const angleIncrement = isBoxRotatingLeft ? -3 / 5 : 3 / 5;
+    const updateInterval = 50;
+    const angleIncrement = isBoxRotatingLeft ? -0.225 : 0.225;
 
     const updateAngle = () => {
       setStartAngle((prevAngle) => (prevAngle + angleIncrement) % 360);
@@ -182,24 +184,17 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
   };
 
   const closeGame = () => {
-    setIsFloatingBackGround(true);
+    setIsFloatingBackground(true);
     setIsFlipFindGameStarted(false);
     setIsLeftPlayersTurn(null);
+    setIsMultiplayerStarterPage(false);
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-    >
+    <Grid container>
       {isActiveTimer && (
         <Grid container justifyContent="center" alignItems="flex-start">
-          <Box sx={{ height: { md: '12rem', lg: '13rem', xl: '14rem' }, width: '100vw' }} />
-          <Grid container justifyContent="center" alignItems="center">
+          <Grid container justifyContent="center" alignItems="center" flexDirection="column">
             {!gameOptions.includes('Rotating') && (
               <StandardDashboard
                 playerStats1={playerStats1}
@@ -214,7 +209,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
             )}
 
             {gameOptions.includes('Rotating') && (
-              <DashboardInMovingMode
+              <RotatingModeDashboard
                 gameOptions={gameOptions}
                 isMultiplayer={playerMode === 'Multiplayer' ? true : false}
                 isLeftPlayersTurn={isLeftPlayersTurn}
@@ -237,10 +232,11 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
               isBoxRotatingLeft={isBoxRotatingLeft}
               animationRotateLeft={animationRotateLeft}
               animationRotateRight={animationRotateRight}
+              closeGame={closeGame}
             />
 
             {gameOptions.includes('Rotating') && (
-              <DashboardInMovingMode
+              <RotatingModeDashboard
                 gameOptions={gameOptions}
                 isMultiplayer={playerMode === 'Multiplayer' ? true : false}
                 isLeftPlayersTurn={!isLeftPlayersTurn}
@@ -254,8 +250,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
                 numOfCards={numOfCards}
               />
             )}
-
-            <ExitButton closeGame={closeGame} numOfCards={numOfCards} />
+            <ExitGameButton closeGame={closeGame} numOfCards={cards.length} gameOptions={gameOptions} />
           </Grid>
         </Grid>
       )}
@@ -270,7 +265,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
           playerStats2={playerStats2}
           setIsFlipFindGameStarted={setIsFlipFindGameStarted}
           setIsConfettiBackground={setIsConfettiBackground}
-          setIsFloatingBackGround={setIsFloatingBackGround}
+          setIsFloatingBackground={setIsFloatingBackground}
           nickname1={nicknames[0]}
           nickname2={nicknames[1]}
         />

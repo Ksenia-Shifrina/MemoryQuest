@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { PlayerStats } from '../FlipFindGame';
-import { fadeIn } from '../BoxOfCards';
-import PlayerStatusCard from './PlayerStatusCard';
-import TimerCard from './TimerCard';
-import RotatingButton from './RotatingButton';
+import { fadeIn } from '../GameLogic/BoxOfCards';
+import PlayerScoreCard from './Components/PlayerScoreCard';
+import TimerCard from './Components/TimerCard';
+import ChangeRotationButton from './Components/ChangeRotationButton';
 import { GameOptions } from '../../../../helpers/types';
 
-export interface DashboardInMovingModeProps {
+export interface RotatingModeDashboardProps {
   gameOptions: GameOptions[];
   isMultiplayer: boolean;
   isLeftPlayersTurn: boolean;
@@ -19,7 +19,7 @@ export interface DashboardInMovingModeProps {
   isLeftCard: boolean;
   numOfCards: number;
 }
-const DashboardInMovingMode: React.FC<DashboardInMovingModeProps> = ({
+const RotatingModeDashboard: React.FC<RotatingModeDashboardProps> = ({
   gameOptions,
   isMultiplayer,
   isLeftPlayersTurn,
@@ -32,26 +32,44 @@ const DashboardInMovingMode: React.FC<DashboardInMovingModeProps> = ({
   isLeftCard,
   numOfCards,
 }) => {
+  const getSpacingX = (numOfCards: number) => {
+    if (numOfCards === 36) {
+      return { md: '0vw', lg: '0vw', xl: '3vw' };
+    } else if (numOfCards === 25) {
+      return { md: '0vw', lg: '0vw', xl: '2vw' };
+    } else {
+      return { md: '4vw', lg: '4vw', xl: '7vw' };
+    }
+  };
+
+  const getSpacingY = (numOfCards: number) => {
+    if (numOfCards === 36) {
+      return { md: '59%', lg: '52%', xl: '54%' };
+    } else if (numOfCards === 25) {
+      return { md: '55%', lg: '47%', xl: '48%' };
+    } else {
+      return { md: '52%', lg: '42%', xl: '42%' };
+    }
+  };
+
   return (
     <Box
       sx={{
-        zIndex: 2,
+        zIndex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         position: 'absolute',
-        bottom: numOfCards === 36 ? '65%' : numOfCards === 25 ? '55%' : '45%',
-        left: isLeftCard ? '7rem' : '',
-        right: !isLeftCard ? '7rem' : '',
-        // width: { md: '12rem', lg: '10rem', xl: '18rem' },
-        // height: { md: '6rem', lg: '5rem', xl: '18rem' },
+        bottom: getSpacingY(numOfCards),
+        left: isLeftCard ? getSpacingX(numOfCards) : '',
+        right: !isLeftCard ? getSpacingX(numOfCards) : '',
         width: 'fit-content',
         height: 'fit-content',
         animation: `${fadeIn} 1s ease-in forwards`,
       }}
     >
       {isMultiplayer && (
-        <PlayerStatusCard
+        <PlayerScoreCard
           isMultiplayer={true}
           isActiveInMultiplayerMode={isLeftPlayersTurn}
           gameOptions={gameOptions}
@@ -64,7 +82,7 @@ const DashboardInMovingMode: React.FC<DashboardInMovingModeProps> = ({
       {!isMultiplayer && (
         <Box>
           {isLeftCard && (
-            <PlayerStatusCard
+            <PlayerScoreCard
               isMultiplayer={false}
               isActiveInMultiplayerMode={false}
               gameOptions={gameOptions}
@@ -77,9 +95,9 @@ const DashboardInMovingMode: React.FC<DashboardInMovingModeProps> = ({
         </Box>
       )}
 
-      <RotatingButton isLeftCard={isLeftCard} rotate={rotate} isBoxRotatingLeft={isBoxRotatingLeft} />
+      <ChangeRotationButton isLeftCard={isLeftCard} rotate={rotate} isBoxRotatingLeft={isBoxRotatingLeft} />
     </Box>
   );
 };
 
-export default DashboardInMovingMode;
+export default RotatingModeDashboard;
