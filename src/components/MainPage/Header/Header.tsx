@@ -14,7 +14,7 @@ import HeaderWrapper from './HeaderWrapper';
 export interface HeaderProps {
   currentPage: Pages;
   isMovingMainPageLeft: boolean;
-  isFlipFindGameStarted: boolean;
+  isGameStarted: boolean;
   isFirstTimeAnimating: boolean;
   backToMainPage: Function;
   backToGameStarter: Function;
@@ -24,7 +24,7 @@ export interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   currentPage,
   isMovingMainPageLeft,
-  isFlipFindGameStarted,
+  isGameStarted,
   isFirstTimeAnimating,
   backToMainPage,
   backToGameStarter,
@@ -108,14 +108,14 @@ const Header: React.FC<HeaderProps> = ({
           }}
         >
           <CustomTypography
-            onClick={isFlipFindGameStarted ? () => backToGameStarter() : undefined}
+            onClick={isGameStarted ? () => backToGameStarter() : undefined}
             variant="h1"
             sx={{
               '&:hover': {
-                transform: isFlipFindGameStarted ? 'scale(1.05)' : 'none',
+                transform: isGameStarted ? 'scale(1.05)' : 'none',
               },
               transition: 'transform 0.2s',
-              cursor: isFlipFindGameStarted ? 'pointer' : 'default',
+              cursor: isGameStarted ? 'pointer' : 'default',
               fontSize: { md: '4rem', lg: '5rem', xl: '6rem' },
             }}
           >

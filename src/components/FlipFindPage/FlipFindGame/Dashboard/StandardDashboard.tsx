@@ -31,15 +31,13 @@ const StandardDashboard: React.FC<StandardDashboardProps> = ({
     <Grid
       container
       sx={{
-        // display: 'grid',
-        // gridTemplateColumns: '2fr 1fr 2fr',
         animation: `${fadeIn} 1s ease-in forwards`,
         justifyContent: 'center',
         alignItems: 'center',
         width: 'fit-content',
         minHeight: '12rem',
         mb: '2rem',
-        gap: 3,
+        gap: { md: 2, lg: 3 },
       }}
     >
       <PlayerScoreCard
@@ -50,8 +48,6 @@ const StandardDashboard: React.FC<StandardDashboardProps> = ({
         nickname={nicknames[0]}
         isMultiplayer={isMultiplayer}
       />
-
-      {/* {!isMultiplayer && <Grid item xs={1} />} */}
 
       <TimerCard seconds={gameTime} isMultiplayer={isMultiplayer} />
 

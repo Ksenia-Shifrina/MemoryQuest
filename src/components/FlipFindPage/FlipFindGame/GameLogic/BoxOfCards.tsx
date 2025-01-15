@@ -87,14 +87,14 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
       justifyContent="center"
       alignItems="center"
       sx={{
-        zIndex: 4,
+        pointerEvents: 'none',
         width: 'fit-content',
         height: 'fit-content',
         mt:
           cards.length === 36
             ? { md: '9rem', lg: '7rem' }
             : cards.length === 25
-            ? { md: '9rem', lg: '7rem' }
+            ? { md: '9rem', lg: '4rem', xl: '7rem' }
             : cards.length === 16
             ? { md: '12rem', lg: '7rem' }
             : cards.length === 12
@@ -102,7 +102,7 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
             : cards.length === 18
             ? { xl: '2rem' }
             : { xl: '2rem' },
-        mb: '7rem',
+        mb: '6rem',
         animation: `${fadeIn} 1s ease-in forwards`,
       }}
     >

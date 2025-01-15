@@ -20,7 +20,7 @@ export type PlayerStats = {
 };
 
 export interface FlipFindGameProps {
-  setIsFlipFindGameStarted: Function;
+  setIsGameStarted: Function;
   numOfCards: number;
   setNumOfCards: Function;
   setIsFloatingBackground: Function;
@@ -34,7 +34,7 @@ export interface FlipFindGameProps {
 }
 
 const FlipFindGame: React.FC<FlipFindGameProps> = ({
-  setIsFlipFindGameStarted,
+  setIsGameStarted,
   numOfCards,
   setNumOfCards,
   setIsFloatingBackground,
@@ -185,7 +185,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
 
   const closeGame = () => {
     setIsFloatingBackground(true);
-    setIsFlipFindGameStarted(false);
+    setIsGameStarted(false);
     setIsLeftPlayersTurn(null);
     setIsMultiplayerStarterPage(false);
   };
@@ -208,22 +208,6 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
               />
             )}
 
-            {gameOptions.includes('Rotating') && (
-              <RotatingModeDashboard
-                gameOptions={gameOptions}
-                isMultiplayer={playerMode === 'Multiplayer' ? true : false}
-                isLeftPlayersTurn={isLeftPlayersTurn}
-                isBoxRotatingLeft={isBoxRotatingLeft}
-                rotate={rotateRight}
-                playerStats={playerStats1}
-                actualNumOfCards={actualNumOfCards}
-                nickname={nicknames[0]}
-                gameTime={gameTime}
-                isLeftCard={true}
-                numOfCards={numOfCards}
-              />
-            )}
-
             <BoxOfCards
               cards={cards}
               setCards={setCards}
@@ -236,20 +220,37 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
             />
 
             {gameOptions.includes('Rotating') && (
-              <RotatingModeDashboard
-                gameOptions={gameOptions}
-                isMultiplayer={playerMode === 'Multiplayer' ? true : false}
-                isLeftPlayersTurn={!isLeftPlayersTurn}
-                isBoxRotatingLeft={isBoxRotatingLeft}
-                rotate={rotateLeft}
-                playerStats={playerStats2}
-                actualNumOfCards={actualNumOfCards}
-                nickname={nicknames[1]}
-                gameTime={gameTime}
-                isLeftCard={false}
-                numOfCards={numOfCards}
-              />
+              <Box>
+                <RotatingModeDashboard
+                  gameOptions={gameOptions}
+                  isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+                  isLeftPlayersTurn={isLeftPlayersTurn}
+                  isBoxRotatingLeft={isBoxRotatingLeft}
+                  rotate={rotateRight}
+                  playerStats={playerStats1}
+                  actualNumOfCards={actualNumOfCards}
+                  nickname={nicknames[0]}
+                  gameTime={gameTime}
+                  isLeftCard={true}
+                  numOfCards={numOfCards}
+                />
+
+                <RotatingModeDashboard
+                  gameOptions={gameOptions}
+                  isMultiplayer={playerMode === 'Multiplayer' ? true : false}
+                  isLeftPlayersTurn={!isLeftPlayersTurn}
+                  isBoxRotatingLeft={isBoxRotatingLeft}
+                  rotate={rotateLeft}
+                  playerStats={playerStats2}
+                  actualNumOfCards={actualNumOfCards}
+                  nickname={nicknames[1]}
+                  gameTime={gameTime}
+                  isLeftCard={false}
+                  numOfCards={numOfCards}
+                />
+              </Box>
             )}
+
             <ExitGameButton closeGame={closeGame} numOfCards={cards.length} gameOptions={gameOptions} />
           </Grid>
         </Grid>
@@ -263,7 +264,7 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
           actualNumOfCards={actualNumOfCards}
           playerStats1={playerStats1}
           playerStats2={playerStats2}
-          setIsFlipFindGameStarted={setIsFlipFindGameStarted}
+          setIsGameStarted={setIsGameStarted}
           setIsConfettiBackground={setIsConfettiBackground}
           setIsFloatingBackground={setIsFloatingBackground}
           nickname1={nicknames[0]}

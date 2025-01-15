@@ -7,7 +7,7 @@ import MainStarter from './MainStarter/MainStarter';
 export interface StarterFlipFindProps {
   setNumOfCards: Function;
   setIsFloatingBackground: Function;
-  setIsFlipFindGameStarted: Function;
+  setIsGameStarted: Function;
   setGameOptions: Function;
   gameOptions: GameOptions[];
   setDifficultyLevel: Function;
@@ -27,7 +27,7 @@ export interface StarterFlipFindProps {
 const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
   setNumOfCards,
   setIsFloatingBackground,
-  setIsFlipFindGameStarted,
+  setIsGameStarted,
   setGameOptions,
   gameOptions,
   difficultyLevel,
@@ -45,7 +45,7 @@ const StarterFlipFind: React.FC<StarterFlipFindProps> = ({
 }) => {
   const startGame = () => {
     setIsFloatingBackground(false);
-    setIsFlipFindGameStarted(true);
+    setIsGameStarted(true);
     setIsMultiplayerStarterPage(false);
   };
 

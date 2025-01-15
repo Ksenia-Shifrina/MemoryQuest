@@ -29,7 +29,7 @@ const ExitGameButton: React.FC<ExitGameButtonProps> = ({ closeGame, numOfCards, 
     if (numOfCards === 36) {
       return { md: '4rem', lg: '6rem', xl: '5rem' };
     } else if (numOfCards === 25) {
-      return { md: '2rem', xl: '3rem' };
+      return { md: '4rem', xl: '3rem' };
     } else if (numOfCards === 16) {
       return { md: '3rem' };
     } else if (numOfCards === 12) {
@@ -45,7 +45,6 @@ const ExitGameButton: React.FC<ExitGameButtonProps> = ({ closeGame, numOfCards, 
     <Grid
       ref={endOfCardsRef}
       sx={{
-        zIndex: 5,
         position: 'absolute',
         left: '5vw',
         bottom: getBottomMargin(numOfCards),

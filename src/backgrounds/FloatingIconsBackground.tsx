@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Box, keyframes, useMediaQuery } from '@mui/system';
 import PsychologyAltRoundedIcon from '@mui/icons-material/PsychologyAltRounded';
 import PetsIcon from '@mui/icons-material/Pets';
@@ -72,46 +72,31 @@ export interface FloatingIconsBackgroundProps {
 }
 
 const FloatingIconsBackground: React.FC<FloatingIconsBackgroundProps> = memo(({ isFloatingBackGround }) => {
-  const isSmallScreen = useMediaQuery('(max-width:600px)');
-  const isLargeScreen = useMediaQuery('(max-width:1536px)');
+  const isSmallScreen = useMediaQuery('(max-width:900px)');
+  const isExtraLargeScreen = useMediaQuery('(min-width:1536px)');
 
-  const generateIcons1 = () => {
-    console.log(isSmallScreen, isLargeScreen);
-    if (isSmallScreen) {
-      return allIcons.slice(0, 2);
-    } else if (isLargeScreen) {
-      return allIcons.slice(0, 3);
+  const [iconsToDisplay1, setIconsToDisplay1] = useState(allIcons.slice(0, 3));
+  const [iconsToDisplay2, setIconsToDisplay2] = useState(allIcons.slice(4, 8));
+  const [iconsToDisplay3, setIconsToDisplay3] = useState(allIcons.slice(9, 11));
+
+  useEffect(() => {
+    if (isExtraLargeScreen) {
+      setIconsToDisplay1(allIcons.slice(0, 6));
+      setIconsToDisplay2(allIcons.slice(7, 13));
+      setIconsToDisplay3(allIcons.slice(13, allIcons.length));
+    } else if (isSmallScreen) {
+      setIconsToDisplay1(allIcons.slice(0, 3));
+      setIconsToDisplay2(allIcons.slice(4, 7));
+      setIconsToDisplay3(allIcons.slice(8, 11));
     } else {
-      return allIcons.slice(0, 6);
+      setIconsToDisplay1(allIcons.slice(0, 4));
+      setIconsToDisplay2(allIcons.slice(5, 9));
+      setIconsToDisplay3(allIcons.slice(10, 14));
     }
-  };
-
-  const generateIcons2 = () => {
-    if (isSmallScreen) {
-      return allIcons.slice(3, 5);
-    } else if (isLargeScreen) {
-      return allIcons.slice(4, 8);
-    } else {
-      return allIcons.slice(7, 13);
-    }
-  };
-
-  const generateIcons3 = () => {
-    if (isSmallScreen) {
-      return allIcons.slice(6, 8);
-    } else if (isLargeScreen) {
-      return allIcons.slice(9, 11);
-    } else {
-      return allIcons.slice(13, allIcons.length);
-    }
-  };
-
-  const [iconsGroup1] = useState(generateIcons1());
-  const [iconsGroup2] = useState(generateIcons2());
-  const [iconsGroup3] = useState(generateIcons3());
+  }, [isSmallScreen, isExtraLargeScreen]);
 
   const iconGroups = useMemo(() => {
-    return [iconsGroup1, iconsGroup2, iconsGroup3].map((icons, groupIndex) =>
+    return [iconsToDisplay1, iconsToDisplay2, iconsToDisplay3].map((icons, groupIndex) =>
       icons.map((IconComponent, iconIndex) => (
         <Box
           key={`${groupIndex}-${iconIndex}`}
@@ -140,7 +125,7 @@ const FloatingIconsBackground: React.FC<FloatingIconsBackgroundProps> = memo(({ 
         </Box>
       ))
     );
-  }, []);
+  }, [iconsToDisplay1, iconsToDisplay2, iconsToDisplay3]);
 
   return (
     <Box

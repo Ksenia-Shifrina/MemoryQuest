@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Header from './Header/Header';
 import MainPageContent from './MainPageContent';
@@ -17,11 +17,17 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
   const [isMovingMainPageLeft, setIsMovingMainPageLeft] = useState<boolean>(false);
   const [isFirstTimeAnimating, setIsFirstTimeAnimating] = useState<boolean>(true);
 
-  const [isFlipFindGameStarted, setIsFlipFindGameStarted] = useState<boolean>(false);
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
   const [nicknames, setNicknames] = useState<string[]>([]);
   const [isLeftPlayersTurn, setIsLeftPlayersTurn] = useState<boolean | null>(null);
   const [isMultiplayerStarterPage, setIsMultiplayerStarterPage] = useState<boolean>(false);
   const [isCancelledGame, setIsCancelledGame] = useState<boolean>(false);
+
+  const isSmallScreen = useMediaQuery('(max-width:900px)');
+
+  useEffect(() => {
+    setIsFirstTimeAnimating(true);
+  }, [isSmallScreen]);
 
   useEffect(() => {
     const randomInt1 = getRandomInteger(0, randomNicknames.length);
@@ -47,9 +53,10 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
   };
 
   const backToMainPage = () => {
+    setIsFirstTimeAnimating(false);
     setCurrentPage('Memory Games');
     setIsMovingMainPageLeft(false);
-    setIsFlipFindGameStarted(false);
+    setIsGameStarted(false);
     setIsFloatingBackground(true);
     setIsConfettiBackground(false);
     setIsLeftPlayersTurn(null);
@@ -59,7 +66,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
 
   const backToGameStarter = () => {
     setIsFloatingBackground(true);
-    setIsFlipFindGameStarted(false);
+    setIsGameStarted(false);
     setIsConfettiBackground(false);
     setIsLeftPlayersTurn(null);
     setIsMultiplayerStarterPage(false);
@@ -72,6 +79,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
       alignItems="center"
       sx={{
         display: { xs: 'none', md: 'flex' },
+        overflow: 'hidden',
       }}
     >
       <Header
@@ -81,7 +89,7 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
         backToGameStarter={backToGameStarter}
         isMovingMainPageLeft={isMovingMainPageLeft}
         isFirstTimeAnimating={isFirstTimeAnimating}
-        isFlipFindGameStarted={isFlipFindGameStarted}
+        isGameStarted={isGameStarted}
       />
 
       <MainPageContent
@@ -93,10 +101,9 @@ const MainPage: React.FC<MainPageProps> = ({ setIsFloatingBackground, setIsConfe
 
       <FlipFindPage
         currentPage={currentPage}
-        isMovingMainPageLeft={isMovingMainPageLeft}
         setIsFloatingBackground={setIsFloatingBackground}
-        isFlipFindGameStarted={isFlipFindGameStarted}
-        setIsFlipFindGameStarted={setIsFlipFindGameStarted}
+        isGameStarted={isGameStarted}
+        setIsGameStarted={setIsGameStarted}
         setIsConfettiBackground={setIsConfettiBackground}
         nicknames={nicknames}
         setNicknames={setNicknames}

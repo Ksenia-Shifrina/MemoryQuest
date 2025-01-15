@@ -68,6 +68,7 @@ const FlippingCardBox: React.FC<FlippingCardBoxProps> = ({
       <Box
         className={`${card.isDisabled ? 'disabled' : ''}`}
         sx={{
+          pointerEvents: 'auto',
           perspective: '1000px',
           width: 'fit-content',
           height: 'fit-content',

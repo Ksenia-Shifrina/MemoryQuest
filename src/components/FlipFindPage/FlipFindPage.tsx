@@ -1,26 +1,25 @@
 import { Grid } from '@mui/material';
 import { Box, keyframes } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DifficultyLevel, GameOptions, Pages, PlayerMode } from '../../helpers/types';
 import StarterFlipFind from './StarterFlipFind.tsx/StarterFlipFind';
 import FlipFindGame from './FlipFindGame/FlipFindGame';
 
-const moveGamePageCenterAnimation = keyframes`
+export const moveGamePageCenterAnimation = keyframes`
   0% { transform: translateX(50vw) translateY(0vh) rotate(10deg) scale(0) };
   100% { transform: translateX(0) translateY(0) rotate(0) scale(1) };
 `;
 
-const moveGamePageRightAnimation = keyframes`
+export const moveGamePageRightAnimation = keyframes`
   0% { transform: translateX(0) translateY(0) rotate(0) scale(1) };
   100% { transform: translateX(50vw) translateY(0vh) rotate(10deg) scale(0) };
 `;
 
 export interface FlipFindPageProps {
   currentPage: Pages;
-  isMovingMainPageLeft: boolean;
   setIsFloatingBackground: Function;
-  isFlipFindGameStarted: boolean;
-  setIsFlipFindGameStarted: Function;
+  isGameStarted: boolean;
+  setIsGameStarted: Function;
   setIsConfettiBackground: Function;
   setNicknames: Function;
   nicknames: string[];
@@ -34,10 +33,9 @@ export interface FlipFindPageProps {
 
 const FlipFindPage: React.FC<FlipFindPageProps> = ({
   currentPage,
-  isMovingMainPageLeft,
   setIsFloatingBackground,
-  isFlipFindGameStarted,
-  setIsFlipFindGameStarted,
+  isGameStarted,
+  setIsGameStarted,
   setIsConfettiBackground,
   setNicknames,
   nicknames,
@@ -53,6 +51,8 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyLevel>('Casual');
   const [playerMode, setPlayerMode] = useState<PlayerMode>('Single');
 
+  const isOpenFlipFind = currentPage === 'Flip & Find' ? true : false;
+
   return (
     <Grid
       container
@@ -61,13 +61,27 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
         opacity: currentPage === 'Flip & Find' ? 1 : 0,
         transition: 'opacity 1s ease-in',
         zIndex: 1,
-        animation: `${isMovingMainPageLeft ? moveGamePageCenterAnimation : moveGamePageRightAnimation} 1s forwards`,
+        animation: `${isOpenFlipFind ? moveGamePageCenterAnimation : moveGamePageRightAnimation} 1s forwards`,
       }}
     >
       <Box sx={{ height: { md: '12rem', lg: '13rem', xl: '15rem' }, width: '100vw' }} />
-      {!isFlipFindGameStarted && (
+      {isGameStarted ? (
+        <FlipFindGame
+          numOfCards={numOfCards}
+          setNumOfCards={setNumOfCards}
+          setIsFloatingBackground={setIsFloatingBackground}
+          gameOptions={gameOptions}
+          setIsGameStarted={setIsGameStarted}
+          playerMode={playerMode}
+          setIsConfettiBackground={setIsConfettiBackground}
+          nicknames={nicknames}
+          isLeftPlayersTurn={isLeftPlayersTurn !== null ? isLeftPlayersTurn : true}
+          setIsLeftPlayersTurn={setIsLeftPlayersTurn}
+          setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
+        />
+      ) : (
         <StarterFlipFind
-          setIsFlipFindGameStarted={setIsFlipFindGameStarted}
+          setIsGameStarted={setIsGameStarted}
           setNumOfCards={setNumOfCards}
           setIsFloatingBackground={setIsFloatingBackground}
           setGameOptions={setGameOptions}
@@ -84,21 +98,6 @@ const FlipFindPage: React.FC<FlipFindPageProps> = ({
           isMultiplayerStarterPage={isMultiplayerStarterPage}
           isCancelledGame={isCancelledGame}
           setIsCancelledGame={setIsCancelledGame}
-        />
-      )}
-      {isFlipFindGameStarted && (
-        <FlipFindGame
-          numOfCards={numOfCards}
-          setNumOfCards={setNumOfCards}
-          setIsFloatingBackground={setIsFloatingBackground}
-          gameOptions={gameOptions}
-          setIsFlipFindGameStarted={setIsFlipFindGameStarted}
-          playerMode={playerMode}
-          setIsConfettiBackground={setIsConfettiBackground}
-          nicknames={nicknames}
-          isLeftPlayersTurn={isLeftPlayersTurn !== null ? isLeftPlayersTurn : true}
-          setIsLeftPlayersTurn={setIsLeftPlayersTurn}
-          setIsMultiplayerStarterPage={setIsMultiplayerStarterPage}
         />
       )}
     </Grid>

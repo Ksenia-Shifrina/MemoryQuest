@@ -44,9 +44,9 @@ const RotatingModeDashboard: React.FC<RotatingModeDashboardProps> = ({
 
   const getSpacingY = (numOfCards: number) => {
     if (numOfCards === 36) {
-      return { md: '59%', lg: '52%', xl: '54%' };
+      return { md: '58%', lg: '54%', xl: '54%' };
     } else if (numOfCards === 25) {
-      return { md: '55%', lg: '47%', xl: '48%' };
+      return { md: '55%', lg: '50%', xl: '48%' };
     } else {
       return { md: '52%', lg: '42%', xl: '42%' };
     }
@@ -55,7 +55,7 @@ const RotatingModeDashboard: React.FC<RotatingModeDashboardProps> = ({
   return (
     <Box
       sx={{
-        zIndex: 1,
+        pointerEvents: 'none',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
@@ -68,31 +68,17 @@ const RotatingModeDashboard: React.FC<RotatingModeDashboardProps> = ({
         animation: `${fadeIn} 1s ease-in forwards`,
       }}
     >
-      {isMultiplayer && (
+      {!isMultiplayer && !isLeftCard ? (
+        <TimerCard seconds={gameTime} isMultiplayer={false} />
+      ) : (
         <PlayerScoreCard
-          isMultiplayer={true}
-          isActiveInMultiplayerMode={isLeftPlayersTurn}
+          isMultiplayer={isMultiplayer}
+          isActiveInMultiplayerMode={isMultiplayer ? isLeftPlayersTurn : false}
           gameOptions={gameOptions}
           playerStats={playerStats}
           actualNumOfCards={actualNumOfCards}
           nickname={nickname}
         />
-      )}
-
-      {!isMultiplayer && (
-        <Box>
-          {isLeftCard && (
-            <PlayerScoreCard
-              isMultiplayer={false}
-              isActiveInMultiplayerMode={false}
-              gameOptions={gameOptions}
-              playerStats={playerStats}
-              actualNumOfCards={actualNumOfCards}
-              nickname={nickname}
-            />
-          )}
-          {!isLeftCard && <TimerCard seconds={gameTime} isMultiplayer={false} />}
-        </Box>
       )}
 
       <ChangeRotationButton isLeftCard={isLeftCard} rotate={rotate} isBoxRotatingLeft={isBoxRotatingLeft} />

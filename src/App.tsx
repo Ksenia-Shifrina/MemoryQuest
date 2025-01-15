@@ -2,13 +2,13 @@ import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Grid } from '@mui/material';
 import MainPage from './components/MainPage/MainPage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FloatingIconsBackground from './backgrounds/FloatingIconsBackground';
 import ConfettiBackground from './backgrounds/ConfettiBackground';
 import SmallScreenMessage from './backgrounds/SmallScreenMessage';
 
 const App: React.FC = () => {
-  const [isFloatingBackground, setIsFloatingBackground] = useState<boolean>(true);
+  const [isFloatingBackground, setIsFloatingBackground] = useState<boolean>(false);
   const [isConfettiBackground, setIsConfettiBackground] = useState<boolean>(false);
 
   let theme = createTheme({
@@ -18,6 +18,10 @@ const App: React.FC = () => {
       },
     },
   });
+
+  useEffect(() => {
+    setIsFloatingBackground(true);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

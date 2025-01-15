@@ -11,7 +11,7 @@ export interface GameResultsPageProps {
   gameTime: number;
   playerStats1: PlayerStats;
   playerStats2: PlayerStats;
-  setIsFlipFindGameStarted: Function;
+  setIsGameStarted: Function;
   isMultiplayer: boolean;
   gameOptions: GameOptions[];
   actualNumOfCards: number;
@@ -25,7 +25,7 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
   gameTime,
   playerStats1,
   playerStats2,
-  setIsFlipFindGameStarted,
+  setIsGameStarted,
   isMultiplayer,
   gameOptions,
   actualNumOfCards,
@@ -35,7 +35,7 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
   nickname2,
 }) => {
   const finishGame = () => {
-    setIsFlipFindGameStarted(false);
+    setIsGameStarted(false);
     setIsConfettiBackground(false);
     setIsFloatingBackground(true);
   };
