@@ -49,16 +49,14 @@ const GameResultsPage: React.FC<GameResultsPageProps> = ({
         justifyContent: 'center',
       }}
     >
-      {!isMultiplayer && (
+      {!isMultiplayer ? (
         <SinglePlayerResultsCard
           gameTime={gameTime}
           actualNumOfCards={actualNumOfCards}
           playerStats={playerStats1}
           gameOptions={gameOptions}
         />
-      )}
-
-      {isMultiplayer && (
+      ) : (
         <Box
           sx={{
             display: 'grid',

@@ -13,7 +13,6 @@ export interface BoxOfCardsProps {
   isBoxRotatingLeft: boolean;
   animationRotateLeft: CSSKeyframesRule | string;
   animationRotateRight: CSSKeyframesRule | string;
-  closeGame: Function;
 }
 
 export const fadeIn = keyframes`
@@ -29,7 +28,6 @@ const BoxOfCards: React.FC<BoxOfCardsProps> = ({
   isBoxRotatingLeft,
   animationRotateLeft,
   animationRotateRight,
-  closeGame,
 }) => {
   const getInitialStyles = () => {
     if (gameOptions.includes('Rotating')) {

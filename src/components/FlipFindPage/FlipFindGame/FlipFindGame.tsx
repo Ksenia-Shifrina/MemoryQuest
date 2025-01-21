@@ -216,7 +216,6 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
               isBoxRotatingLeft={isBoxRotatingLeft}
               animationRotateLeft={animationRotateLeft}
               animationRotateRight={animationRotateRight}
-              closeGame={closeGame}
             />
 
             {gameOptions.includes('Rotating') && (

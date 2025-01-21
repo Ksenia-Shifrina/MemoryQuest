@@ -46,7 +46,7 @@ const RotatingModeDashboard: React.FC<RotatingModeDashboardProps> = ({
     if (numOfCards === 36) {
       return { md: '58%', lg: '54%', xl: '54%' };
     } else if (numOfCards === 25) {
-      return { md: '55%', lg: '50%', xl: '48%' };
+      return { md: '55%', lg: '47%', xl: '48%' };
     } else {
       return { md: '52%', lg: '42%', xl: '42%' };
     }
