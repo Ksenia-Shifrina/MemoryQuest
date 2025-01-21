@@ -135,9 +135,9 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
     setOpenedCards([]);
 
     if (playerMode === 'Single' || isLeftPlayersTurn) {
-      setPlayerStats1((prevState) => ({ score: prevState.score++, attempts: prevState.attempts++ }));
+      setPlayerStats1((prevState) => ({ score: prevState.score + 1, attempts: prevState.attempts + 1 }));
     } else {
-      setPlayerStats2((prevState) => ({ score: prevState.score++, attempts: prevState.attempts++ }));
+      setPlayerStats2((prevState) => ({ score: prevState.score + 1, attempts: prevState.attempts + 1 }));
     }
 
     setIsLeftPlayersTurn(!isLeftPlayersTurn);
@@ -155,9 +155,9 @@ const FlipFindGame: React.FC<FlipFindGameProps> = ({
     setOpenedCards([]);
 
     if (playerMode === 'Single' || isLeftPlayersTurn) {
-      setPlayerStats1((prevState) => ({ ...prevState, attempts: prevState.attempts++ }));
+      setPlayerStats1((prevState) => ({ ...prevState, attempts: prevState.attempts + 1 }));
     } else {
-      setPlayerStats2((prevState) => ({ ...prevState, attempts: prevState.attempts++ }));
+      setPlayerStats2((prevState) => ({ ...prevState, attempts: prevState.attempts + 1 }));
     }
 
     setIsLeftPlayersTurn(!isLeftPlayersTurn);
