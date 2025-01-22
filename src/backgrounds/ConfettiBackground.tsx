@@ -21,6 +21,7 @@ const ConfettiBackground: React.FC = () => {
   return (
     <Box
       sx={{
+        zIndex: 5,
         position: 'fixed',
         top: 0,
         bottom: 0,
