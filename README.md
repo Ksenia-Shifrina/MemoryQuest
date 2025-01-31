@@ -2,8 +2,6 @@
 
 **Memory Quest** is a memory game website built with **React** and **TypeScript**, featuring dynamic animations and a variety of engaging game modes. The website includes smooth animations, card flips and rotations, and a custom navigation bar with page transitions. The game offers multiple difficulty levels and even multiplayer functionality for an enhanced user experience.
 
-## Project Overview
-
 This project combines frontend development with interactive animations to create a visually appealing and fun memory game. It was designed and developed as part of a personal journey to enhance my skills in **React**, **TypeScript**, and **UI/UX design**. By implementing challenging features such as dynamic animations and a rotating dashboard, I was able to bring my vision to life while improving my front-end development abilities.
 
 ## Key Features
